@@ -6,7 +6,10 @@ function config ($stateProvider) {
   $stateProvider
     .state('home', {
       url: '/',
-      templateUrl: '/home/home.html',
-      controller: 'HomeController'
+      templateUrl: '/components/home/home.html',
+      controller: HomeController
     });
+}
+
+function HomeController() {
 }
