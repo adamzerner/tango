@@ -6,7 +6,7 @@ function config($stateProvider) {
   $stateProvider
     .state('signup', {
       url: '/signup',
-      templateUrl: '/components/signup/signup.html',
+      templateUrl: '/components/users/signup/signup.html',
       controller: 'SignupController as vm'
     });
 }
