@@ -1,0 +1,6 @@
+{
+  "db": {
+    "test": "mongodb://localhost/mean-starter-test",
+    "dev": "mongodb://localhost/mean-starter"
+  }
+}

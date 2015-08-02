@@ -8,7 +8,16 @@ var mongo = require('mongodb');
 var mongoose = require('mongoose');
 var app = express();
 
-mongoose.connect('mongodb://localhost/mean-starter');
+var url;
+var config = require('./config.json');
+if (process.argv[1] === '/usr/local/lib/node_modules/mocha/bin/_mocha') {
+  url = config.db.test;
+}
+else {
+  url = config.db.dev;
+}
+
+mongoose.connect(url);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Problem connecting to database.'));
 db.once('open', function onDbConnect() {
