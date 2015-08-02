@@ -6,6 +6,8 @@ var passport = require('passport');
 var passportLocal = require('passport-local');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
+var userSchema = require('../users/user.schema.js');
+var User = mongoose.model('User', userSchema);
 var app = express();
 
 var url;
@@ -30,6 +32,34 @@ db.once('open', function onDbConnect() {
     resave: false,
     saveUninitialized: false
   }));
+
+  // configuring passport
+  app.use(passport.initialize());
+  app.use(passport.session());
+  passport.use(new passportLocal.Strategy(function(username, password, done) {
+    User
+      .findOne({ username: username }).exec()
+      .then(function(user) {
+        if (!user) done(null, false);
+        done(null, user);
+      })
+      .then(null, function(err) {
+        done(err);
+      });
+  }));
+  passport.serializeUser(function(user, done) {
+    done(null, user._id);
+  });
+  passport.deserializeUser(function(id, done) {
+    User
+      .findById(id).exec()
+      .then(function(user) {
+        done(null, user);
+      })
+      .then(null, function(err) {
+        done(err);
+      });
+  });
 
   // routes
   app.use('/users', require('./users/users.routes.js'));
