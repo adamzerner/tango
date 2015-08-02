@@ -1,4 +1,5 @@
 var express = require('express');
+var mongoose = require('mongoose');
 var router = express.Router();
 var userSchema = require('./user.schema.js');
 var User = mongoose.model('User', userSchema);
@@ -50,6 +51,17 @@ router.put('/:id', function(req, res) {
 router.delete('/:id', function(req, res) {
   User
     .findByIdAndRemove(req.params.id).exec()
+    .then(function() {
+      res.status(204).end();
+    })
+    .then(null, function(err) {
+      res.status(500).send(err);
+    });
+});
+
+router.clear('/clear', function(req, res) {
+  User
+    .remove({}).exec()
     .then(function() {
       res.status(204).end();
     })
