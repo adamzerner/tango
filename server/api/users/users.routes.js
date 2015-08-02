@@ -22,7 +22,7 @@ router.get('/:id', function(req, res) {
       res.status(200).json(user);
     })
     .then(null, function(err) {
-      res.status(500).send(err);
+      res.status(404).send(err);
     });
 });
 
@@ -33,18 +33,27 @@ router.post('/', function(req, res) {
       res.status(201).json(user);
     })
     .then(null, function(err) {
-      res.status(500).send(err);
+      var message = err.errors.username.message;
+      if (message.indexOf('unique') > -1) {
+        res.status(409).send('Username already exists.');
+      }
+      else if (message.indexOf('required') > -1) {
+        res.status(400).send('A username is required.');
+      }
+      else {
+        res.status(500).send(err);
+      }
     });
 });
 
 router.put('/:id', function(req, res) {
   User
-    .findByIdAndUpdate(req.params.id, req.body).exec()
+    .findByIdAndUpdate(req.params.id, req.body, { new: true }).exec()
     .then(function(user) {
       res.status(201).json(user);
     })
     .then(null, function(err) {
-      res.status(500).send(err);
+      res.status(404).send(err);
     });
 });
 
@@ -55,18 +64,7 @@ router.delete('/:id', function(req, res) {
       res.status(204).end();
     })
     .then(null, function(err) {
-      res.status(500).send(err);
-    });
-});
-
-router.clear('/clear', function(req, res) {
-  User
-    .remove({}).exec()
-    .then(function() {
-      res.status(204).end();
-    })
-    .then(null, function(err) {
-      res.status(500).send(err);
+      res.status(404).send(err);
     });
 });
 

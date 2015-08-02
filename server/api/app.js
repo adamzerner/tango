@@ -11,9 +11,7 @@ var app = express();
 mongoose.connect('mongodb://localhost/mean-starter');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Problem connecting to database.'));
-db.once('open' onDbConnect);
-
-function onDbConnect() {
+db.once('open', function onDbConnect() {
   console.log('Database connection established...');
   // basic middleware
   app.use(bodyParser.json());
@@ -25,10 +23,12 @@ function onDbConnect() {
   }));
 
   // routes
-  app.use('/users', require('./users/routes.js'));
+  app.use('/users', require('./users/users.routes.js'));
 
   // listening on port 3001 for the API server
   app.listen(3001, function() {
     console.log('API server listening on port 3001...');
   });
-}
+});
+
+module.exports = app;
