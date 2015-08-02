@@ -63,6 +63,7 @@ db.once('open', function onDbConnect() {
 
   // routes
   app.use('/users', require('./users/users.routes.js'));
+  app.use('/', require('./auth/auth.routes.js'));
 
   // listening on port 3001 for the API server
   app.listen(3001, function() {
