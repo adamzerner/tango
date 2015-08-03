@@ -156,12 +156,12 @@ describe('Users API', function() {
   describe('DELETE /users/:id', function() {
     it('Valid id', function(done) {
       request(app)
-        .delete('/users/'+id)
+        .del('/users/'+id)
         .expect(204, done);
     });
     it('Invalid id', function(done) {
       request(app)
-        .delete('/users/1')
+        .del('/users/1')
         .expect(404, done);
     });
   });

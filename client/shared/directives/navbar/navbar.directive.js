@@ -9,10 +9,10 @@ angular
     };
   });
 
-function NavbarController() {
+function NavbarController(Auth) {
   var vm = this;
-  // vm.currentUser = Auth.getCurrentUser();
-  // vm.logout = function() {
-  //   Auth.logout();
-  // };
+  vm.currentUser = Auth.getCurrentUser();
+  vm.logout = function() {
+    Auth.logout();
+  };
 }
