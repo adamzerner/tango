@@ -1,7 +1,7 @@
 var request = require('supertest');
 var assert = require('assert');
 var mongoose = require('mongoose');
-var app = require('../app.js');
+var app = require('../../app.js');
 
 describe('Users API', function() {
   var id, user;
