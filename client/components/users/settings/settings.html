@@ -1,0 +1,65 @@
+<div class='page-header'>
+  <h1>Settings</h1>
+</div>
+
+<form name='settingsForm' ng-submit='vm.submit(settingsForm.$valid)' novalidate>
+  <!-- USERNAME -->
+  <div class='form-group'>
+    <label>Username</label>
+    <input
+      name='username'
+      type='text'
+      class='form-control'
+      ng-model='vm.user.username'
+      required>
+    <div ng-messages='settingsForm.username.$error' ng-show='vm.submitAttempted'>
+      <p ng-message='required' class='text-warning'>A username is required.</p>
+    </div>
+  </div>
+
+  <!-- PASSWORD -->
+  <div class='form-group'>
+    <label>Password</label>
+    <input
+      name='password'
+      type='password'
+      class='form-control'
+      ng-model='vm.user.password'
+      required>
+    <div ng-messages='settingsForm.password.$error' ng-show='vm.submitAttempted'>
+      <p ng-message='required' class='text-warning'>A password is required.</p>
+    </div>
+  </div>
+
+  <!-- PASSWORD CONFIRMATION -->
+  <div class='form-group'>
+    <label>Password Confirmation</label>
+    <input
+      name='passwordConfirmation'
+      type='password'
+      class='form-control'
+      ng-model='vm.user.passwordConfirmation'
+      required
+      confirm-password='vm.user.password'>
+    <div ng-messages='settingsForm.passwordConfirmation.$error' ng-show='vm.submitAttempted'>
+      <p ng-message='required' class='text-warning'>A password confirmation is required.</p>
+      <p ng-message='passwordsMatch' class='text-warning'>Passwords don't match.</p>
+    </div>
+  </div>
+
+  <!-- SUBMIT BUTTON -->
+  <button
+    type='submit'
+    class='btn btn-default'>
+    Update
+  </button>
+</form>
+
+<hr />
+
+<!-- DELETE ACCOUNT -->
+<button
+  class='btn btn-danger'
+  ng-click='vm.delete()'>
+  Delete Account
+</button>
