@@ -6,7 +6,9 @@ var passport = require('passport');
 var passportLocal = require('passport-local');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
-var userSchema = require('../users/user.schema.js');
+var path = require('path');
+var favicon = require('serve-favicon');
+var userSchema = require('./api/users/user.schema.js');
 var User = mongoose.model('User', userSchema);
 var app = express();
 
@@ -24,6 +26,12 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Problem connecting to database.'));
 db.once('open', function onDbConnect() {
   console.log('Database connection established...');
+  // serving web files
+  app.use(express.static('client'));
+
+  // serve favicon
+  app.use(favicon(path.resolve(__dirname+'/../client/assets/favicon.ico')));
+
   // basic middleware
   app.use(bodyParser.json());
   app.use(cookieParser());
@@ -62,12 +70,21 @@ db.once('open', function onDbConnect() {
   });
 
   // routes
-  app.use('/users', require('./users/users.routes.js'));
-  app.use('/', require('./auth/auth.routes.js'));
+  app.use('/users', require('./api/users/users.routes.js'));
+  app.use('/', require('./api/auth/auth.routes.js'));
 
-  // listening on port 3001 for the API server
-  app.listen(3001, function() {
-    console.log('API server listening on port 3001...');
+  // serving index.html
+  app.get('/*', function(req, res) {
+    var url = path.resolve(__dirname + '/../../client/index.html');
+    res.sendFile(url, null, function(err) {
+      if (err) res.status(500).send(err);
+      else res.status(200).end();
+    });
+  });
+
+  // listening on port 3000
+  app.listen(3000, function() {
+    console.log('Listening on port 3000...');
   });
 });
 

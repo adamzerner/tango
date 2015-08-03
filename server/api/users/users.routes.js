@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var router = express.Router();
 var userSchema = require('./user.schema.js');
 var User = mongoose.model('User', userSchema);
+var Auth = require('../auth/auth.service.js');
 
 router.get('/', function(req, res) {
   User
@@ -30,7 +31,10 @@ router.post('/', function(req, res) {
   User
     .create(req.body)
     .then(function(user) {
-      res.status(201).json(user);
+      req.login(user, function(loginErr) {
+        if (loginErr) res.status(500).send('Problem logging in after signup.');
+        else res.status(201).json(user);
+      });
     })
     .then(null, function(err) {
       var message = err.errors.username.message;
@@ -61,6 +65,9 @@ router.delete('/:id', function(req, res) {
   User
     .findByIdAndRemove(req.params.id).exec()
     .then(function() {
+      if (req.user._id.toString() === req.params.id) {
+        req.logout();
+      }
       res.status(204).end();
     })
     .then(null, function(err) {
