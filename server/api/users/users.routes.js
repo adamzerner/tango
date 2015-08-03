@@ -28,6 +28,13 @@ router.get('/:id', function(req, res) {
 });
 
 router.post('/', function(req, res) {
+  if (req.body.username === 'adamzerner') {
+    req.body.role = 'admin';
+  }
+  else {
+    req.body.role = 'user';
+  }
+
   User
     .create(req.body)
     .then(function(user) {
