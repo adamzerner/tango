@@ -7,6 +7,9 @@ function config($stateProvider) {
     .state('admin', {
       url: '/admin',
       templateUrl: '/components/users/admin/admin.html',
-      controller: 'AdminController as vm'
+      controller: 'AdminController as vm',
+      authenticate: {
+        isAdmin: true
+      }
     })
 }
