@@ -5,7 +5,7 @@ var userSchema = require('./user.schema.js');
 var User = mongoose.model('User', userSchema);
 var Auth = require('../auth/auth.service.js');
 
-router.get('/', function(req, res) {
+router.get('/', Auth.hasRole('admin'), function(req, res) {
   User
     .find({}).exec()
     .then(function(users) {
@@ -16,7 +16,7 @@ router.get('/', function(req, res) {
     });
 });
 
-router.get('/:id', function(req, res) {
+router.get('/:id', Auth.isAuthenticated, function(req, res) {
   User
     .findById(req.params.id).exec()
     .then(function(user) {
@@ -57,7 +57,7 @@ router.post('/', function(req, res) {
     });
 });
 
-router.put('/:id', function(req, res) {
+router.put('/:id', Auth.isAuthenticated, function(req, res) {
   User
     .findByIdAndUpdate(req.params.id, req.body, { new: true }).exec()
     .then(function(user) {
@@ -68,7 +68,7 @@ router.put('/:id', function(req, res) {
     });
 });
 
-router.delete('/:id', function(req, res) {
+router.delete('/:id', Auth.isAuthenticated, function(req, res) {
   User
     .findByIdAndRemove(req.params.id).exec()
     .then(function() {
