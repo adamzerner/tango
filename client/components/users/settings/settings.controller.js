@@ -12,7 +12,7 @@ function SettingsController($stateParams, $window, User, Auth) {
     .error(function() {
       console.log('Problem getting the current user.');
     });
-
+    
   vm.submitAttempted = false;
   vm.submit = function(isValid) {
     if (isValid) {
