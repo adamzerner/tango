@@ -5,7 +5,7 @@ var userSchema = require('./user.schema.js');
 var User = mongoose.model('User', userSchema);
 var Auth = require('../auth/auth.service.js');
 
-router.get('/', Auth.hasRole('admin'), function(req, res) {
+router.get('/', function(req, res) {
   User
     .find({}).exec()
     .then(function(users) {
