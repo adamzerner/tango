@@ -1,13 +1,13 @@
-var request = require('supertest');
-var assert = require('assert');
 var mongoose = require('mongoose');
+var assert = require('assert');
+var request = require('supertest');
 var app = require('../../app.js');
 var agent = request.agent(app);
 
 describe('Users API (role: user)', function() {
   var id, user1, user2;
 
-  user1 = { username: 'a' };
+  user1 = { username: 'a' }; // logged in
   user2 = { username: 'b' };
 
   beforeEach(function(done) {

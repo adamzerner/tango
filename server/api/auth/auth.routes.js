@@ -7,7 +7,7 @@ router.post('/login', passport.authenticate('local'), function(req, res) {
   res.status(200).json(req.user);
 });
 
-router.get('/logout', function(req, res) {
+router.get('/logout', Auth.isLoggedIn, function(req, res) {
   req.logout();
   res.status(204).end();
 });
