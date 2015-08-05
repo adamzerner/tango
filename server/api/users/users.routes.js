@@ -20,15 +20,17 @@ router.get('/:id', Auth.isAuthenticated, function(req, res) {
   User
     .findById(req.params.id).exec()
     .then(function(user) {
-      res.status(200).json(user);
+      if (!user) res.status(404).end();
+      else res.status(200).json(user);
     })
     .then(null, function(err) {
-      res.status(404).send(err);
+      res.status(500).send(err);
     });
 });
 
 router.post('/', function(req, res) {
-  if (req.body.username === 'adamzerner') {
+  // going with this approach for the time being. makes it easier to test.
+  if (req.body.username === 'admin') {
     req.body.role = 'admin';
   }
   else {
@@ -59,26 +61,30 @@ router.post('/', function(req, res) {
 
 router.put('/:id', Auth.isAuthenticated, function(req, res) {
   User
-    .findByIdAndUpdate(req.params.id, req.body, { new: true }).exec()
+    .findByIdAndUpdate(req.params.id, req.body, { new: true }).exec() // new sends back updated user
     .then(function(user) {
-      res.status(201).json(user);
+      if (!user) res.status(404).end()
+      else res.status(201).json(user);
     })
     .then(null, function(err) {
-      res.status(404).send(err);
+      res.status(500).send(err);
     });
 });
 
 router.delete('/:id', Auth.isAuthenticated, function(req, res) {
   User
     .findByIdAndRemove(req.params.id).exec()
-    .then(function() {
-      if (req.user._id.toString() === req.params.id) {
-        req.logout();
+    .then(function(user) {
+      if (!user) res.status(404).end();
+      else {
+        if (req.user._id.toString() === req.params.id) {
+          req.logout();
+        }
+        res.status(204).end();
       }
-      res.status(204).end();
     })
     .then(null, function(err) {
-      res.status(404).send(err);
+      res.status(500).send(err);
     });
 });
 

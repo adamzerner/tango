@@ -10,16 +10,12 @@ describe('Auth API', function() {
 
   before(function(done) {
     mongoose.connection.collections['users'].drop(function(err) {
-      mongoose.connection.collections['users'].insert(user, function(err) {
-        done();
-      });
+      mongoose.connection.collections['users'].insert(user, done);
     });
   });
 
   after(function(done) {
-    mongoose.connection.collections['users'].drop(function(err) {
-      done();
-    });
+    mongoose.connection.collections['users'].drop(done);
   });
 
   it('Starts off with no one logged in', function(done) {
