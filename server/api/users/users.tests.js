@@ -3,6 +3,7 @@ var assert = require('assert');
 var request = require('supertest');
 var app = require('../../app.js');
 var agent = request.agent(app);
+var invalidId = 'aaaaaaaaaaaaaaaaaaaaaaaa';
 
 describe('Users API (role: user)', function() {
   var id, user1, user2;
@@ -82,7 +83,7 @@ describe('Users API (role: user)', function() {
 
     it('Unauthorized', function(done) {
       agent
-        .get('/users/1')
+        .get('/users/'+invalidId)
         .expect(401, done);
     });
   });
@@ -156,7 +157,7 @@ describe('Users API (role: user)', function() {
     });
     it('Unauthorized', function(done) {
       agent
-        .put('/users/1')
+        .put('/users/'+invalidId)
         .send({ username: 'updated' })
         .expect(401, done);
     });
@@ -170,7 +171,7 @@ describe('Users API (role: user)', function() {
     });
     it('Unauthorized', function(done) {
       agent
-        .del('/users/1')
+        .del('/users/'+invalidId)
         .expect(401, done);
     });
   });
@@ -181,7 +182,7 @@ describe('Users API (role: admin)', function() {
   var id, user;
 
   user = {
-    username: 'adamzerner'
+    username: 'admin'
   };
 
   beforeEach(function(done) {
@@ -252,7 +253,7 @@ describe('Users API (role: admin)', function() {
 
     it('Invalid id', function(done) {
       agent
-        .get('/users/1')
+        .get('/users/'+invalidId)
         .expect(404, done);
     });
   });
@@ -286,7 +287,7 @@ describe('Users API (role: admin)', function() {
     it('Validates unique username', function(done) {
       agent
         .post('/users')
-        .send({ username: 'adamzerner' })
+        .send({ username: 'admin' })
         .expect(409)
         .end(function(err, res) {
           if (err) return done(err);
@@ -326,7 +327,7 @@ describe('Users API (role: admin)', function() {
     });
     it('Invalid id', function(done) {
       agent
-        .put('/users/1')
+        .put('/users/'+invalidId)
         .send({ username: 'updated' })
         .expect(404, done);
     });
@@ -340,7 +341,7 @@ describe('Users API (role: admin)', function() {
     });
     it('Invalid id', function(done) {
       agent
-        .del('/users/1')
+        .del('/users/'+invalidId)
         .expect(404, done);
     });
   });
