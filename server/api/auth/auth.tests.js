@@ -6,7 +6,8 @@ var app = require('../../app.js');
 var agent = request.agent(app);
 
 describe('Auth API', function() {
-  var user = { username: 'a', password: 'test' };
+  var user = { username: 'a', hashedPassword: '$2a$08$7uGRhAW9gbbSCRLb4u/Sou07Zj0PMHwJKNg3NVgRYJVeo/8HE2J8m' };
+  // password: 'test'
 
   before(function(done) {
     mongoose.connection.collections['users'].drop(function(err) {
@@ -23,21 +24,28 @@ describe('Auth API', function() {
       .get('/current-user')
       .expect(401, done);
   });
-  it("Can't log in with invalid credentials", function(done) {
+  it("Can't log in with wrong username", function(done) {
     agent
       .post('/login')
       .send({ username: 'b', password: 'test' })
       .expect(401, done);
   });
+  it("Can't log in with wrong password", function(done) {
+    agent
+      .post('/login')
+      .send({ username: 'a', password: 'wrong' })
+      .expect(401, done);
+  });
   it('Can log in with valid credentials', function(done) {
     agent
       .post('/login')
-      .send(user)
+      .send({ username: 'a', password: 'test' })
       .expect(200)
       .end(function(err, res) {
         if (err) done(err);
         var result = JSON.parse(res.text);
         assert.equal(result.username, user.username);
+        assert(!result.hashedPassword);
         done();
       });
   });
@@ -49,6 +57,7 @@ describe('Auth API', function() {
         if (err) done(err);
         var result = JSON.parse(res.text);
         assert.equal(result.username, user.username);
+        assert(!result.hashedPassword);
         done();
       });
   });

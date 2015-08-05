@@ -44,10 +44,13 @@ db.once('open', function onDbConnect() {
   app.use(passport.session());
   passport.use(new passportLocal.Strategy(function(username, password, done) {
     User
-      .findOne({ username: username }).exec()
+      .findOne({ username: username })
+      .select('username hashedPassword')
+      .exec()
       .then(function(user) {
+        if (!user) return done(null, false);
         var validPassword = bcrypt.compareSync(password, user.hashedPassword);
-        if (!user || !validPassword) done(null, false);
+        if (!validPassword) done(null, false);
         else done(null, user);
       })
       .then(null, function(err) {
@@ -62,10 +65,7 @@ db.once('open', function onDbConnect() {
       .findById(id).exec()
       .then(function(user) {
         done(null, user);
-      })
-      .then(null, function(err) {
-        done(err);
-      });
+      }, done);
   });
 
   // routes
