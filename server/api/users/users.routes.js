@@ -5,15 +5,18 @@ var userSchema = require('./user.schema.js');
 var User = mongoose.model('User', userSchema);
 var Auth = require('../auth/auth.service.js');
 
+function forwardError(res) {
+  return function errorForwarder(err) {
+    res.status(500).send(err);
+  }
+}
+
 router.get('/', function(req, res) {
   User
     .find({}).exec()
     .then(function(users) {
       res.status(200).json(users);
-    })
-    .then(null, function(err) {
-      res.status(500).send(err);
-    });
+    }, forwardError);
 });
 
 router.get('/:id', Auth.isAuthenticated, function(req, res) {
@@ -22,10 +25,7 @@ router.get('/:id', Auth.isAuthenticated, function(req, res) {
     .then(function(user) {
       if (!user) res.status(404).end();
       else res.status(200).json(user);
-    })
-    .then(null, function(err) {
-      res.status(500).send(err);
-    });
+    }, forwardError);
 });
 
 router.post('/', function(req, res) {
@@ -65,10 +65,7 @@ router.put('/:id', Auth.isAuthenticated, function(req, res) {
     .then(function(user) {
       if (!user) res.status(404).end()
       else res.status(201).json(user);
-    })
-    .then(null, function(err) {
-      res.status(500).send(err);
-    });
+    }, forwardError);
 });
 
 router.delete('/:id', Auth.isAuthenticated, function(req, res) {
@@ -82,10 +79,7 @@ router.delete('/:id', Auth.isAuthenticated, function(req, res) {
         }
         res.status(204).end();
       }
-    })
-    .then(null, function(err) {
-      res.status(500).send(err);
-    });
+    }, forwardError);
 });
 
 module.exports = router;

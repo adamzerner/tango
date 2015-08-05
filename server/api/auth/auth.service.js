@@ -1,34 +1,17 @@
-function hasRole() {
-  // if the user passes in a role
-  if (typeof arguments[0] === 'string') {
-    var role = arguments[0];
-    return function(req, res, next) {
-      if (!req.user) {
-        res.status(401).send('Unauthorized.');
-      }
-      else if (req.user.role !== role) {
-        res.status(401).send('Unauthorized.');
-      }
-      else {
-        next();
-      }
+function hasRole (roles) {
+    if (typeof roles === 'string') {
+      roles = [roles];
     }
-  }
-  // if the user passes in an array of roles
-  else if (typeof arguments[0] === 'object') {
-    var roles = arguments[0];
-    return function(req, res, next) {
-      if (!req.user) {
-        res.status(401).send('Unauthorized.');
-      }
-      else if (roles.indexOf(req.user.role) === -1) {
-        res.status(401).send('Unauthorized');
-      }
-      else {
-        next();
-      }
+    else if (!(roles instanceof 'array')) {
+      throw new ReferenceError('Argument must be a string or an array of strings');
     }
-  }
+
+    return function (req, res, next) {
+      if (!req.user || roles.indexOf(req.user.role) === -1) {
+        return res.status(401).send('Unauthorized');
+      }
+      next();
+    }
 }
 
 function isAuthenticated(req, res, next) {
