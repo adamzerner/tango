@@ -10,16 +10,14 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var userSchema = require('./api/users/user.schema.js');
 var User = mongoose.model('User', userSchema);
+var bcrypt = require('bcrypt');
 var app = express();
 
 var url;
 var config = require('./config.json');
-if (process.argv[1] === '/usr/local/lib/node_modules/mocha/bin/_mocha') {
-  url = config.db.test;
-}
-else {
-  url = config.db.dev;
-}
+var mochaUrl = '/usr/local/lib/node_modules/mocha/bin/_mocha';
+if (process.argv[1] === mochaUrl) url = config.db.test;
+else url = config.db.dev;
 
 mongoose.connect(url);
 var db = mongoose.connection;
@@ -48,8 +46,9 @@ db.once('open', function onDbConnect() {
     User
       .findOne({ username: username }).exec()
       .then(function(user) {
-        if (!user) done(null, false);
-        done(null, user);
+        var validPassword = bcrypt.compareSync(password, user.hashedPassword);
+        if (!user || !validPassword) done(null, false);
+        else done(null, user);
       })
       .then(null, function(err) {
         done(err);
