@@ -8,8 +8,8 @@ var invalidId = 'aaaaaaaaaaaaaaaaaaaaaaaa';
 describe('Users API (role: user)', function() {
   var id, user1, user2;
 
-  user1 = { username: 'a' }; // logged in
-  user2 = { username: 'b' };
+  user1 = { username: 'a', password: 'password' }; // logged in
+  user2 = { username: 'b', hashedPassword: 'fkjldsafsdafkasdkjfadjksf' };
 
   beforeEach(function(done) {
     mongoose.connection.collections['users'].drop(function(err) {
@@ -44,8 +44,10 @@ describe('Users API (role: user)', function() {
           var users = JSON.parse(res.text);
           assert.equal(users.length, 2);
           assert.equal(users[0].username, user2.username);
+          assert(!users[0].hashedPassword);
           assert.equal(users[1]._id, id);
           assert.equal(users[1].username, user1.username);
+          assert(!users[1].hashedPassword);
           done();
         });
     });
@@ -77,6 +79,7 @@ describe('Users API (role: user)', function() {
           var result = JSON.parse(res.text);
           assert.equal(result._id, id);
           assert.equal(result.username, user1.username);
+          assert(!result.hashedPassword);
           done();
         });
     });
@@ -92,21 +95,22 @@ describe('Users API (role: user)', function() {
     it('Valid', function(done) {
       agent
         .post('/users')
-        .send({ username: 'c' })
+        .send({ username: 'c', password: 'password' })
         .expect('Content-Type', /json/)
         .expect(201)
         .end(function(err, res) {
           if (err) return done(err);
           var result = JSON.parse(res.text);
-          assert.equal(result.username, 'c');
           assert(result._id);
+          assert.equal(result.username, 'c');
+          assert(!result.hashedPassword);
           done();
         });
     });
     it('Validates required username', function(done) {
       agent
         .post('/users')
-        .send({ foo: 'bar' })
+        .send({ password: 'password' })
         .expect(400)
         .end(function(err, res) {
           if (err) return done(err);
@@ -114,10 +118,21 @@ describe('Users API (role: user)', function() {
           done();
         });
     });
+    it('Validates required password', function(done) {
+      agent
+        .post('/users')
+        .send({ username: 'c' })
+        .expect(400)
+        .end(function(err, res) {
+          if (err) return done(err);
+          assert.equal(res.text, 'A password is required.');
+          done();
+        });
+    });
     it('Validates unique username', function(done) {
       agent
         .post('/users')
-        .send({ username: 'a' })
+        .send({ username: 'a', password: 'password' })
         .expect(409)
         .end(function(err, res) {
           if (err) return done(err);
@@ -128,7 +143,7 @@ describe('Users API (role: user)', function() {
     it('Only adds fields in the schema', function(done) {
       agent
         .post('/users')
-        .send({ username: 'c', foo: 'bar' })
+        .send({ username: 'c', password: 'password', foo: 'bar' })
         .expect(201)
         .end(function(err, res) {
           if (err) return done(err);
@@ -150,8 +165,9 @@ describe('Users API (role: user)', function() {
         .end(function(err, res) {
           if (err) return done(err);
           var result = JSON.parse(res.text);
-          assert.equal(result.username, 'updated');
           assert.equal(result._id, id);
+          assert.equal(result.username, 'updated');
+          assert(!result.hashedPassword);
           done();
         });
     });
@@ -182,7 +198,8 @@ describe('Users API (role: admin)', function() {
   var id, user;
 
   user = {
-    username: 'admin'
+    username: 'admin',
+    password: 'password'
   };
 
   beforeEach(function(done) {
@@ -216,6 +233,7 @@ describe('Users API (role: admin)', function() {
           var result = JSON.parse(res.text)[0];
           assert.equal(result._id, id);
           assert.equal(result.username, user.username);
+          assert(!result.hashedPassword);
           done();
         });
     });
@@ -247,6 +265,7 @@ describe('Users API (role: admin)', function() {
           var result = JSON.parse(res.text);
           assert.equal(result._id, id);
           assert.equal(result.username, user.username);
+          assert(!result.hashedPassword);
           done();
         });
     });
@@ -262,21 +281,22 @@ describe('Users API (role: admin)', function() {
     it('Valid', function(done) {
       agent
         .post('/users')
-        .send({ username: 'b' })
+        .send({ username: 'b', password: 'password' })
         .expect('Content-Type', /json/)
         .expect(201)
         .end(function(err, res) {
           if (err) return done(err);
           var result = JSON.parse(res.text);
-          assert.equal(result.username, 'b');
           assert(result._id);
+          assert.equal(result.username, 'b');
+          assert(!result.hashedPassword);
           done();
         });
     });
     it('Validates required username', function(done) {
       agent
         .post('/users')
-        .send({ foo: 'bar' })
+        .send({ password: 'password' })
         .expect(400)
         .end(function(err, res) {
           if (err) return done(err);
@@ -284,10 +304,21 @@ describe('Users API (role: admin)', function() {
           done();
         });
     });
+    it('Validates required password', function(done) {
+      agent
+        .post('/users')
+        .send({ username: 'c' })
+        .expect(400)
+        .end(function(err, res) {
+          if (err) return done(err);
+          assert.equal(res.text, 'A password is required.');
+          done();
+        });
+    });
     it('Validates unique username', function(done) {
       agent
         .post('/users')
-        .send({ username: 'admin' })
+        .send({ username: 'admin', password: 'password' })
         .expect(409)
         .end(function(err, res) {
           if (err) return done(err);
@@ -298,7 +329,7 @@ describe('Users API (role: admin)', function() {
     it('Only adds fields in the schema', function(done) {
       agent
         .post('/users')
-        .send({ username: 'b', foo: 'bar' })
+        .send({ username: 'b', password: 'password', foo: 'bar' })
         .expect(201)
         .end(function(err, res) {
           if (err) return done(err);
@@ -320,8 +351,9 @@ describe('Users API (role: admin)', function() {
         .end(function(err, res) {
           if (err) return done(err);
           var result = JSON.parse(res.text);
-          assert.equal(result.username, 'updated');
           assert.equal(result._id, id);
+          assert.equal(result.username, 'updated');
+          assert(!result.hashedPassword);
           done();
         });
     });
