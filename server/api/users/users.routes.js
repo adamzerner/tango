@@ -4,6 +4,7 @@ var router = express.Router();
 var userSchema = require('./user.schema.js');
 var User = mongoose.model('User', userSchema);
 var Auth = require('../auth/auth.service.js');
+var bcrypt = require('bcrypt');
 
 function forwardError(res) {
   return function errorForwarder(err) {
@@ -36,6 +37,9 @@ router.post('/', function(req, res) {
   else {
     req.body.role = 'user';
   }
+
+  // hash password
+  req.body.hashedPassword = bcrypt.hashSync(req.body.password, 8);
 
   User
     .create(req.body)
