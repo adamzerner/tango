@@ -39,22 +39,35 @@ router.post('/', function(req, res) {
   }
 
   // hash password
-  req.body.hashedPassword = bcrypt.hashSync(req.body.password, 8);
+  if (req.body.password) {
+    req.body.hashedPassword = bcrypt.hashSync(req.body.password, 8);
+  }
+  else {
+    res.status(400).send('A password is required.');
+  }
 
   User
     .create(req.body)
     .then(function(user) {
       req.login(user, function(loginErr) {
-        if (loginErr) res.status(500).send('Problem logging in after signup.');
-        else res.status(201).json(user);
+        if (loginErr) {
+          res.status(500).send('Problem logging in after signup.');
+        }
+        else {
+          var userCopy = JSON.parse(JSON.stringify(user));
+          delete userCopy.hashedPassword;
+          res.status(201).json(userCopy);
+        }
       });
     })
     .then(null, function(err) {
-      var message = err.errors.username.message;
-      if (message.indexOf('unique') > -1) {
+      var usernameError = !!err.errors.username;
+      var usernameNotUnique = err.errors.username.message.indexOf('unique') > -1;
+      var usernameNotPresent = err.errors.username.message.indexOf('required') > -1;
+      if (usernameError && usernameNotUnique) {
         res.status(409).send('Username already exists.');
       }
-      else if (message.indexOf('required') > -1) {
+      else if (usernameError && usernameNotPresent) {
         res.status(400).send('A username is required.');
       }
       else {
