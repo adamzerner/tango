@@ -156,7 +156,7 @@ describe('Users API (role: user)', function() {
   });
 
   describe('PUT /users/:id', function() {
-    it('Authorized', function(done) {
+    it('Authorized: updates username', function(done) {
       agent
         .put('/users/'+id)
         .send({ username: 'updated' })
@@ -170,6 +170,12 @@ describe('Users API (role: user)', function() {
           assert(!result.hashedPassword);
           done();
         });
+    });
+    it('Authorized: updates password', function(done) {
+      agent
+        .put('/users/'+id)
+        .send({ username: 'a', password: 'updated' })
+        .expect(201, done);
     });
     it('Unauthorized', function(done) {
       agent
@@ -342,7 +348,7 @@ describe('Users API (role: admin)', function() {
   });
 
   describe('PUT /users/:id', function() {
-    it('Valid', function(done) {
+    it('Valid: updates username', function(done) {
       agent
         .put('/users/'+id)
         .send({ username: 'updated' })
@@ -356,6 +362,12 @@ describe('Users API (role: admin)', function() {
           assert(!result.hashedPassword);
           done();
         });
+    });
+    it('Valid: updates password', function(done) {
+      agent
+        .put('/users/'+id)
+        .send({ username: 'a', password: 'updated' })
+        .expect(201, done);
     });
     it('Invalid id', function(done) {
       agent
