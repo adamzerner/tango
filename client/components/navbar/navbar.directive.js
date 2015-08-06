@@ -3,7 +3,7 @@ angular
   .directive('navbar', function() {
     return {
       restrict: 'E',
-      templateUrl: '/shared/directives/navbar/navbar.directive.html',
+      templateUrl: '/components/navbar/navbar.directive.html',
       controller: NavbarController,
       controllerAs: 'vm'
     };
