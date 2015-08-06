@@ -30,7 +30,7 @@ router.get('/:id', Auth.isAuthenticated, function(req, res) {
 });
 
 router.post('/', function(req, res) {
-  // going with this approach for the time being. makes it easier to test.
+  // set admin: going with this approach for the time being. makes it easier to test.
   if (req.body.username === 'admin') {
     req.body.role = 'admin';
   }
@@ -77,6 +77,10 @@ router.post('/', function(req, res) {
 });
 
 router.put('/:id', Auth.isAuthenticated, function(req, res) {
+  if (req.body.password) {
+    req.body.hashedPassword = bcrypt.hashSync(req.body.password, 8);
+  }
+
   User
     .findByIdAndUpdate(req.params.id, req.body, { new: true }).exec() // new sends back updated user
     .then(function(user) {
