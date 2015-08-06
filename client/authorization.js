@@ -6,19 +6,22 @@ function run($rootScope, Auth, $state) {
   $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
     if (typeof toState.authenticate !== 'undefined') {
       var currentUser = Auth.getCurrentUser();
-      event.preventDefault();
+      var admin = currentUser.role === 'admin';
+      var authorized = currentUser._id.toString() === toParams.id;
       if (!Auth.isLoggedIn()) {
+        event.preventDefault();
         alert('Must be logged in to access this route.');
         $state.go('login');
       }
       else if (toState.authenticate.authorized) {
-        if (currentUser.role !== 'admin' &&
-            currentUser._id.toString() !== toParams.id) {
+        if (!admin && !authorized) {
+          event.preventDefault();
           alert('You are not authorized to access that route.');
         }
       }
       else if (toState.authenticate.isAdmin) {
-        if (currentUser.role !== 'admin') {
+        if (!admin) {
+          event.preventDefault();
           alert('You must be an admin to access this route.');
         }
       }
