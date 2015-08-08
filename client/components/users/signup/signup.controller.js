@@ -4,7 +4,7 @@ angular
 
 function SignupController(Auth) {
   var vm = this;
-  vm.submitAttempted = false;
+  vm.invalidSubmitAttempted = false;
   vm.usernameExists = false;
   vm.submit = function(isValid) {
     if (isValid) {
@@ -18,10 +18,9 @@ function SignupController(Auth) {
             console.log('Problem signing up.');
           }
         });
-
     }
     else {
-      vm.submitAttempted = true;
+      vm.invalidSubmitAttempted = true;
     }
   };
   vm.closeAlert = function() {

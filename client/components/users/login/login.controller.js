@@ -4,7 +4,7 @@ angular
 
 function LoginController(Auth) {
   var vm = this;
-  vm.submitAttempted = false;
+  vm.invalidSubmitAttempted = false;
   vm.invalidCredentials = false;
   vm.submit = function(isValid) {
     if (isValid) {
@@ -15,7 +15,7 @@ function LoginController(Auth) {
         });
     }
     else {
-      vm.submitAttempted = true;
+      vm.invalidSubmitAttempted = true;
     }
   };
   vm.closeAlert = function() {

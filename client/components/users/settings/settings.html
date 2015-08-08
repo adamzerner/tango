@@ -12,7 +12,7 @@
       class='form-control'
       ng-model='vm.user.username'
       required>
-    <div ng-messages='settingsForm.username.$error' ng-show='vm.submitAttempted'>
+    <div ng-messages='settingsForm.username.$error' ng-show='vm.invalidSubmitAttempted'>
       <p ng-message='required' class='text-warning'>A username is required.</p>
     </div>
   </div>

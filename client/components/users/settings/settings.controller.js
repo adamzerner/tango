@@ -12,8 +12,8 @@ function SettingsController($stateParams, $window, User, Auth) {
     .error(function() {
       console.log('Problem getting the current user.');
     });
-    
-  vm.submitAttempted = false;
+
+  vm.invalidSubmitAttempted = false;
   vm.submit = function(isValid) {
     if (isValid) {
       User
@@ -26,7 +26,7 @@ function SettingsController($stateParams, $window, User, Auth) {
         });
     }
     else {
-      vm.submitAttempted = true;
+      vm.invalidSubmitAttempted = true;
     }
   };
   vm.delete = function() {
