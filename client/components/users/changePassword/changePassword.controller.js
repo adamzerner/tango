@@ -13,21 +13,18 @@ function ChangePasswordController($stateParams, User) {
       console.log('Unable to get user.');
     });
 
-  vm.submitAttempted = false;
+  vm.invalidSubmitAttempted = false;
   vm.submit = function(isValid) {
     if (isValid) {
       delete vm.user.passwordConfirmation;
       User
         .update(vm.user._id, vm.user)
-        .success(function() {
-          console.log('Successfully updated password.');
-        })
         .error(function() {
           console.log('Error updated password.');
         });
     }
     else {
-      vm.submitAttempted = true;
+      vm.invalidSubmitAttempted = true;
     }
   };
 }

@@ -16,7 +16,7 @@
       class='form-control'
       ng-model='vm.user.username'
       required>
-    <div ng-messages='signupForm.username.$error' ng-show='vm.submitAttempted'>
+    <div ng-messages='signupForm.username.$error' ng-show='vm.invalidSubmitAttempted'>
       <p ng-message='required' class='text-warning'>A username is required.</p>
     </div>
   </div>
@@ -30,7 +30,7 @@
       class='form-control'
       ng-model='vm.user.password'
       required>
-    <div ng-messages='signupForm.password.$error' ng-show='vm.submitAttempted'>
+    <div ng-messages='signupForm.password.$error' ng-show='vm.invalidSubmitAttempted'>
       <p ng-message='required' class='text-warning'>A password is required.</p>
     </div>
   </div>
@@ -45,7 +45,7 @@
       ng-model='vm.user.passwordConfirmation'
       required
       confirm-password='vm.user.password'>
-    <div ng-messages='signupForm.passwordConfirmation.$error' ng-show='vm.submitAttempted'>
+    <div ng-messages='signupForm.passwordConfirmation.$error' ng-show='vm.invalidSubmitAttempted'>
       <p ng-message='required' class='text-warning'>A password confirmation is required.</p>
       <p ng-message='passwordsMatch' class='text-warning'>Passwords don't match.</p>
     </div>
