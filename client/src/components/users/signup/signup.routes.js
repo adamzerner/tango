@@ -1,6 +1,7 @@
 angular
   .module('mean-starter')
-  .config(config);
+  .config(config)
+;
 
 function config($stateProvider) {
   $stateProvider
@@ -8,5 +9,6 @@ function config($stateProvider) {
       url: '/signup',
       templateUrl: '/components/users/signup/signup.html',
       controller: 'SignupController as vm'
-    });
+    })
+  ;
 }

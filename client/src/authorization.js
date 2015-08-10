@@ -1,6 +1,7 @@
 angular
   .module('mean-starter')
-  .run(run);
+  .run(run)
+;
 
 function run($rootScope, Auth, $state) {
   $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {

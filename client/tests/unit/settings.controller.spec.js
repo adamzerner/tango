@@ -17,7 +17,7 @@ describe('SettingsController', function() {
           id: 1
         }
       });
-    }
+    };
   }));
   beforeEach(function() {
     $httpBackend.expectGET('/users/1').respond(user);

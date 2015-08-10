@@ -7,7 +7,8 @@ angular
       controller: NavbarController,
       controllerAs: 'vm'
     };
-  });
+  })
+;
 
 function NavbarController(Auth) {
   var vm = this;

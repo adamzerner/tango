@@ -16,8 +16,12 @@ var app = express();
 var url;
 var config = require('./config.json');
 var mochaUrl = '/usr/local/lib/node_modules/mocha/bin/_mocha';
-if (process.argv[1] === mochaUrl) url = config.db.test;
-else url = config.db.dev;
+if (process.argv[1] === mochaUrl) {
+  url = config.db.test;
+}
+else {
+  url = config.db.dev;
+}
 
 var envFolder = 'src';
 
@@ -51,14 +55,21 @@ db.once('open', function onDbConnect() {
       .select('username hashedPassword')
       .exec()
       .then(function(user) {
-        if (!user) return done(null, false);
+        if (!user) {
+          return done(null, false);
+        }
         var validPassword = bcrypt.compareSync(password, user.hashedPassword);
-        if (!validPassword) done(null, false);
-        else done(null, user);
+        if (!validPassword) {
+          return done(null, false);
+        }
+        else {
+          return done(null, user);
+        }
       })
       .then(null, function(err) {
-        done(err);
-      });
+        return done(err);
+      })
+    ;
   }));
   passport.serializeUser(function(user, done) {
     done(null, user._id);
@@ -68,7 +79,8 @@ db.once('open', function onDbConnect() {
       .findById(id).exec()
       .then(function(user) {
         done(null, user);
-      }, done);
+      }, done)
+    ;
   });
 
   // routes
@@ -79,8 +91,10 @@ db.once('open', function onDbConnect() {
   app.get('/*', function(req, res) {
     var url = path.resolve(__dirname + '/../client/' + envFolder + '/index.html');
     res.sendFile(url, null, function(err) {
-      if (err) res.status(500).send(err);
-      else res.status(200).end();
+      if (err) {
+        return res.status(500).send(err);
+      }
+      return res.status(200).end();
     });
   });
 

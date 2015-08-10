@@ -1,6 +1,7 @@
 angular
   .module('mean-starter')
-  .config(config);
+  .config(config)
+;
 
 function config($stateProvider) {
   $stateProvider
@@ -8,5 +9,6 @@ function config($stateProvider) {
       url: '/change-password/:id',
       templateUrl: '/components/users/changePassword/changePassword.html',
       controller: 'ChangePasswordController as vm'
-    });
+    })
+  ;
 }
