@@ -10,9 +10,10 @@ angular
         })
         .error(function() {
           console.log('Problem getting the current user.');
-        });
+        })
+      ;
     }
-    
+
     return {
       signup: function(user) {
         return $http
@@ -26,12 +27,13 @@ angular
       },
       login: function(user) {
         return $http
-                  .post('/login', user)
-                  .success(function(data) {
-                    angular.copy(data, currentUser);
-                    $cookies.put('userId', data._id);
-                    $window.location.href = '/';
-                  });
+          .post('/login', user)
+          .success(function(data) {
+            angular.copy(data, currentUser);
+            $cookies.put('userId', data._id);
+            $window.location.href = '/';
+          })
+        ;
       },
       logout: function() {
         $http
@@ -43,7 +45,8 @@ angular
           })
           .error(function() {
             console.log('Problem logging out.');
-          });
+          })
+        ;
       },
       getCurrentUser: function() {
         return currentUser;
@@ -52,4 +55,5 @@ angular
         return !!currentUser._id;
       }
     };
-  });
+  })
+;

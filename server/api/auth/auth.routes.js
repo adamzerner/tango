@@ -1,10 +1,11 @@
 var express = require('express');
 var passport = require('passport');
 var Auth = require('./auth.service.js');
+var _ = require('lodash');
 var router = express.Router();
 
 router.post('/login', passport.authenticate('local'), function(req, res) {
-  var userCopy = JSON.parse(JSON.stringify(req.user));
+  var userCopy = _.cloneDeep(req.user);
   delete userCopy.hashedPassword;
   res.status(200).json(userCopy);
 });

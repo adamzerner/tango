@@ -1,6 +1,7 @@
 angular
   .module('mean-starter')
-  .controller('LoginController', LoginController);
+  .controller('LoginController', LoginController)
+;
 
 function LoginController(Auth) {
   var vm = this;
@@ -12,7 +13,8 @@ function LoginController(Auth) {
         .login(vm.user)
         .error(function(data, status, headers, config) {
           if (status === 401) vm.invalidCredentials = true;
-        });
+        })
+      ;
     }
     else {
       vm.invalidSubmitAttempted = true;

@@ -15,9 +15,6 @@ describe('LoginController', function() {
       return $controller('LoginController');
     };
   }));
-  // beforeEach(function() {
-  //   $httpBackend.whenGET('/current-user').respond(user);
-  // });
 
   afterEach(function() {
     $httpBackend.verifyNoOutstandingExpectation();

@@ -1,6 +1,7 @@
 angular
   .module('mean-starter')
-  .controller('SettingsController', SettingsController);
+  .controller('SettingsController', SettingsController)
+;
 
 function SettingsController($stateParams, $window, User, Auth) {
   var vm = this;
@@ -11,7 +12,8 @@ function SettingsController($stateParams, $window, User, Auth) {
     })
     .error(function() {
       console.log('Problem getting the current user.');
-    });
+    })
+  ;
 
   vm.invalidSubmitAttempted = false;
   vm.submit = function(isValid) {
@@ -23,7 +25,8 @@ function SettingsController($stateParams, $window, User, Auth) {
         })
         .error(function() {
           console.log('Problem updating the user.');
-        });
+        })
+      ;
     }
     else {
       vm.invalidSubmitAttempted = true;
@@ -37,6 +40,7 @@ function SettingsController($stateParams, $window, User, Auth) {
       })
       .error(function() {
         console.log('Problem deleting the user.');
-      });
+      })
+    ;
   };
 }

@@ -1,6 +1,7 @@
 angular
   .module('mean-starter')
-  .controller('SignupController', SignupController);
+  .controller('SignupController', SignupController)
+;
 
 function SignupController(Auth) {
   var vm = this;
@@ -17,7 +18,8 @@ function SignupController(Auth) {
           else {
             console.log('Problem signing up.');
           }
-        });
+        })
+      ;
     }
     else {
       vm.invalidSubmitAttempted = true;

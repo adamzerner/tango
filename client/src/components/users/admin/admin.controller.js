@@ -1,6 +1,7 @@
 angular
   .module('mean-starter')
-  .controller('AdminController', AdminController);
+  .controller('AdminController', AdminController)
+;
 
 function AdminController(User, Auth, $state) {
   var vm = this;
@@ -11,17 +12,23 @@ function AdminController(User, Auth, $state) {
     })
     .error(function() {
       console.log('Problem getting users.');
-    });
+    })
+  ;
 
   vm.delete = function(id) {
     User
       .delete(id)
       .success(function(data) {
-        if (Auth.getCurrentUser()._id === id) Auth.logout(); // deleting yourself
-        else $state.reload();
+        if (Auth.getCurrentUser()._id === id) { // deleting yourself
+          Auth.logout();
+        }
+        else {
+          $state.reload();
+        }
       })
       .error(function() {
         console.log('Problem deleting user.');
-      });
+      })
+    ;
   };
 }
