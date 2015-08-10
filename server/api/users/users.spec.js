@@ -18,19 +18,20 @@ describe('Users API (role: user)', function() {
           .post('/users')
           .send(user1)
           .end(function(err, res) {
-            if (err) done(err);
+            if (err) {
+              return done(err);
+            }
             var result = JSON.parse(res.text);
             id = result._id;
-            done();
-          });
+            return done();
+          })
+        ;
       });
     });
   });
 
   after(function(done) { // clear database after tests finished
-    mongoose.connection.collections['users'].drop(function(err) {
-      done();
-    });
+    mongoose.connection.collections['users'].drop(done);
   });
 
   describe('GET /users', function() {
@@ -40,7 +41,9 @@ describe('Users API (role: user)', function() {
         .expect('Content-Type', /json/)
         .expect(200)
         .end(function(err, res) {
-          if (err) return done(err);
+          if (err) {
+            return done(err);
+          }
           var users = JSON.parse(res.text);
           assert.equal(users.length, 2);
           assert.equal(users[0].username, user2.username);
@@ -48,8 +51,9 @@ describe('Users API (role: user)', function() {
           assert.equal(users[1]._id, id);
           assert.equal(users[1].username, user1.username);
           assert(!users[1].hashedPassword);
-          done();
-        });
+          return done();
+        })
+      ;
     });
     it('When empty', function(done) {
       mongoose.connection.collections['users'].drop(function(err) {
@@ -58,11 +62,14 @@ describe('Users API (role: user)', function() {
           .expect('Content-Type', /json/)
           .expect(200)
           .end(function(err, res) {
-            if (err) return done(err);
+            if (err) {
+              return done(err);
+            }
             var result = JSON.parse(res.text);
             assert.deepEqual(result, []);
-            done();
-          });
+            return done();
+          })
+        ;
       });
     });
   });
@@ -75,19 +82,23 @@ describe('Users API (role: user)', function() {
         .expect('Content-Type', /json/)
         .expect(200)
         .end(function(err, res) {
-          if (err) return done(err);
+          if (err) {
+            return done(err);
+          }
           var result = JSON.parse(res.text);
           assert.equal(result._id, id);
           assert.equal(result.username, user1.username);
           assert(!result.hashedPassword);
-          done();
-        });
+          return done();
+        })
+      ;
     });
 
     it('Unauthorized', function(done) {
       agent
         .get('/users/'+invalidId)
-        .expect(401, done);
+        .expect(401, done)
+      ;
     });
   });
 
@@ -99,13 +110,16 @@ describe('Users API (role: user)', function() {
         .expect('Content-Type', /json/)
         .expect(201)
         .end(function(err, res) {
-          if (err) return done(err);
+          if (err) {
+            return done(err);
+          }
           var result = JSON.parse(res.text);
           assert(result._id);
           assert.equal(result.username, 'c');
           assert(!result.hashedPassword);
-          done();
-        });
+          return done();
+        })
+      ;
     });
     it('Validates required username', function(done) {
       agent
@@ -113,10 +127,13 @@ describe('Users API (role: user)', function() {
         .send({ password: 'password' })
         .expect(400)
         .end(function(err, res) {
-          if (err) return done(err);
+          if (err) {
+            return done(err);
+          }
           assert.equal(res.text, 'A username is required.');
-          done();
-        });
+          return done();
+        })
+      ;
     });
     it('Validates required password', function(done) {
       agent
@@ -124,10 +141,13 @@ describe('Users API (role: user)', function() {
         .send({ username: 'c' })
         .expect(400)
         .end(function(err, res) {
-          if (err) return done(err);
+          if (err) {
+            return done(err);
+          }
           assert.equal(res.text, 'A password is required.');
-          done();
-        });
+          return done();
+        })
+      ;
     });
     it('Validates unique username', function(done) {
       agent
@@ -135,10 +155,13 @@ describe('Users API (role: user)', function() {
         .send({ username: 'a', password: 'password' })
         .expect(409)
         .end(function(err, res) {
-          if (err) return done(err);
+          if (err) {
+            return done(err);
+          }
           assert.equal(res.text, 'Username already exists.');
-          done();
-        });
+          return done();
+        })
+      ;
     });
     it('Only adds fields in the schema', function(done) {
       agent
@@ -146,12 +169,15 @@ describe('Users API (role: user)', function() {
         .send({ username: 'c', password: 'password', foo: 'bar' })
         .expect(201)
         .end(function(err, res) {
-          if (err) return done(err);
+          if (err) {
+            return done(err);
+          }
           var result = JSON.parse(res.text);
           assert.equal(result.username, 'c');
           assert(!result.foo);
-          done();
-        });
+          return done();
+        })
+      ;
     });
   });
 
@@ -163,25 +189,30 @@ describe('Users API (role: user)', function() {
         .expect('Content-Type', /json/)
         .expect(201)
         .end(function(err, res) {
-          if (err) return done(err);
+          if (err) {
+            return done(err);
+          }
           var result = JSON.parse(res.text);
           assert.equal(result._id, id);
           assert.equal(result.username, 'updated');
           assert(!result.hashedPassword);
-          done();
-        });
+          return done();
+        })
+      ;
     });
     it('Authorized: updates password', function(done) {
       agent
         .put('/users/'+id)
         .send({ username: 'a', password: 'updated' })
-        .expect(201, done);
+        .expect(201, done)
+      ;
     });
     it('Unauthorized', function(done) {
       agent
         .put('/users/'+invalidId)
         .send({ username: 'updated' })
-        .expect(401, done);
+        .expect(401, done)
+      ;
     });
   });
 
@@ -189,12 +220,14 @@ describe('Users API (role: user)', function() {
     it('Authorized', function(done) {
       agent
         .del('/users/'+id)
-        .expect(204, done);
+        .expect(204, done)
+      ;
     });
     it('Unauthorized', function(done) {
       agent
         .del('/users/'+invalidId)
-        .expect(401, done);
+        .expect(401, done)
+      ;
     });
   });
 
@@ -214,18 +247,19 @@ describe('Users API (role: admin)', function() {
         .post('/users')
         .send(user)
         .end(function(err, res) {
-          if (err) done(err);
+          if (err) {
+            return done(err);
+          }
           var result = JSON.parse(res.text);
           id = result._id;
-          done();
-        });
+          return done();
+        })
+      ;
     });
   });
 
   after(function(done) {
-    mongoose.connection.collections['users'].drop(function(err) {
-      done();
-    });
+    mongoose.connection.collections['users'].drop(done);
   });
 
   describe('GET /users', function() {
@@ -235,13 +269,16 @@ describe('Users API (role: admin)', function() {
         .expect('Content-Type', /json/)
         .expect(200)
         .end(function(err, res) {
-          if (err) return done(err);
+          if (err) {
+            return done(err);
+          }
           var result = JSON.parse(res.text)[0];
           assert.equal(result._id, id);
           assert.equal(result.username, user.username);
           assert(!result.hashedPassword);
-          done();
-        });
+          return done();
+        })
+      ;
     });
     it('When empty', function(done) {
       mongoose.connection.collections['users'].drop(function(err) {
@@ -250,11 +287,14 @@ describe('Users API (role: admin)', function() {
           .expect('Content-Type', /json/)
           .expect(200)
           .end(function(err, res) {
-            if (err) return done(err);
+            if (err) {
+              return done(err);
+            }
             var result = JSON.parse(res.text);
             assert.deepEqual(result, []);
-            done();
-          });
+            return done();
+          })
+        ;
       });
     });
   });
@@ -267,19 +307,23 @@ describe('Users API (role: admin)', function() {
         .expect('Content-Type', /json/)
         .expect(200)
         .end(function(err, res) {
-          if (err) return done(err);
+          if (err) {
+            return done(err);
+          }
           var result = JSON.parse(res.text);
           assert.equal(result._id, id);
           assert.equal(result.username, user.username);
           assert(!result.hashedPassword);
-          done();
-        });
+          return done();
+        })
+      ;
     });
 
     it('Invalid id', function(done) {
       agent
         .get('/users/'+invalidId)
-        .expect(404, done);
+        .expect(404, done)
+      ;
     });
   });
 
@@ -291,13 +335,16 @@ describe('Users API (role: admin)', function() {
         .expect('Content-Type', /json/)
         .expect(201)
         .end(function(err, res) {
-          if (err) return done(err);
+          if (err) {
+            return done(err);
+          }
           var result = JSON.parse(res.text);
           assert(result._id);
           assert.equal(result.username, 'b');
           assert(!result.hashedPassword);
-          done();
-        });
+          return done();
+        })
+      ;
     });
     it('Validates required username', function(done) {
       agent
@@ -305,10 +352,13 @@ describe('Users API (role: admin)', function() {
         .send({ password: 'password' })
         .expect(400)
         .end(function(err, res) {
-          if (err) return done(err);
+          if (err) {
+            return done(err);
+          }
           assert.equal(res.text, 'A username is required.');
-          done();
-        });
+          return done();
+        })
+      ;
     });
     it('Validates required password', function(done) {
       agent
@@ -316,10 +366,13 @@ describe('Users API (role: admin)', function() {
         .send({ username: 'c' })
         .expect(400)
         .end(function(err, res) {
-          if (err) return done(err);
+          if (err) {
+            return done(err);
+          }
           assert.equal(res.text, 'A password is required.');
-          done();
-        });
+          return done();
+        })
+      ;
     });
     it('Validates unique username', function(done) {
       agent
@@ -327,10 +380,13 @@ describe('Users API (role: admin)', function() {
         .send({ username: 'admin', password: 'password' })
         .expect(409)
         .end(function(err, res) {
-          if (err) return done(err);
+          if (err) {
+            return done(err);
+          }
           assert.equal(res.text, 'Username already exists.');
-          done();
-        });
+          return done();
+        })
+      ;
     });
     it('Only adds fields in the schema', function(done) {
       agent
@@ -338,12 +394,15 @@ describe('Users API (role: admin)', function() {
         .send({ username: 'b', password: 'password', foo: 'bar' })
         .expect(201)
         .end(function(err, res) {
-          if (err) return done(err);
+          if (err) {
+            return done(err);
+          }
           var result = JSON.parse(res.text);
           assert.equal(result.username, 'b');
           assert(!result.foo);
-          done();
-        });
+          return done();
+        })
+      ;
     });
   });
 
@@ -355,25 +414,30 @@ describe('Users API (role: admin)', function() {
         .expect('Content-Type', /json/)
         .expect(201)
         .end(function(err, res) {
-          if (err) return done(err);
+          if (err) {
+            return done(err);
+          }
           var result = JSON.parse(res.text);
           assert.equal(result._id, id);
           assert.equal(result.username, 'updated');
           assert(!result.hashedPassword);
-          done();
-        });
+          return done();
+        })
+      ;
     });
     it('Valid: updates password', function(done) {
       agent
         .put('/users/'+id)
         .send({ username: 'a', password: 'updated' })
-        .expect(201, done);
+        .expect(201, done)
+      ;
     });
     it('Invalid id', function(done) {
       agent
         .put('/users/'+invalidId)
         .send({ username: 'updated' })
-        .expect(404, done);
+        .expect(404, done)
+      ;
     });
   });
 
@@ -381,12 +445,14 @@ describe('Users API (role: admin)', function() {
     it('Valid id', function(done) {
       agent
         .del('/users/'+id)
-        .expect(204, done);
+        .expect(204, done)
+      ;
     });
     it('Invalid id', function(done) {
       agent
         .del('/users/'+invalidId)
-        .expect(404, done);
+        .expect(404, done)
+      ;
     });
   });
 

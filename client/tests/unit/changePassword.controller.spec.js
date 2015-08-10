@@ -20,9 +20,6 @@ describe('ChangePasswordController', function() {
   beforeEach(function() {
     $httpBackend.expectGET('/users/1').respond(user);
   });
-  // beforeEach(function() {
-  //   $httpBackend.whenGET('/current-user').respond(user);
-  // });
 
   afterEach(function() {
     $httpBackend.verifyNoOutstandingExpectation();

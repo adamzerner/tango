@@ -26,12 +26,14 @@ function isAuthenticated(req, res, next) {
       return next();
   }
 
-  res.status(401).send('Unauthorized.');
+  return res.status(401).send('Unauthorized.');
 }
 
 function isLoggedIn(req, res, next) {
-  if (req.user) next();
-  else res.status(401).send('Unauthorized.');
+  if (req.user) {
+    return next();
+  }
+  return res.status(401).send('Unauthorized.');
 }
 
 exports.hasRole = hasRole;

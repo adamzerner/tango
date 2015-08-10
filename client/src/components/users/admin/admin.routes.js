@@ -1,6 +1,7 @@
 angular
   .module('mean-starter')
-  .config(config);
+  .config(config)
+;
 
 function config($stateProvider) {
   $stateProvider
@@ -12,4 +13,5 @@ function config($stateProvider) {
         isAdmin: true
       }
     })
+  ;
 }

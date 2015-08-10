@@ -8,10 +8,11 @@ Boilerplate code for Users and authentication to get you started.
 
 ### Technical Notes ###
 - [Component-based](https://scotch.io/tutorials/angularjs-best-practices-directory-structure) file structure.
+- Gulp for builds.
 - Front end technologies chosen:
+    - Todd Motto's [Angular style guide](https://github.com/toddmotto/angularjs-styleguide).
     - UI Router
     - UI Bootstrap
-    - Gulp
     - Karma + Jasmine
 - Back end technologies chosen:
     - Mongoose

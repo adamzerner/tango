@@ -12,10 +12,7 @@ describe('AdminController', function() {
   }));
   beforeEach(function() {
     $httpBackend.expectGET('/users').respond(users);
-  })
-  // beforeEach(function() {
-  //   $httpBackend.whenGET('/current-user').respond(users[0]);
-  // });
+  });
 
   afterEach(function() {
     $httpBackend.verifyNoOutstandingExpectation();
