@@ -77,7 +77,7 @@ db.once('open', function onDbConnect() {
 
   // serving index.html
   app.get('/*', function(req, res) {
-    var url = path.resolve(__dirname + '/../client/index.html');
+    var url = path.resolve(__dirname + '/../client/' + envFolder + '/index.html');
     res.sendFile(url, null, function(err) {
       if (err) res.status(500).send(err);
       else res.status(200).end();
