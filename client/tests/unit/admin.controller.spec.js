@@ -37,24 +37,28 @@ describe('AdminController', function() {
 });
 
 // describe('AdminController', function() {
-//   var AdminController, $httpBackend;
+//   var createController, scope, $httpBackend;
 //
 //   beforeEach(module('mean-starter'));
 //   beforeEach(module('templates'));
 //   beforeEach(inject(function($controller, $rootScope, _$httpBackend_) {
 //     $httpBackend = _$httpBackend_;
-//     AdminController = $controller('AdminController');
+//     scope = $rootScope.$new();
+//     createController = function() {
+//       return $controller('AdminController');
+//     }
 //   }));
 //
 //   afterEach(function() {
-//     $httpBackend.verifyNoOutstandingExpectation();
+//     // $httpBackend.verifyNoOutstandingExpectation();
 //     $httpBackend.verifyNoOutstandingRequest();
 //   });
 //
 //   it('gets users', function() {
 //     $httpBackend
-//       .expectGET('/users')
+//       .expectGET('/foo')
 //       .respond('foo');
+//     var AdminController = createController();
 //     $httpBackend.flush();
 //   });
 // });

@@ -35,8 +35,8 @@ module.exports = function(config) {
     },
 
     ngHtml2JsPreprocessor: {
-      prependPrefix: '/',
-      moduleName: 'templates'
+      stripPrefix: 'src',
+      moduleName: 'templates',
     },
 
 

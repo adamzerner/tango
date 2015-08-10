@@ -12,15 +12,17 @@ angular
           console.log('Problem getting the current user.');
         });
     }
-
+    
     return {
       signup: function(user) {
-        return $http.post('/users', user)
-                  .success(function(data, status, headers, config) {
-                    angular.copy(data, currentUser);
-                    $cookies.put('userId', data._id);
-                    $window.location.href = '/';
-                  });
+        return $http
+          .post('/users', user)
+          .success(function(data, status, headers, config) {
+            angular.copy(data, currentUser);
+            $cookies.put('userId', data._id);
+            $window.location.href = '/';
+          })
+        ;
       },
       login: function(user) {
         return $http

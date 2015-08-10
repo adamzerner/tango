@@ -19,16 +19,19 @@ var mochaUrl = '/usr/local/lib/node_modules/mocha/bin/_mocha';
 if (process.argv[1] === mochaUrl) url = config.db.test;
 else url = config.db.dev;
 
+var envFolder = 'src';
+
 mongoose.connect(url);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Problem connecting to database.'));
 db.once('open', function onDbConnect() {
   console.log('Database connection established...');
   // serving web files
-  app.use(express.static('client'));
+  app.use(express.static('client/lib'));
+  app.use(express.static('client/' + envFolder));
 
   // serve favicon
-  app.use(favicon(path.resolve(__dirname+'/../client/assets/favicon.ico')));
+  app.use(favicon(path.resolve(__dirname+'/../client/' + envFolder + '/assets/favicon.ico')));
 
   // basic middleware
   app.use(bodyParser.json());
@@ -74,7 +77,7 @@ db.once('open', function onDbConnect() {
 
   // serving index.html
   app.get('/*', function(req, res) {
-    var url = path.resolve(__dirname + '/../client/index.html');
+    var url = path.resolve(__dirname + '/../client/' + envFolder + '/index.html');
     res.sendFile(url, null, function(err) {
       if (err) res.status(500).send(err);
       else res.status(200).end();
