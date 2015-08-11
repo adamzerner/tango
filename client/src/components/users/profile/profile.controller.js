@@ -7,10 +7,10 @@ function ProfileController(User, $stateParams) {
   var vm = this;
   User
     .get($stateParams.id)
-    .then(function(data) {
+    .success(function(data) {
       vm.user = data;
     })
-    .catch(function() {
+    .error(function() {
       console.log('Unable to get user.');
     })
   ;

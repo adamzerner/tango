@@ -27,7 +27,7 @@ var envFolder = 'src';
 
 mongoose.connect(url);
 var db = mongoose.connection;
-db.on('error', console.catch.bind(console, 'Problem connecting to database.'));
+db.on('error', console.error.bind(console, 'Problem connecting to database.'));
 db.once('open', function onDbConnect() {
   console.log('Database connection established...');
   // serving web files

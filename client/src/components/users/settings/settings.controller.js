@@ -7,10 +7,10 @@ function SettingsController($stateParams, $window, User, Auth) {
   var vm = this;
   User
     .get($stateParams.id)
-    .then(function(data) {
+    .success(function(data) {
       vm.user = data;
     })
-    .catch(function() {
+    .error(function() {
       console.log('Problem getting the current user.');
     })
   ;
@@ -20,10 +20,10 @@ function SettingsController($stateParams, $window, User, Auth) {
     if (isValid) {
       User
         .update(vm.user._id, vm.user)
-        .then(function(data) {
+        .success(function(data) {
           $window.location.href = '/profile/' + vm.user._id; // $state doesn't update the navbar
         })
-        .catch(function() {
+        .error(function() {
           console.log('Problem updating the user.');
         })
       ;
@@ -35,10 +35,10 @@ function SettingsController($stateParams, $window, User, Auth) {
   vm.delete = function() {
     User
       .delete(vm.user._id)
-      .then(function() {
+      .success(function() {
         Auth.logout();
       })
-      .catch(function() {
+      .error(function() {
         console.log('Problem deleting the user.');
       })
     ;

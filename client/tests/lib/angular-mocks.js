@@ -202,10 +202,10 @@ angular.mock.$Browser.prototype = {
  *         $timeout(function() { $log.log(1); });
  *         $timeout(function() { $log.log(2); throw 'banana peel'; });
  *         $timeout(function() { $log.log(3); });
- *         expect($exceptionHandler.catchs).toEqual([]);
+ *         expect($exceptionHandler.errors).toEqual([]);
  *         expect($log.assertEmpty());
  *         $timeout.flush();
- *         expect($exceptionHandler.catchs).toEqual(['banana peel']);
+ *         expect($exceptionHandler.errors).toEqual(['banana peel']);
  *         expect($log.log.logs).toEqual([[1], [2], [3]]);
  *       });
  *     });
@@ -226,7 +226,7 @@ angular.mock.$ExceptionHandlerProvider = function() {
    * @param {string} mode Mode of operation, defaults to `rethrow`.
    *
    *   - `log`: Sometimes it is desirable to test that an error is thrown, for this case the `log`
-   *            mode stores an array of errors in `$exceptionHandler.catchs`, to allow later
+   *            mode stores an array of errors in `$exceptionHandler.errors`, to allow later
    *            assertion of them. See {@link ngMock.$log#assertEmpty assertEmpty()} and
    *            {@link ngMock.$log#reset reset()}
    *   - `rethrow`: If any errors are passed to the handler in tests, it typically means that there
@@ -250,7 +250,7 @@ angular.mock.$ExceptionHandlerProvider = function() {
             throw e;
           }
         };
-        handler.catchs = errors;
+        handler.errors = errors;
         break;
       default:
         throw new Error("Unknown mode '" + mode + "', only 'log'/'rethrow' modes are allowed!");
@@ -272,7 +272,7 @@ angular.mock.$ExceptionHandlerProvider = function() {
  * @description
  * Mock implementation of {@link ng.$log} that gathers all logged messages in arrays
  * (one array per logging level). These arrays are exposed as `logs` property of each of the
- * level-specific log function, e.g. for level `error` the array is exposed as `$log.catch.logs`.
+ * level-specific log function, e.g. for level `error` the array is exposed as `$log.error.logs`.
  *
  */
 angular.mock.$LogProvider = function() {
@@ -296,7 +296,7 @@ angular.mock.$LogProvider = function() {
       log: function() { $log.log.logs.push(concat([], arguments, 0)); },
       warn: function() { $log.warn.logs.push(concat([], arguments, 0)); },
       info: function() { $log.info.logs.push(concat([], arguments, 0)); },
-      error: function() { $log.catch.logs.push(concat([], arguments, 0)); },
+      error: function() { $log.error.logs.push(concat([], arguments, 0)); },
       debug: function() {
         if (debug) {
           $log.debug.logs.push(concat([], arguments, 0));
@@ -363,11 +363,11 @@ angular.mock.$LogProvider = function() {
        *
        * @example
        * ```js
-       * $log.catch('Some Error');
-       * var first = $log.catch.logs.unshift();
+       * $log.error('Some Error');
+       * var first = $log.error.logs.unshift();
        * ```
        */
-      $log.catch.logs = [];
+      $log.error.logs = [];
         /**
        * @ngdoc property
        * @name $log#debug.logs
@@ -996,7 +996,7 @@ angular.mock.dump = function(object) {
   function MyController($scope, $http) {
     var authToken;
 
-    $http.get('/auth.py').then(function(data, status, headers) {
+    $http.get('/auth.py').success(function(data, status, headers) {
       authToken = headers('A-Token');
       $scope.user = data;
     });
@@ -1005,9 +1005,9 @@ angular.mock.dump = function(object) {
       var headers = { 'Authorization': authToken };
       $scope.status = 'Saving...';
 
-      $http.post('/add-msg.py', message, { headers: headers } ).then(function(response) {
+      $http.post('/add-msg.py', message, { headers: headers } ).success(function(response) {
         $scope.status = '';
-      }).catch(function() {
+      }).error(function() {
         $scope.status = 'ERROR!';
       });
     };
