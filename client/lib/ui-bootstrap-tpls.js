@@ -1160,7 +1160,7 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
       if ( isValid ) {
         this.activeDate = date;
       } else {
-        $log.error('Datepicker directive: "ng-model" value must be a Date object, a number of milliseconds since 01.01.1970 or a string representing an RFC2822 or ISO 8601 date.');
+        $log.catch('Datepicker directive: "ng-model" value must be a Date object, a number of milliseconds since 01.01.1970 or a string representing an RFC2822 or ISO 8601 date.');
       }
     }
     this.refreshView();
@@ -4300,7 +4300,7 @@ angular.module('ui.bootstrap.timepicker', [])
 
     if ( isNaN(date) ) {
       ngModelCtrl.$setValidity('time', false);
-      $log.error('Timepicker directive: "ng-model" value must be a Date object, a number of milliseconds since 01.01.1970 or a string representing an RFC2822 or ISO 8601 date.');
+      $log.catch('Timepicker directive: "ng-model" value must be a Date object, a number of milliseconds since 01.01.1970 or a string representing an RFC2822 or ISO 8601 date.');
     } else {
       if ( date ) {
         selected = date;

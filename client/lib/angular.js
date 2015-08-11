@@ -4231,7 +4231,7 @@ function annotate(fn, strictDi, name) {
  * calls to {@link ng.$log#error $log.warn()}.
  * ```js
  *   $provide.decorator('$log', ['$delegate', function($delegate) {
- *     $delegate.warn = $delegate.error;
+ *     $delegate.warn = $delegate.catch;
  *     return $delegate;
  *   }]);
  * ```
@@ -5399,7 +5399,7 @@ function Browser(window, document, $log, $sniffer) {
           try {
             outstandingRequestCallbacks.pop()();
           } catch (e) {
-            $log.error(e);
+            $log.catch(e);
           }
         }
       }
@@ -9070,7 +9070,7 @@ function $DocumentProvider() {
  *
  * @description
  * Any uncaught exception in angular expressions is delegated to this service.
- * The default implementation simply delegates to `$log.error` which logs it into
+ * The default implementation simply delegates to `$log.catch` which logs it into
  * the browser console.
  *
  * In unit tests, if `angular-mocks.js` is loaded, this service is overridden by
@@ -9106,7 +9106,7 @@ function $DocumentProvider() {
 function $ExceptionHandlerProvider() {
   this.$get = ['$log', function($log) {
     return function(exception, cause) {
-      $log.error.apply($log, arguments);
+      $log.catch.apply($log, arguments);
     };
   }];
 }
@@ -9564,8 +9564,8 @@ function $HttpProvider() {
      * request data must be passed in for POST/PUT requests.
      *
      * ```js
-     *   $http.get('/someUrl').success(successCallback);
-     *   $http.post('/someUrl', data).success(successCallback);
+     *   $http.get('/someUrl').then(successCallback);
+     *   $http.post('/someUrl', data).then(successCallback);
      * ```
      *
      * Complete list of shortcut methods:
@@ -9622,7 +9622,7 @@ function $HttpProvider() {
      *  data: { test: 'test' }
      * }
      *
-     * $http(req).success(function(){...}).error(function(){...});
+     * $http(req).then(function(){...}).catch(function(){...});
      * ```
      *
      * ## Transforming Requests and Responses
@@ -10065,7 +10065,7 @@ function $HttpProvider() {
         promise = promise.then(thenFn, rejectFn);
       }
 
-      promise.success = function(fn) {
+      promise.then = function(fn) {
         assertArgFn(fn, 'fn');
 
         promise.then(function(response) {
@@ -10074,7 +10074,7 @@ function $HttpProvider() {
         return promise;
       };
 
-      promise.error = function(fn) {
+      promise.catch = function(fn) {
         assertArgFn(fn, 'fn');
 
         promise.then(null, function(response) {
@@ -12208,7 +12208,7 @@ function $LocationProvider() {
          <button ng-click="$log.log(message)">log</button>
          <button ng-click="$log.warn(message)">warn</button>
          <button ng-click="$log.info(message)">info</button>
-         <button ng-click="$log.error(message)">error</button>
+         <button ng-click="$log.catch(message)">error</button>
          <button ng-click="$log.debug(message)">debug</button>
        </div>
      </file>
@@ -16921,7 +16921,7 @@ function $SceDelegateProvider() {
  *     .controller('AppController', ['$http', '$templateCache', '$sce',
  *       function($http, $templateCache, $sce) {
  *         var self = this;
- *         $http.get("test_data.json", {cache: $templateCache}).success(function(userComments) {
+ *         $http.get("test_data.json", {cache: $templateCache}).then(function(userComments) {
  *           self.userComments = userComments;
  *         });
  *         self.explicitlyTrustedHtml = $sce.trustAsHtml(
@@ -24250,7 +24250,7 @@ var ngInitDirective = ngDirective({
  *     var listInput = element(by.model('names'));
  *     var names = element(by.exactBinding('names'));
  *     var valid = element(by.binding('myForm.namesInput.$valid'));
- *     var error = element(by.css('span.error'));
+ *     var error = element(by.css('span.catch'));
  *
  *     it('should initialize to model', function() {
  *       expect(names.getText()).toContain('["morpheus","neo","trinity"]');

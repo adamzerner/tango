@@ -64,9 +64,9 @@ router.post('/', function(req, res) {
       });
     })
     .then(null, function(err) {
-      var usernameError = !!err.errors.username;
-      var usernameNotUnique = ~err.errors.username.message.indexOf('unique');
-      var usernameNotPresent = ~err.errors.username.message.indexOf('required');
+      var usernameError = !!err.catchs.username;
+      var usernameNotUnique = ~err.catchs.username.message.indexOf('unique');
+      var usernameNotPresent = ~err.catchs.username.message.indexOf('required');
       if (usernameError && usernameNotUnique) {
         return res.status(409).send('Username already exists.');
       }
