@@ -11,7 +11,7 @@ function LoginController(Auth) {
     if (isValid) {
       Auth
         .login(vm.user)
-        .error(function(data, status, headers, config) {
+        .catch(function(data, status, headers, config) {
           if (status === 401) vm.invalidCredentials = true;
         })
       ;

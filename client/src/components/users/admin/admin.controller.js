@@ -7,10 +7,10 @@ function AdminController(User, Auth, $state) {
   var vm = this;
   User
     .list()
-    .success(function(data) {
+    .then(function(data) {
       vm.users = data;
     })
-    .error(function() {
+    .catch(function() {
       console.log('Problem getting users.');
     })
   ;
@@ -18,7 +18,7 @@ function AdminController(User, Auth, $state) {
   vm.delete = function(id) {
     User
       .delete(id)
-      .success(function(data) {
+      .then(function(data) {
         if (Auth.getCurrentUser()._id === id) { // deleting yourself
           Auth.logout();
         }
@@ -26,7 +26,7 @@ function AdminController(User, Auth, $state) {
           $state.reload();
         }
       })
-      .error(function() {
+      .catch(function() {
         console.log('Problem deleting user.');
       })
     ;

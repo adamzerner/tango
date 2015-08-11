@@ -5,10 +5,10 @@ angular
     if ($cookies.get('userId')) {
       $http
         .get('/current-user')
-        .success(function(data) {
+        .then(function(data) {
           angular.copy(data, currentUser);
         })
-        .error(function() {
+        .catch(function() {
           console.log('Problem getting the current user.');
         })
       ;
@@ -18,7 +18,7 @@ angular
       signup: function(user) {
         return $http
           .post('/users', user)
-          .success(function(data, status, headers, config) {
+          .then(function(data, status, headers, config) {
             angular.copy(data, currentUser);
             $cookies.put('userId', data._id);
             $window.location.href = '/';
@@ -28,7 +28,7 @@ angular
       login: function(user) {
         return $http
           .post('/login', user)
-          .success(function(data) {
+          .then(function(data) {
             angular.copy(data, currentUser);
             $cookies.put('userId', data._id);
             $window.location.href = '/';
@@ -38,12 +38,12 @@ angular
       logout: function() {
         $http
           .get('/logout')
-          .success(function() {
+          .then(function() {
             angular.copy({}, currentUser);
             $cookies.remove('userId');
             $window.location.href = '/';
           })
-          .error(function() {
+          .catch(function() {
             console.log('Problem logging out.');
           })
         ;
