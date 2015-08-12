@@ -16,7 +16,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'lib/angular.js',
-      'tests/lib/*.js',
+      'karma/lib/*.js',
       'lib/*.js',
       '**/*.html',
       '**/*.js'
