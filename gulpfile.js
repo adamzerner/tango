@@ -5,10 +5,9 @@ var plumber = require('gulp-plumber');
 var livereload = require('gulp-livereload');
 var concat = require('gulp-concat');
 var mocha = require('gulp-mocha');
+var Server = require('karma').Server;
 
-gulp.task('default', ['styles', 'watch']);
-
-gulp.task('build-dev', function() {
+gulp.task('build-js', function() {
   gulp
     .src('client/src/**/*.js')
     .pipe(plumber())
@@ -18,7 +17,7 @@ gulp.task('build-dev', function() {
   ;
 });
 
-gulp.task('styles', function() {
+gulp.task('build-css', function() {
   gulp
     .src('client/src/**/*.scss')
     .pipe(plumber())
@@ -42,7 +41,13 @@ gulp.task('mocha', function() {
   ;
 });
 
-gulp.task('watch', function() {
+gulp.task('karma', function(done) {
+  new Server({
+    configFile: __dirname + '/client/karma/karma.conf.js'
+  }, done).start();
+});
+
+gulp.task('livereload', function() {
   livereload.listen();
-  gulp.watch('client/src/**/*.scss', ['styles']);
+  gulp.watch('client/src/**/*.scss', ['build-css']);
 });
