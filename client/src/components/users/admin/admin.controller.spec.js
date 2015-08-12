@@ -1,14 +1,15 @@
 describe('AdminController', function() {
-  var createController, $httpBackend;
+  var vm, $httpBackend, Auth;
   var users = [ 'user1', 'user2', 'user3' ];
 
   beforeEach(module('mean-starter'));
   beforeEach(module('templates'));
-  beforeEach(inject(function($controller, _$httpBackend_) {
+  beforeEach(inject(function($controller, _$httpBackend_, _Auth_) {
     $httpBackend = _$httpBackend_;
-    createController = function() {
-      return $controller('AdminController');
-    };
+    Auth = _Auth_;
+    vm = $controller('AdminController', {
+      Auth: Auth
+    });
   }));
   beforeEach(function() {
     $httpBackend.expectGET('/users').respond(users);
@@ -19,18 +20,25 @@ describe('AdminController', function() {
     $httpBackend.verifyNoOutstandingRequest();
   });
 
-  it('gets users', function() {
-    var vm = createController();
+  it('gets users when loaded', function() {
     $httpBackend.flush();
     expect(vm.users).toEqual(users);
   });
 
-  it('has a method that deletes users', function() {
-    $httpBackend.expectDELETE('/users/1').respond();
-    var vm = createController();
-    vm.delete(1);
-    $httpBackend.flush();
+  describe('#delete', function() {
+    it('request is sent out', function() {
+      $httpBackend.expectDELETE('/users/1').respond();
+      vm.delete(1);
+      $httpBackend.flush();
+    });
+    it('logs you out if you delete yourself', function() {
+
+    });
+    it("doesn't log you out if you don't delete yourself", function() {
+
+    });
   });
+
 });
 
 // describe('AdminController', function() {

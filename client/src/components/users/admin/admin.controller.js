@@ -18,7 +18,7 @@ function AdminController(User, Auth, $state) {
   vm.delete = function(id) {
     User
       .delete(id)
-      .then(function(response) {
+      .then(function() {
         Auth
           .getCurrentUser()
           .then(function(currentUser) {

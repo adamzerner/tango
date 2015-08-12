@@ -3,15 +3,13 @@ angular
   .factory('Auth', Auth)
 ;
 
-function Auth($http, $state, $window, $cookies, $q) {
-  var currentUser = {};
-
+function Auth($http, $state, $window, $cookies, $q, Session) {
   return {
     signup: function(user) {
       return $http
         .post('/users', user)
         .then(function(response) {
-          angular.copy(response.data, currentUser);
+          Session.setUser(response.data);
           $cookies.put('userId', response.data._id);
           $window.location.href = '/';
         })
@@ -21,7 +19,7 @@ function Auth($http, $state, $window, $cookies, $q) {
       return $http
         .post('/login', user)
         .then(function(response) {
-          angular.copy(response.data, currentUser);
+          Session.setUser(response.data);
           $cookies.put('userId', response.data._id);
           $window.location.href = '/';
         })
@@ -31,7 +29,7 @@ function Auth($http, $state, $window, $cookies, $q) {
       $http
         .get('/logout')
         .then(function() {
-          angular.copy({}, currentUser);
+          Session.removeUser();
           $cookies.remove('userId');
           $window.location.href = '/';
         })
@@ -42,21 +40,21 @@ function Auth($http, $state, $window, $cookies, $q) {
     },
     getCurrentUser: function() {
       // user is logged in
-      if (currentUser._id) {
-        return $q.when(currentUser);
+      if (Session.user) {
+        return $q.when(Session.user);
       }
-      // user is logged in, but page has been refreshed and currentUser is lost
+      // user is logged in, but page has been refreshed and Session.user is lost
       if ($cookies.get('userId')) {
         return $http.get('/current-user')
           .then(function(response) {
-            angular.copy(response.data, currentUser);
+            Session.setUser(response.data);
             return response.data;
           })
         ;
       }
       // user isn't logged in
       else  {
-        return $q.when(currentUser);
+        return $q.when({});
       }
     }
   };
