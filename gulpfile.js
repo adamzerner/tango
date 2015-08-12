@@ -24,16 +24,6 @@ gulp.task('build-css', function() {
     .pipe(sass().on('error', sass.logError))
     .pipe(concat('app.css'))
     .pipe(gulp.dest('client/src/assets/css'))
-  ;
-});
-
-gulp.task('livereload', function() {
-  gulp
-    .src('client/src/**/*.scss')
-    .pipe(plumber())
-    .pipe(sass().on('error', sass.logError))
-    .pipe(concat('app.css'))
-    .pipe(gulp.dest('client/src/assets/css'))
     .pipe(livereload())
   ;
 });
@@ -57,7 +47,7 @@ gulp.task('karma', function(done) {
   }, done).start();
 });
 
-// gulp.task('watch', function() {
-//   livereload.listen();
-//   gulp.watch('client/src/**/*.scss', ['css']);
-// });
+gulp.task('livereload', function() {
+  livereload.listen();
+  gulp.watch('client/src/**/*.scss', ['build-css']);
+});
