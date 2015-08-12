@@ -8,7 +8,10 @@ function config($stateProvider) {
     .state('signup', {
       url: '/signup',
       templateUrl: '/components/users/signup/signup.html',
-      controller: 'SignupController as vm'
+      controller: 'SignupController as vm',
+      authenticate: {
+        loggedOut: true
+      }
     })
   ;
 }

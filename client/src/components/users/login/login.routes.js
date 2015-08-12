@@ -8,7 +8,10 @@ function config($stateProvider) {
     .state('login', {
       url: '/login',
       templateUrl: '/components/users/login/login.html',
-      controller: 'LoginController as vm'
+      controller: 'LoginController as vm',
+      authenticate: {
+        loggedOut: true
+      }
     })
   ;
 }

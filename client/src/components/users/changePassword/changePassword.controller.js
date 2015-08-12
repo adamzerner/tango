@@ -7,10 +7,10 @@ function ChangePasswordController($stateParams, User) {
   var vm = this;
   User
     .get($stateParams.id)
-    .success(function(user) {
-      vm.user = user;
+    .then(function(response) {
+      vm.user = response.data;
     })
-    .error(function() {
+    .catch(function() {
       console.log('Unable to get user.');
     })
   ;
@@ -21,7 +21,7 @@ function ChangePasswordController($stateParams, User) {
       delete vm.user.passwordConfirmation;
       User
         .update(vm.user._id, vm.user)
-        .error(function() {
+        .catch(function() {
           console.log('Error updated password.');
         })
       ;

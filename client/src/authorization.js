@@ -4,28 +4,47 @@ angular
 ;
 
 function run($rootScope, Auth, $state) {
-  $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
-    if (typeof toState.authenticate !== 'undefined') {
-      var currentUser = Auth.getCurrentUser();
-      var admin = currentUser.role === 'admin';
-      var authorized = currentUser._id.toString() === toParams.id;
-      if (!Auth.isLoggedIn()) {
-        event.preventDefault();
-        alert('Must be logged in to access this route.');
-        $state.go('login');
-      }
-      else if (toState.authenticate.authorized) {
-        if (!admin && !authorized) {
-          event.preventDefault();
-          alert('You are not authorized to access that route.');
-        }
-      }
-      else if (toState.authenticate.isAdmin) {
-        if (!admin) {
-          event.preventDefault();
-          alert('You must be an admin to access this route.');
-        }
-      }
+  function preventStateChange (message, redirect) {
+    alert(message);
+    if (redirect) {
+      $state.go(redirect);
     }
+    else {
+      $state.go('home');
+    }
+  }
+
+  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState) {
+    if (typeof toState.authenticate === 'undefined') { // this route doesn't require permissions
+      return;
+    }
+
+    Auth
+      .getCurrentUser()
+      .then(function (currentUser) {
+        var isLoggedIn = !!currentUser._id;
+        var isAdmin = isLoggedIn && currentUser.role === 'admin';
+        var isAuthorized = isLoggedIn && currentUser._id.toString() === toParams.id;
+
+        if (toState.authenticate.loggedOut) { // this route requires you to be logged out
+          if (isLoggedIn) {
+            preventStateChange("You're logged in.");
+          }
+        }
+        else if (!isLoggedIn) {
+          preventStateChange('Must be logged in to access this route.', 'login');
+        }
+        else if (toState.authenticate.authorized) {
+          if (!isAuthorized && !isAdmin) {
+            preventStateChange('You are not authorized to access that route.');
+          }
+        }
+        else if (toState.authenticate.admin) {
+          if (!isAdmin) {
+            preventStateChange('You must be an admin to access this route.');
+          }
+        }
+      })
+    ;
   });
 }

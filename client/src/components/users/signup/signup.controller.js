@@ -11,8 +11,8 @@ function SignupController(Auth) {
     if (isValid) {
       Auth
         .signup(vm.user)
-        .error(function(data, status, headers, config) {
-          if (data === 'Username already exists.') {
+        .catch(function(response) {
+          if (response.data === 'Username already exists.') {
             vm.usernameExists = true;
           }
           else {

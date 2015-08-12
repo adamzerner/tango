@@ -76,7 +76,7 @@ describe('Users API (role: user)', function() {
 
 
   describe('GET /users/:id', function() {
-    it('Authorized', function(done) {
+    it('Valid id', function(done) {
       agent
         .get('/users/'+id)
         .expect('Content-Type', /json/)
@@ -94,10 +94,10 @@ describe('Users API (role: user)', function() {
       ;
     });
 
-    it('Unauthorized', function(done) {
+    it('Invalid id', function(done) {
       agent
         .get('/users/'+invalidId)
-        .expect(401, done)
+        .expect(404, done)
       ;
     });
   });

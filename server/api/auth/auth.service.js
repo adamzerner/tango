@@ -14,15 +14,15 @@ function hasRole (roles) {
     }
 }
 
-function isAuthenticated(req, res, next) {
-  var isAuthenticated = req.user &&
+function isAuthorized(req, res, next) {
+  var isAuthorized = req.user &&
     (
       req.user.role === 'admin' ||
       req.params.id === req.user._id.toString()
     )
   ;
 
-  if (isAuthenticated) {
+  if (isAuthorized) {
       return next();
   }
 
@@ -37,5 +37,5 @@ function isLoggedIn(req, res, next) {
 }
 
 exports.hasRole = hasRole;
-exports.isAuthenticated = isAuthenticated;
+exports.isAuthorized = isAuthorized;
 exports.isLoggedIn = isLoggedIn;

@@ -22,7 +22,7 @@ router.get('/', function(req, res) {
   ;
 });
 
-router.get('/:id', Auth.isAuthenticated, function(req, res) {
+router.get('/:id', function(req, res) {
   User
     .findById(req.params.id).exec()
     .then(function(user) {
@@ -58,7 +58,7 @@ router.post('/', function(req, res) {
         if (loginErr) {
           return res.status(500).send('Problem logging in after signup.');
         }
-        var userCopy = _.cloneDeep(user);
+        var userCopy = JSON.parse(JSON.stringify(user));
         delete userCopy.hashedPassword;
         return res.status(201).json(userCopy);
       });
@@ -79,7 +79,7 @@ router.post('/', function(req, res) {
     });
 });
 
-router.put('/:id', Auth.isAuthenticated, function(req, res) {
+router.put('/:id', Auth.isAuthorized, function(req, res) {
   if (req.body.password) {
     req.body.hashedPassword = bcrypt.hashSync(req.body.password, 8);
   }
@@ -95,7 +95,7 @@ router.put('/:id', Auth.isAuthenticated, function(req, res) {
   ;
 });
 
-router.delete('/:id', Auth.isAuthenticated, function(req, res) {
+router.delete('/:id', Auth.isAuthorized, function(req, res) {
   User
     .findByIdAndRemove(req.params.id).exec()
     .then(function(user) {
