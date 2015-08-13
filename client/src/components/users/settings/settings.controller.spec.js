@@ -20,12 +20,12 @@ describe('SettingsController', function() {
     };
   }));
 
-  it('gets user', function() {
+  it('gets the user when loaded', function() {
     spyOn(User, 'get').and.callThrough();
     var vm = createController();
     expect(User.get).toHaveBeenCalled();
   });
-  it('can submit', function() {
+  it('can submit when valid', function() {
     var vm = createController();
     vm.user = user;
     spyOn(User, 'update').and.callThrough();

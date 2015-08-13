@@ -16,7 +16,7 @@ describe('AdminController', function() {
     expect(User.list).toHaveBeenCalled();
   });
 
-  it('#delete', function() {
+  it('can delete', function() {
     spyOn(User, 'delete').and.callThrough();
     var vm = createController();
     vm.delete(1);
