@@ -33,10 +33,10 @@ gulp.task('mocha', function() {
     .src('server/api/**/*.spec.js', { read: false })
     .pipe(mocha())
     .once('error', function () {
-        process.exit(1);
+      process.exit(1);
     })
     .once('end', function () {
-        process.exit();
+      process.exit();
     })
   ;
 });
