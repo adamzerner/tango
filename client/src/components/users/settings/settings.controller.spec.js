@@ -1,5 +1,5 @@
 describe('SettingsController', function() {
-  var createController, $httpBackend;
+  var createController, User;
   var user = {
     _id: 1,
     username: 'adamzerner',
@@ -9,8 +9,8 @@ describe('SettingsController', function() {
 
   beforeEach(module('mean-starter'));
   beforeEach(module('templates'));
-  beforeEach(inject(function($controller, _$httpBackend_) {
-    $httpBackend = _$httpBackend_;
+  beforeEach(inject(function($controller, _User_) {
+    User = _User_;
     createController = function() {
       return $controller('SettingsController', {
         $stateParams: {
@@ -19,23 +19,21 @@ describe('SettingsController', function() {
       });
     };
   }));
-  beforeEach(function() {
-    $httpBackend.expectGET('/users/1').respond(user);
-  });
-
-  afterEach(function() {
-    $httpBackend.verifyNoOutstandingExpectation();
-    $httpBackend.verifyNoOutstandingRequest();
-  });
 
   it('gets user', function() {
+    spyOn(User, 'get').and.callThrough();
     var vm = createController();
-    $httpBackend.flush();
-    expect(vm.user).toEqual(user);
+    expect(User.get).toHaveBeenCalled();
+  });
+  it('can submit', function() {
+    var vm = createController();
+    vm.user = user;
+    spyOn(User, 'update').and.callThrough();
+    vm.submit(true);
+    expect(User.update).toHaveBeenCalled();
   });
   it('keeps track of whether an invalid submit was attempted', function() {
     var vm = createController();
-    $httpBackend.flush();
     expect(vm.invalidSubmitAttempted).toBe(false);
     vm.submit(false);
     expect(vm.invalidSubmitAttempted).toBe(true);
