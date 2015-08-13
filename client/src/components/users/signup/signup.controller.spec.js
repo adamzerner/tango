@@ -1,8 +1,7 @@
 describe('SignupController', function() {
   var createController, Auth;
 
-  beforeEach(module('mean-starter'));
-  beforeEach(module('templates'));
+  beforeEach(module('mean-starter', 'templates'));
   beforeEach(inject(function($controller, _Auth_) {
     Auth = _Auth_;
     createController = function() {

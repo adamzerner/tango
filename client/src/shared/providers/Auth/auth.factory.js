@@ -11,7 +11,7 @@ function Auth($http, $state, $window, $cookies, $q, Session) {
         .then(function(response) {
           Session.setUser(response.data);
           $cookies.put('userId', response.data._id);
-          $window.location.href = '/';
+          // $window.location.href = '/';
         })
       ;
     },
@@ -21,7 +21,7 @@ function Auth($http, $state, $window, $cookies, $q, Session) {
         .then(function(response) {
           Session.setUser(response.data);
           $cookies.put('userId', response.data._id);
-          $window.location.href = '/';
+          // $window.location.href = '/';
         })
       ;
     },
@@ -31,7 +31,7 @@ function Auth($http, $state, $window, $cookies, $q, Session) {
         .then(function() {
           Session.removeUser();
           $cookies.remove('userId');
-          $window.location.href = '/';
+          // $window.location.href = '/';
         })
         .catch(function() {
           console.log('Problem logging out.');

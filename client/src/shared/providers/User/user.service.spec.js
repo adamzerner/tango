@@ -1,8 +1,7 @@
 describe('User Service', function() {
   var User, $httpBackend;
 
-  beforeEach(module('mean-starter'));
-  beforeEach(module('templates'));
+  beforeEach(module('mean-starter', 'templates'));
   beforeEach(inject(function(_User_, _$httpBackend_) {
     User = _User_;
     $httpBackend = _$httpBackend_;

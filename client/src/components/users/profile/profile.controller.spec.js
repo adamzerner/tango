@@ -1,8 +1,7 @@
 describe('ProfileController', function() {
   var createController, User;
 
-  beforeEach(module('mean-starter'));
-  beforeEach(module('templates'));
+  beforeEach(module('mean-starter', 'templates'));
   beforeEach(inject(function($controller, _User_) {
     User = _User_;
     createController = function() {
