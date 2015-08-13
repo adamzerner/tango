@@ -7,8 +7,7 @@ describe('ChangePasswordController', function() {
     passwordConfirmation: 'test'
   };
 
-  beforeEach(module('mean-starter'));
-  beforeEach(module('templates'));
+  beforeEach(module('mean-starter', 'templates'));
   beforeEach(inject(function($controller, _User_) {
     User = _User_;
     createController = function() {

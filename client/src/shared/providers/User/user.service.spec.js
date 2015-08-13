@@ -1,8 +1,11 @@
 describe('User Service', function() {
   var User, $httpBackend;
 
-  beforeEach(module('mean-starter'));
-  beforeEach(module('templates'));
+  function isPromise(el) {
+    return !!el.$$state;
+  }
+
+  beforeEach(module('mean-starter', 'templates'));
   beforeEach(inject(function(_User_, _$httpBackend_) {
     User = _User_;
     $httpBackend = _$httpBackend_;
@@ -14,26 +17,30 @@ describe('User Service', function() {
 
   it('#list', function() {
     $httpBackend.expectGET('/users').respond();
-    User.list();
+    var retVal = User.list();
     $httpBackend.flush();
+    expect(isPromise(retVal)).toBe(true);
   });
 
   it('#get', function() {
     $httpBackend.expectGET('/users/1').respond();
-    User.get(1);
+    var retVal = User.get(1);
     $httpBackend.flush();
+    expect(isPromise(retVal)).toBe(true);
   });
 
   it('#update', function() {
     var user = { username: 'adamzerner' };
     $httpBackend.expectPUT('/users/1', user).respond();
-    User.update(1, user);
+    var retVal = User.update(1, user);
     $httpBackend.flush();
+    expect(isPromise(retVal)).toBe(true);
   });
 
   it('#delete', function() {
     $httpBackend.expectDELETE('/users/1').respond();
-    User.delete(1);
+    var retVal = User.delete(1);
     $httpBackend.flush();
+    expect(isPromise(retVal)).toBe(true);
   });
 });
