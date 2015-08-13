@@ -1,5 +1,5 @@
 describe('ChangePasswordController', function() {
-  var createController, $httpBackend;
+  var createController, User;
   var user = {
     _id: 1,
     username: 'adamzerner',
@@ -9,40 +9,32 @@ describe('ChangePasswordController', function() {
 
   beforeEach(module('mean-starter'));
   beforeEach(module('templates'));
-  beforeEach(inject(function($controller, _$httpBackend_) {
-    $httpBackend = _$httpBackend_;
+  beforeEach(inject(function($controller, _User_) {
+    User = _User_;
     createController = function() {
       return $controller('ChangePasswordController', {
         $stateParams: { id: 1 }
       });
     };
   }));
-  beforeEach(function() {
-    $httpBackend.expectGET('/users/1').respond(user);
-  });
 
-  afterEach(function() {
-    $httpBackend.verifyNoOutstandingExpectation();
-    $httpBackend.verifyNoOutstandingRequest();
-  });
-
-  it('gets user', function() {
+  it('gets the user when loaded', function() {
+    spyOn(User, 'get').and.callThrough();
     var vm = createController();
-    $httpBackend.flush();
-    expect(vm.user).toEqual(user);
+    expect(User.get).toHaveBeenCalled();
   });
 
-  it('can submit', function() {
+  it('can submit when valid', function() {
     var vm = createController();
-    $httpBackend.flush();
+    vm.user = user;
+    spyOn(User, 'update').and.callThrough();
     vm.submit(true);
-    $httpBackend.expectPUT('/users/1').respond();
-    $httpBackend.flush();
+    expect(vm.user.passwordConfirmation).toBeFalsy();
+    expect(User.update).toHaveBeenCalled();
   });
 
   it('keeps track of whether an invalid submit was attempted', function() {
     var vm = createController();
-    $httpBackend.flush();
     expect(vm.invalidSubmitAttempted).toBe(false);
     vm.submit(false);
     expect(vm.invalidSubmitAttempted).toBe(true);
