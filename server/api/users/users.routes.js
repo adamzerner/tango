@@ -45,7 +45,8 @@ router.post('/', function(req, res) {
 
   // hash password
   if (req.body.password) {
-    req.body.hashedPassword = bcrypt.hashSync(req.body.password, 8);
+    req.body.auth = {};
+    req.body.auth.hashedPassword = bcrypt.hashSync(req.body.password, 8);
   }
   else {
     return res.status(400).send('A password is required.');
@@ -59,7 +60,7 @@ router.post('/', function(req, res) {
           return res.status(500).send('Problem logging in after signup.');
         }
         var userCopy = JSON.parse(JSON.stringify(user));
-        delete userCopy.hashedPassword;
+        delete userCopy.auth;
         return res.status(201).json(userCopy);
       });
     })
@@ -81,7 +82,8 @@ router.post('/', function(req, res) {
 
 router.put('/:id', Auth.isAuthorized, function(req, res) {
   if (req.body.password) {
-    req.body.hashedPassword = bcrypt.hashSync(req.body.password, 8);
+    req.body.auth = {};
+    req.body.auth.hashedPassword = bcrypt.hashSync(req.body.password, 8);
   }
 
   User

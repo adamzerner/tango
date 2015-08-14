@@ -3,8 +3,13 @@ var uniqueValidator = require('mongoose-unique-validator');
 
 var userSchema = mongoose.Schema({
   username: { type: String, required: true, unique: true },
-  hashedPassword: { type: String, required: true, select: false },
-  role: String
+  role: String,
+  auth: {
+    hashedPassword: { type: String, select: false },
+    facebookToken: { type: String, select: false },
+    twitterToken: { type: String, select: false },
+    googleToken: { type: String, select: false }
+  },
 });
 userSchema.plugin(uniqueValidator);
 

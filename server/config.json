@@ -2,5 +2,23 @@
   "db": {
     "test": "mongodb://localhost/mean-starter-test",
     "dev": "mongodb://localhost/mean-starter"
+  },
+
+  "facebookAuth": {
+    "clientID": "507187822792375",
+    "clientSecret": "f16ad8598443e4fa159ff0801ee115d9",
+    "callbackURL": "http://localhost:3000/auth/facebook/callback"
+  },
+
+  "twitterAuth": {
+    "consumerKey": "your-consumer-key-here",
+    "consumerSecret": "your-client-secret-here",
+    "callbackURL": "http://localhost:3000/auth/twitter/callback"
+  },
+
+  "googleAuth": {
+    "clientID": "your-secret-clientID-here",
+    "clientSecret": "your-client-secret-here",
+    "callbackURL": "http://localhost:3000/auth/google/callback"
   }
 }
