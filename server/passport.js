@@ -49,10 +49,8 @@ module.exports = function(passport) {
     clientSecret: config.facebookAuth.clientSecret,
     callbackURL: config.facebookAuth.callbackURL
   }, function(token, refreshToken, profile, done) {
-    console.log('Outside of nextTick()');
     // asynchronous
     process.nextTick(function() {
-      console.log('Inside of nextTick()');
       // find the user in the database based on their facebook id
       User.findOne({ 'auth.facebookToken': token }, function(err, user) {
         if (err) {

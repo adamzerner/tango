@@ -3,7 +3,7 @@ angular
   .controller('SignupController', SignupController)
 ;
 
-function SignupController(Auth, $http) {
+function SignupController(Auth, $window) {
   var vm = this;
   vm.invalidSubmitAttempted = false;
   vm.usernameExists = false;
@@ -28,15 +28,15 @@ function SignupController(Auth, $http) {
   vm.closeAlert = function() {
     vm.usernameExists = false;
   };
+
+  // SSO
   vm.facebook = function() {
-    console.log('vm.facebook');
-    $http
-      .get('/auth/facebook')
-      .then(function() {
-        console.log('Facebook auth success.');
-      })
-      .catch(function() {
-        console.log('Facebook auth failure.');
-      });
+    $window.location.href = '/auth/facebook';
+  };
+  vm.twitter = function() {
+    $window.location.href = '/auth/twitter';
+  };
+  vm.google = function() {
+    $window.location.href = '/auth/google';
   };
 }

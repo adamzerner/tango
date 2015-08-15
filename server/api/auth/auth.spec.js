@@ -16,12 +16,9 @@ describe('Auth API', function() {
   };
 
 before(function(done) {
-  mongoose.connection.collections['users'].drop(function(err) {
-    mongoose.connection.collections['users'].insert(user, done);
+  User.remove({}).exec(function() {
+    User.create(user, done);
   });
-//   User.remove({}).exec(function() {
-//     User.create(user, done);
-//   });
 });
 
   after(function(done) {

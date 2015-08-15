@@ -2,6 +2,8 @@ var mongoose = require('mongoose');
 var assert = require('assert');
 var request = require('supertest');
 var app = require('../../app.js');
+var userSchema = require('./user.schema.js');
+var User = mongoose.model('User', userSchema);
 var agent = request.agent(app);
 var invalidId = 'aaaaaaaaaaaaaaaaaaaaaaaa';
 
@@ -15,8 +17,8 @@ describe('Users API (role: user)', function() {
   };
 
   beforeEach(function(done) {
-    mongoose.connection.collections['users'].drop(function(err) {
-      mongoose.connection.collections['users'].insert(user2, function(err) {
+    User.remove({}).exec(function() {
+      User.create(user2, function() {
         agent
           .post('/users')
           .send(user1)
