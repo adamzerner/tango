@@ -1,60 +1,76 @@
-<div class='page-header'>
-  <h1>Sign Up</h1>
+<div class='row'>
+  <div class='col-md-5'>
+
+    <div class='page-header'>
+      <h1>Sign Up</h1>
+    </div>
+
+    <alert type='danger' ng-show='vm.usernameExists' close='vm.closeAlert()'>
+      Username already exists.
+    </alert>
+
+    <form name='signupForm' ng-submit='vm.submit(signupForm.$valid)' novalidate>
+      <!-- USERNAME -->
+      <div class='form-group'>
+        <label>Username</label>
+        <input
+          name='username'
+          type='text'
+          class='form-control'
+          ng-model='vm.user.username'
+          required>
+        <div ng-messages='signupForm.username.$error' ng-show='vm.invalidSubmitAttempted'>
+          <p ng-message='required' class='text-warning'>A username is required.</p>
+        </div>
+      </div>
+
+      <!-- PASSWORD -->
+      <div class='form-group'>
+        <label>Password</label>
+        <input
+          name='password'
+          type='password'
+          class='form-control'
+          ng-model='vm.user.password'
+          required>
+        <div ng-messages='signupForm.password.$error' ng-show='vm.invalidSubmitAttempted'>
+          <p ng-message='required' class='text-warning'>A password is required.</p>
+        </div>
+      </div>
+
+      <!-- PASSWORD CONFIRMATION -->
+      <div class='form-group'>
+        <label>Password Confirmation</label>
+        <input
+          name='passwordConfirmation'
+          type='password'
+          class='form-control'
+          ng-model='vm.user.passwordConfirmation'
+          required
+          confirm-password='vm.user.password'>
+        <div ng-messages='signupForm.passwordConfirmation.$error' ng-show='vm.invalidSubmitAttempted'>
+          <p ng-message='required' class='text-warning'>A password confirmation is required.</p>
+          <p ng-message='passwordsMatch' class='text-warning'>Passwords don't match.</p>
+        </div>
+      </div>
+
+      <!-- SUBMIT BUTTON -->
+      <button
+        type='submit'
+        class='btn btn-default'>
+        Sign Up
+      </button>
+    </form>
+
+  </div>
+  <div class='col-md-6 col-md-offset-1'>
+    <div class='page-header'>
+      <h1>SSO</h1>
+    </div>
+
+    <p>Log in or register with:</p>
+    <a ng-click='vm.facebook()' class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
+    <a href="/auth/twitter" class="btn btn-info"><span class="fa fa-twitter"></span> Twitter</a>
+    <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google"></span> Google</a>
+  </div>
 </div>
-
-<alert type='danger' ng-show='vm.usernameExists' close='vm.closeAlert()'>
-  Username already exists.
-</alert>
-
-<form name='signupForm' ng-submit='vm.submit(signupForm.$valid)' novalidate>
-  <!-- USERNAME -->
-  <div class='form-group'>
-    <label>Username</label>
-    <input
-      name='username'
-      type='text'
-      class='form-control'
-      ng-model='vm.user.username'
-      required>
-    <div ng-messages='signupForm.username.$error' ng-show='vm.invalidSubmitAttempted'>
-      <p ng-message='required' class='text-warning'>A username is required.</p>
-    </div>
-  </div>
-
-  <!-- PASSWORD -->
-  <div class='form-group'>
-    <label>Password</label>
-    <input
-      name='password'
-      type='password'
-      class='form-control'
-      ng-model='vm.user.password'
-      required>
-    <div ng-messages='signupForm.password.$error' ng-show='vm.invalidSubmitAttempted'>
-      <p ng-message='required' class='text-warning'>A password is required.</p>
-    </div>
-  </div>
-
-  <!-- PASSWORD CONFIRMATION -->
-  <div class='form-group'>
-    <label>Password Confirmation</label>
-    <input
-      name='passwordConfirmation'
-      type='password'
-      class='form-control'
-      ng-model='vm.user.passwordConfirmation'
-      required
-      confirm-password='vm.user.password'>
-    <div ng-messages='signupForm.passwordConfirmation.$error' ng-show='vm.invalidSubmitAttempted'>
-      <p ng-message='required' class='text-warning'>A password confirmation is required.</p>
-      <p ng-message='passwordsMatch' class='text-warning'>Passwords don't match.</p>
-    </div>
-  </div>
-
-  <!-- SUBMIT BUTTON -->
-  <button
-    type='submit'
-    class='btn btn-default'>
-    Sign Up
-  </button>
-</form>

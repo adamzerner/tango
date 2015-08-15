@@ -20,11 +20,15 @@ router.get('/current-user', Auth.isLoggedIn, function(req, res) {
 });
 
 // FACEBOOK
-router.get('/auth/facebook', passport.authenticate('facebook'));
+router.get('/auth/facebook', function() {
+  console.log('Hits /auth/facebook');
+}, passport.authenticate('facebook'));
 
-router.get('/auth/facebook/callback',
+router.get('/auth/facebook/callback', function() {
+    console.log('Hits /auth/facebook/callback');
+  },
   passport.authenticate('facebook', {
-		successRedirect: '/',
+		successRedirect: '/signup',
 		failureRedirect: '/login'
 	})
 );

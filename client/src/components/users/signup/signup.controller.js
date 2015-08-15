@@ -3,7 +3,7 @@ angular
   .controller('SignupController', SignupController)
 ;
 
-function SignupController(Auth) {
+function SignupController(Auth, $http) {
   var vm = this;
   vm.invalidSubmitAttempted = false;
   vm.usernameExists = false;
@@ -27,5 +27,16 @@ function SignupController(Auth) {
   };
   vm.closeAlert = function() {
     vm.usernameExists = false;
+  };
+  vm.facebook = function() {
+    console.log('vm.facebook');
+    $http
+      .get('/auth/facebook')
+      .then(function() {
+        console.log('Facebook auth success.');
+      })
+      .catch(function() {
+        console.log('Facebook auth failure.');
+      });
   };
 }
