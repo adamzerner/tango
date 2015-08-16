@@ -13,6 +13,7 @@ describe('Users API (role: user)', function() {
   user1 = { username: 'a', password: 'password' }; // logged in
   user2 = {
     username: 'b',
+    isAuthenticatedWith: { local: true },
     auth: { hashedPassword: 'fkjldsafsdafkasdkjfadjksf' }
   };
 
@@ -52,9 +53,11 @@ describe('Users API (role: user)', function() {
           var users = JSON.parse(res.text);
           assert.equal(users.length, 2);
           assert.equal(users[0].username, user2.username);
+          assert(users[0].isAuthenticatedWith.local);
           assert(!users[0].auth);
           assert.equal(users[1]._id, id);
           assert.equal(users[1].username, user1.username);
+          assert(users[1].isAuthenticatedWith.local);
           assert(!users[1].auth);
           return done();
         })
@@ -93,6 +96,7 @@ describe('Users API (role: user)', function() {
           var result = JSON.parse(res.text);
           assert.equal(result._id, id);
           assert.equal(result.username, user1.username);
+          assert(result.isAuthenticatedWith.local);
           assert(!result.auth);
           return done();
         })
@@ -121,6 +125,7 @@ describe('Users API (role: user)', function() {
           var result = JSON.parse(res.text);
           assert(result._id);
           assert.equal(result.username, 'c');
+          assert(result.isAuthenticatedWith.local);
           assert(!result.auth);
           return done();
         })
@@ -200,6 +205,7 @@ describe('Users API (role: user)', function() {
           var result = JSON.parse(res.text);
           assert.equal(result._id, id);
           assert.equal(result.username, 'updated');
+          assert(result.isAuthenticatedWith.local);
           assert(!result.auth);
           return done();
         })
@@ -247,7 +253,7 @@ describe('Users API (role: admin)', function() {
   };
 
   beforeEach(function(done) {
-    mongoose.connection.collections['users'].drop(function(err) {
+    User.remove({}).exec(function() {
       agent
         .post('/users')
         .send(user)
@@ -258,8 +264,7 @@ describe('Users API (role: admin)', function() {
           var result = JSON.parse(res.text);
           id = result._id;
           return done();
-        })
-      ;
+        });
     });
   });
 
@@ -280,6 +285,7 @@ describe('Users API (role: admin)', function() {
           var result = JSON.parse(res.text)[0];
           assert.equal(result._id, id);
           assert.equal(result.username, user.username);
+          assert(result.isAuthenticatedWith.local);
           assert(!result.auth);
           return done();
         })
@@ -318,6 +324,7 @@ describe('Users API (role: admin)', function() {
           var result = JSON.parse(res.text);
           assert.equal(result._id, id);
           assert.equal(result.username, user.username);
+          assert(result.isAuthenticatedWith.local);
           assert(!result.auth);
           return done();
         })
@@ -346,6 +353,7 @@ describe('Users API (role: admin)', function() {
           var result = JSON.parse(res.text);
           assert(result._id);
           assert.equal(result.username, 'b');
+          assert(result.isAuthenticatedWith.local);
           assert(!result.auth);
           return done();
         })
@@ -425,6 +433,7 @@ describe('Users API (role: admin)', function() {
           var result = JSON.parse(res.text);
           assert.equal(result._id, id);
           assert.equal(result.username, 'updated');
+          assert(result.isAuthenticatedWith.local);
           assert(!result.auth);
           return done();
         })

@@ -52,6 +52,10 @@ router.post('/', function(req, res) {
     return res.status(400).send('A password is required.');
   }
 
+  // set isAuthenticatedWith
+  req.body.isAuthenticatedWith = {};
+  req.body.isAuthenticatedWith.local = true;
+
   User
     .create(req.body)
     .then(function(user) {
