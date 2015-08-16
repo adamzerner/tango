@@ -1,6 +1,7 @@
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var mongoose = require('mongoose');
 var userSchema = require('./api/users/user.schema.js');
 var User = mongoose.model('User', userSchema);
@@ -78,7 +79,7 @@ module.exports = function(passport) {
       });
     });
   }));
-  
+
   // TWITTER
   passport.use(new TwitterStrategy({
     consumerKey: config.twitterAuth.consumerKey,
@@ -100,16 +101,46 @@ module.exports = function(passport) {
           newUser.isAuthenticatedWith.twitter = true;
           newUser.auth = {};
           newUser.auth.twitterToken = token;
+          newUser.save(function(err) {
+            if (err) {
+              throw err;
+            }
+            return done(null, newUser);
+          });
         }
-        newUser.save(function(err) {
-          if (err) {
-            throw err;
-          }
-          return done(null, newUser);
-        });
       });
     });
   }));
 
   // GOOGLE
+  passport.use(new GoogleStrategy({
+    clientID: config.googleAuth.clientID,
+    clientSecret: config.googleAuth.clientSecret,
+    callbackURL: config.googleAuth.callbackURL
+  }, function(token, refreshToken, profile, done) {
+    process.nextTick(function() {
+      User.findOne({ 'auth.googleToken': token }, function(err, user) {
+        if (err) {
+          return done(err);
+        }
+        if (user) {
+          return done(null, user);
+        }
+        else {
+          var newUser = new User();
+          newUser.username = Math.random().toString();
+          newUser.isAuthenticatedWith = {};
+          newUser.isAuthenticatedWith.google = true;
+          newUser.auth = {};
+          newUser.auth.googleToken = token;
+          newUser.save(function(err) {
+            if (err) {
+              throw err;
+            }
+            return done(null, newUser);
+          });
+        }
+      })
+    });
+  }))
 }
