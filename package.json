@@ -21,6 +21,7 @@
     "mongoose-unique-validator": "^0.4.1",
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.3",
     "path": "^0.11.14",
     "serve-favicon": "^2.3.0"
   },
