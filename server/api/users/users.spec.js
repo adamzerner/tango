@@ -2,6 +2,8 @@ var mongoose = require('mongoose');
 var assert = require('assert');
 var request = require('supertest');
 var app = require('../../app.js');
+var userSchema = require('./user.schema.js');
+var User = mongoose.model('User', userSchema);
 var agent = request.agent(app);
 var invalidId = 'aaaaaaaaaaaaaaaaaaaaaaaa';
 
@@ -9,11 +11,14 @@ describe('Users API (role: user)', function() {
   var id, user1, user2;
 
   user1 = { username: 'a', password: 'password' }; // logged in
-  user2 = { username: 'b', hashedPassword: 'fkjldsafsdafkasdkjfadjksf' };
+  user2 = {
+    username: 'b',
+    auth: { hashedPassword: 'fkjldsafsdafkasdkjfadjksf' }
+  };
 
   beforeEach(function(done) {
-    mongoose.connection.collections['users'].drop(function(err) {
-      mongoose.connection.collections['users'].insert(user2, function(err) {
+    User.remove({}).exec(function() {
+      User.create(user2, function() {
         agent
           .post('/users')
           .send(user1)
@@ -47,10 +52,10 @@ describe('Users API (role: user)', function() {
           var users = JSON.parse(res.text);
           assert.equal(users.length, 2);
           assert.equal(users[0].username, user2.username);
-          assert(!users[0].hashedPassword);
+          assert(!users[0].auth);
           assert.equal(users[1]._id, id);
           assert.equal(users[1].username, user1.username);
-          assert(!users[1].hashedPassword);
+          assert(!users[1].auth);
           return done();
         })
       ;
@@ -88,7 +93,7 @@ describe('Users API (role: user)', function() {
           var result = JSON.parse(res.text);
           assert.equal(result._id, id);
           assert.equal(result.username, user1.username);
-          assert(!result.hashedPassword);
+          assert(!result.auth);
           return done();
         })
       ;
@@ -116,7 +121,7 @@ describe('Users API (role: user)', function() {
           var result = JSON.parse(res.text);
           assert(result._id);
           assert.equal(result.username, 'c');
-          assert(!result.hashedPassword);
+          assert(!result.auth);
           return done();
         })
       ;
@@ -195,7 +200,7 @@ describe('Users API (role: user)', function() {
           var result = JSON.parse(res.text);
           assert.equal(result._id, id);
           assert.equal(result.username, 'updated');
-          assert(!result.hashedPassword);
+          assert(!result.auth);
           return done();
         })
       ;
@@ -275,7 +280,7 @@ describe('Users API (role: admin)', function() {
           var result = JSON.parse(res.text)[0];
           assert.equal(result._id, id);
           assert.equal(result.username, user.username);
-          assert(!result.hashedPassword);
+          assert(!result.auth);
           return done();
         })
       ;
@@ -313,7 +318,7 @@ describe('Users API (role: admin)', function() {
           var result = JSON.parse(res.text);
           assert.equal(result._id, id);
           assert.equal(result.username, user.username);
-          assert(!result.hashedPassword);
+          assert(!result.auth);
           return done();
         })
       ;
@@ -341,7 +346,7 @@ describe('Users API (role: admin)', function() {
           var result = JSON.parse(res.text);
           assert(result._id);
           assert.equal(result.username, 'b');
-          assert(!result.hashedPassword);
+          assert(!result.auth);
           return done();
         })
       ;
@@ -420,7 +425,7 @@ describe('Users API (role: admin)', function() {
           var result = JSON.parse(res.text);
           assert.equal(result._id, id);
           assert.equal(result.username, 'updated');
-          assert(!result.hashedPassword);
+          assert(!result.auth);
           return done();
         })
       ;

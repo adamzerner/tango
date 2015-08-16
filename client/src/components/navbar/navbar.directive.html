@@ -16,9 +16,11 @@
 
     <!-- right side: logged in -->
     <ul class='nav navbar-nav navbar-right' ng-show='vm.currentUser._id'>
+      <!-- local -->
       <li ng-if="vm.currentUser.role === 'admin'"><a ui-sref='admin'>Admin</a></li>
-      <li><a ui-sref='profile({ id: vm.currentUser._id })'>{{ vm.currentUser.username }}</a></li>
-      <li><a ui-sref='settings({ id: vm.currentUser._id })'><span class='glyphicon glyphicon-cog'></span></a></li>
+      <li ng-if='vm.currentUser.isAuthenticatedWith.local'><a ui-sref='profile({ id: vm.currentUser._id })'>{{ vm.currentUser.username }}</a></li>
+      <li ng-if='vm.currentUser.isAuthenticatedWith.local'><a ui-sref='settings({ id: vm.currentUser._id })'><span class='glyphicon glyphicon-cog'></span></a></li>
+      <!-- any -->
       <li><a ng-click='vm.logout()'>Log Out</a></li>
     </ul>
   </div>

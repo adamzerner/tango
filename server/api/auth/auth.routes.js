@@ -3,9 +3,10 @@ var passport = require('passport');
 var Auth = require('./auth.service.js');
 var router = express.Router();
 
+// LOCAL
 router.post('/login', passport.authenticate('local'), function(req, res) {
   var userCopy = JSON.parse(JSON.stringify(req.user));
-  delete userCopy.hashedPassword;
+  delete userCopy.auth;
   res.status(200).json(userCopy);
 });
 
@@ -17,5 +18,15 @@ router.get('/logout', Auth.isLoggedIn, function(req, res) {
 router.get('/current-user', Auth.isLoggedIn, function(req, res) {
   res.status(200).json(req.user);
 });
+
+// FACEBOOK
+router.get('/auth/facebook', passport.authenticate('facebook'));
+
+router.get('/auth/facebook/callback',
+  passport.authenticate('facebook', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+  })
+);
 
 module.exports = router;

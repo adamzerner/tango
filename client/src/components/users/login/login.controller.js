@@ -3,7 +3,7 @@ angular
   .controller('LoginController', LoginController)
 ;
 
-function LoginController(Auth) {
+function LoginController(Auth, $window) {
   var vm = this;
   vm.invalidSubmitAttempted = false;
   vm.invalidCredentials = false;
@@ -25,4 +25,16 @@ function LoginController(Auth) {
   vm.closeAlert = function() {
     vm.invalidCredentials = false;
   };
+
+  // SSO
+  vm.facebook = function() {
+    $window.location.href = '/auth/facebook';
+  };
+  vm.twitter = function() {
+    $window.location.href = '/auth/twitter';
+  };
+  vm.google = function() {
+    $window.location.href = '/auth/google';
+  };
+
 }

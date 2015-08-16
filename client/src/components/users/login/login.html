@@ -1,44 +1,60 @@
-<div class='page-header'>
-  <h1>Log In</h1>
+<div class='row'>
+  <div class='col-md-5'>
+
+    <alert type='danger' ng-show='vm.invalidCredentials' close='vm.closeAlert()'>
+      Invalid username/password.
+    </alert>
+
+    <div class='page-header'>
+      <h1>Local Log In</h1>
+    </div>
+
+    <form name='loginForm' ng-submit='vm.submit(loginForm.$valid)' novalidate>
+      <!-- USERNAME -->
+      <div class='form-group'>
+        <label>Username</label>
+        <input
+          name='username'
+          type='text'
+          class='form-control'
+          ng-model='vm.user.username'
+          required>
+        <div ng-messages='loginForm.username.$error' ng-show='vm.invalidSubmitAttempted'>
+          <p ng-message='required' class='text-warning'>A username is required.</p>
+        </div>
+      </div>
+
+      <!-- PASSWORD -->
+      <div class='form-group'>
+        <label>Password</label>
+        <input
+          name='password'
+          type='password'
+          class='form-control'
+          ng-model='vm.user.password'
+          required>
+        <div ng-messages='loginForm.password.$error' ng-show='vm.invalidSubmitAttempted'>
+          <p ng-message='required' class='text-warning'>A password is required.</p>
+        </div>
+      </div>
+
+      <!-- SUBMIT BUTTON -->
+      <button
+        type='submit'
+        class='btn btn-default'>
+        Log In
+      </button>
+    </form>
+
+  </div>
+  <div class='col-md-6 col-md-offset-1'>
+    <div class='page-header'>
+      <h1>SSO</h1>
+    </div>
+
+    <p>Log in or register with:</p>
+    <a ng-click='vm.facebook()' class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
+    <a ng-click='vm.twitter()' class="btn btn-info"><span class="fa fa-twitter"></span> Twitter</a>
+    <a ng-click='vm.google()' class="btn btn-danger"><span class="fa fa-google"></span> Google</a>
+  </div>
 </div>
-
-<alert type='danger' ng-show='vm.invalidCredentials' close='vm.closeAlert()'>
-  Invalid username/password.
-</alert>
-
-<form name='loginForm' ng-submit='vm.submit(loginForm.$valid)' novalidate>
-  <!-- USERNAME -->
-  <div class='form-group'>
-    <label>Username</label>
-    <input
-      name='username'
-      type='text'
-      class='form-control'
-      ng-model='vm.user.username'
-      required>
-    <div ng-messages='loginForm.username.$error' ng-show='vm.invalidSubmitAttempted'>
-      <p ng-message='required' class='text-warning'>A username is required.</p>
-    </div>
-  </div>
-
-  <!-- PASSWORD -->
-  <div class='form-group'>
-    <label>Password</label>
-    <input
-      name='password'
-      type='password'
-      class='form-control'
-      ng-model='vm.user.password'
-      required>
-    <div ng-messages='loginForm.password.$error' ng-show='vm.invalidSubmitAttempted'>
-      <p ng-message='required' class='text-warning'>A password is required.</p>
-    </div>
-  </div>
-
-  <!-- SUBMIT BUTTON -->
-  <button
-    type='submit'
-    class='btn btn-default'>
-    Log In
-  </button>
-</form>

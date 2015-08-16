@@ -3,7 +3,7 @@ angular
   .controller('SignupController', SignupController)
 ;
 
-function SignupController(Auth) {
+function SignupController(Auth, $window) {
   var vm = this;
   vm.invalidSubmitAttempted = false;
   vm.usernameExists = false;
@@ -27,5 +27,16 @@ function SignupController(Auth) {
   };
   vm.closeAlert = function() {
     vm.usernameExists = false;
+  };
+
+  // SSO
+  vm.facebook = function() {
+    $window.location.href = '/auth/facebook';
+  };
+  vm.twitter = function() {
+    $window.location.href = '/auth/twitter';
+  };
+  vm.google = function() {
+    $window.location.href = '/auth/google';
   };
 }
