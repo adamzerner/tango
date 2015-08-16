@@ -2,6 +2,7 @@
 Boilerplate code for Users and authentication to get you started.
 - CRUD for Users.
 - Signup and Login forms with validation.
+- SSO (largely based off of [this tutorial](https://scotch.io/courses/easy-node-authentication))
 - Front and back end authorization.
 - Admin panel.
 - Tests.
