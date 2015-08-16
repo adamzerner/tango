@@ -63,6 +63,8 @@ module.exports = function(passport) {
           // if there is no user found with that facebook id, create them
           var newUser = new User();
           newUser.username = Math.random().toString(); // TODO make username and role required only when using the local strategy
+          newUser.isAuthenticatedWith = {};
+          newUser.isAuthenticatedWith.facebook = true;
           newUser.auth = {};
           newUser.auth.facebookToken = token; // we will save the token that facebook provides to the user
           newUser.save(function(err) {
