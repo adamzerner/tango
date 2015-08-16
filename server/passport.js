@@ -1,5 +1,6 @@
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
+var TwitterStrategy = require('passport-twitter').Strategy;
 var mongoose = require('mongoose');
 var userSchema = require('./api/users/user.schema.js');
 var User = mongoose.model('User', userSchema);
@@ -77,4 +78,38 @@ module.exports = function(passport) {
       });
     });
   }));
+  
+  // TWITTER
+  passport.use(new TwitterStrategy({
+    consumerKey: config.twitterAuth.consumerKey,
+    consumerSecret: config.twitterAuth.consumerSecret,
+    callbackURL: config.twitterAuth.callbackURL
+  }, function(token, tokenSecret, profile, done) {
+    process.nextTick(function() {
+      User.findOne({ 'auth.twitterToken': token }, function(err, user) {
+        if (err) {
+          return done(err);
+        }
+        if (user) {
+          return done(null, user);
+        }
+        else {
+          var newUser = new User();
+          newUser.username = Math.random().toString(); // TODO make username and role required only when using the local strategy
+          newUser.isAuthenticatedWith = {};
+          newUser.isAuthenticatedWith.twitter = true;
+          newUser.auth = {};
+          newUser.auth.twitterToken = token;
+        }
+        newUser.save(function(err) {
+          if (err) {
+            throw err;
+          }
+          return done(null, newUser);
+        });
+      });
+    });
+  }));
+
+  // GOOGLE
 }
