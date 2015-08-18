@@ -5,7 +5,6 @@ var userSchema = require('./user.schema.js');
 var User = mongoose.model('User', userSchema);
 var Auth = require('../auth/auth.service.js');
 var bcrypt = require('bcrypt');
-var _ = require('lodash');
 
 function forwardError(res) {
   return function errorForwarder(err) {
@@ -69,7 +68,7 @@ router.post('/', function(req, res) {
       });
     })
     .then(null, function(err) {
-      var usernameError = !!err.errors.username;
+      var usernameError = !!(err && err.errors && err.errors.username);
       var usernameNotUnique = ~err.errors.username.message.indexOf('unique');
       var usernameNotPresent = ~err.errors.username.message.indexOf('required');
       if (usernameError && usernameNotUnique) {

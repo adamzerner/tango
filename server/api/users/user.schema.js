@@ -16,6 +16,20 @@ var userSchema = mongoose.Schema({
     twitterToken: { type: String, select: false },
     googleToken: { type: String, select: false }
   },
+  // auth: [
+  //   {
+  //     type: 'local',
+  //     data: {
+  //
+  //     }
+  //   },
+  //   {
+  //     type: 'facebook',
+  //     data: {
+  //
+  //     }
+  //   }
+  // ]
 });
 userSchema.plugin(uniqueValidator);
 

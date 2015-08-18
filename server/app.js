@@ -9,23 +9,23 @@ var favicon = require('serve-favicon');
 var bcrypt = require('bcrypt');
 var app = express();
 
-var url;
+var dbUrl;
 var config = require('./config.json');
 var mochaUrl = '/usr/local/lib/node_modules/mocha/bin/_mocha';
 if (process.argv[1] === mochaUrl || process.argv[2] === 'mocha') {
-  url = config.db.test;
+  dbUrl = config.db.test;
 }
 else {
-  url = config.db.dev;
+  dbUrl = config.db.dev;
 }
 
 var envFolder = 'src';
 
-mongoose.connect(url);
+mongoose.connect(dbUrl);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Problem connecting to database.'));
 db.once('open', function onDbConnect() {
-  console.log('Database connection established...');
+  console.log('Connected to ' + dbUrl + ' database...');
   // serving web files
   app.use(express.static('client/lib'));
   app.use(express.static('client/' + envFolder));

@@ -37,7 +37,7 @@ describe('Users API (role: user)', function() {
   });
 
   after(function(done) { // clear database after tests finished
-    mongoose.connection.collections['users'].drop(done);
+    User.remove({}).exec(done);
   });
 
   describe('GET /users', function() {
@@ -64,7 +64,7 @@ describe('Users API (role: user)', function() {
       ;
     });
     it('When empty', function(done) {
-      mongoose.connection.collections['users'].drop(function(err) {
+      User.remove({}).exec(function() {
         agent
           .get('/users')
           .expect('Content-Type', /json/)
@@ -269,7 +269,7 @@ describe('Users API (role: admin)', function() {
   });
 
   after(function(done) {
-    mongoose.connection.collections['users'].drop(done);
+    User.remove({}).exec(done);
   });
 
   describe('GET /users', function() {
@@ -292,7 +292,7 @@ describe('Users API (role: admin)', function() {
       ;
     });
     it('When empty', function(done) {
-      mongoose.connection.collections['users'].drop(function(err) {
+      User.remove({}).exec(function() {
         agent
           .get('/users')
           .expect('Content-Type', /json/)

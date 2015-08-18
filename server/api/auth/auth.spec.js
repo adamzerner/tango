@@ -22,7 +22,7 @@ before(function(done) {
 });
 
   after(function(done) {
-    mongoose.connection.collections['users'].drop(done);
+    User.remove({}).exec(done);
   });
 
   it('Starts off with no one logged in', function(done) {
