@@ -15,11 +15,11 @@ describe('Auth API', function() {
     }
   };
 
-before(function(done) {
-  User.remove({}).exec(function() {
-    User.create(user, done);
+  before(function(done) {
+    User.remove({}).exec(function() {
+      User.create(user, done);
+    });
   });
-});
 
   after(function(done) {
     User.remove({}).exec(done);
