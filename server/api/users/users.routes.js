@@ -1,8 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var router = express.Router();
-var userSchema = require('./user.schema.js');
-var User = mongoose.model('User', userSchema);
+var User = mongoose.model('User');
 var Auth = require('../auth/auth.service.js');
 var bcrypt = require('bcrypt');
 
