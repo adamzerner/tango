@@ -3,8 +3,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var mongoose = require('mongoose');
-var userSchema = require('./api/users/user.schema.js');
-var User = mongoose.model('User', userSchema);
+var User = mongoose.model('User');
 var bcrypt = require('bcrypt');
 var config = require('./config.json');
 
@@ -24,14 +23,14 @@ module.exports = function(passport) {
   // LOCAL
   passport.use(new LocalStrategy(function(username, password, done) {
     User
-      .findOne({ username: username })
-      .select('username auth.hashedPassword')
+      .findOne({ 'local.username': username })
+      .select('local')
       .exec()
       .then(function(user) {
         if (!user) {
           return done(null, false);
         }
-        var validPassword = bcrypt.compareSync(password, user.auth.hashedPassword);
+        var validPassword = bcrypt.compareSync(password, user.local.hashedPassword);
         if (!validPassword) {
           return done(null, false);
         }

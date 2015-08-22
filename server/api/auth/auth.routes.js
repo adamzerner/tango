@@ -5,8 +5,6 @@ var router = express.Router();
 
 // LOCAL
 router.post('/login', passport.authenticate('local'), function(req, res) {
-  var userCopy = JSON.parse(JSON.stringify(req.user));
-  delete userCopy.auth;
   res.status(200).json(userCopy);
 });
 

@@ -2,36 +2,44 @@ var mongoose = require('mongoose');
 var assert = require('assert');
 var request = require('supertest');
 var app = require('../../app.js');
-var userSchema = require('./user.schema.js');
-var User = mongoose.model('User', userSchema);
+var User = mongoose.model('User');
+var Local = mongoose.model('Local');
 var agent = request.agent(app);
 var invalidId = 'aaaaaaaaaaaaaaaaaaaaaaaa';
 
 describe('Users API (role: user)', function() {
   var id, user1, user2;
 
-  user1 = { username: 'a', password: 'password' }; // logged in
-  user2 = {
-    username: 'b',
-    isAuthenticatedWith: { local: true },
-    auth: { hashedPassword: 'fkjldsafsdafkasdkjfadjksf' }
+  user1 = { // request; gets logged in
+    username: 'a',
+    password: 'password'
   };
+  var local2 = new Local({
+    username: 'b',
+    role: 'user',
+    hashedPassword: 'sdfjdkslfssdfkjldsfljs'
+  });
 
   beforeEach(function(done) {
-    User.remove({}).exec(function() {
-      User.create(user2, function() {
-        agent
-          .post('/users')
-          .send(user1)
-          .end(function(err, res) {
-            if (err) {
-              return done(err);
-            }
-            var result = JSON.parse(res.text);
-            id = result._id;
-            return done();
-          })
-        ;
+    Local.remove({}).exec(function() {
+      User.remove({}).exec(function(){
+        Local.create(local2, function(err, createdLocal2) {
+          User.create({ local: createdLocal2 }, function(err, createdUser2) {
+            user2 = createdUser2;
+            agent
+              .post('/users')
+              .send(user1)
+              .end(function(err, res) {
+                if (err) {
+                  return done(err);
+                }
+                var result = JSON.parse(res.text);
+                id = result._id;
+                return done();
+              })
+            ;
+          });
+        });
       });
     });
   });
@@ -52,13 +60,15 @@ describe('Users API (role: user)', function() {
           }
           var users = JSON.parse(res.text);
           assert.equal(users.length, 2);
-          assert.equal(users[0].username, user2.username);
-          assert(users[0].isAuthenticatedWith.local);
-          assert(!users[0].auth);
+          assert(users[0].local);
+          assert.equal(users[0].local.username, user2.local.username);
+          assert.equal(users[0].local.role, user2.local.role);
+          assert(!users[0].local.hashedPassword)
           assert.equal(users[1]._id, id);
-          assert.equal(users[1].username, user1.username);
-          assert(users[1].isAuthenticatedWith.local);
-          assert(!users[1].auth);
+          assert(users[1].local);
+          assert.equal(users[1].local.username, user1.username);
+          assert.equal(users[1].local.role, 'user');
+          assert(!users[1].local.hashedPassword);
           return done();
         })
       ;
@@ -95,9 +105,10 @@ describe('Users API (role: user)', function() {
           }
           var result = JSON.parse(res.text);
           assert.equal(result._id, id);
-          assert.equal(result.username, user1.username);
-          assert(result.isAuthenticatedWith.local);
-          assert(!result.auth);
+          assert(result.local);
+          assert.equal(result.local.username, user1.username);
+          assert.equal(result.local.role, 'user');
+          assert(!result.local.hashedPassword);
           return done();
         })
       ;
@@ -124,9 +135,10 @@ describe('Users API (role: user)', function() {
           }
           var result = JSON.parse(res.text);
           assert(result._id);
-          assert.equal(result.username, 'c');
-          assert(result.isAuthenticatedWith.local);
-          assert(!result.auth);
+          assert(result.local);
+          assert.equal(result.local.username, 'c');
+          assert.equal(result.local.role, 'user');
+          assert(!result.local.hashedPassword);
           return done();
         })
       ;
@@ -183,8 +195,22 @@ describe('Users API (role: user)', function() {
             return done(err);
           }
           var result = JSON.parse(res.text);
-          assert.equal(result.username, 'c');
+          assert.equal(result.local.username, 'c');
           assert(!result.foo);
+          return done();
+        })
+      ;
+    });
+    it("Can't manually set the role", function(done) {
+      agent
+        .post('/users')
+        .send({ username: 'c', password: 'password', role: 'admin' })
+        .expect(403)
+        .end(function(err, res) {
+          if (err) {
+            return done(err);
+          }
+          assert.equal(res.text, "Can't manually set the role of a user.");
           return done();
         })
       ;
@@ -204,9 +230,10 @@ describe('Users API (role: user)', function() {
           }
           var result = JSON.parse(res.text);
           assert.equal(result._id, id);
-          assert.equal(result.username, 'updated');
-          assert(result.isAuthenticatedWith.local);
-          assert(!result.auth);
+          assert(result.local);
+          assert.equal(result.local.username, 'updated');
+          assert.equal(result.local.role, 'user');
+          assert(!result.local.hashedPassword);
           return done();
         })
       ;
@@ -214,8 +241,35 @@ describe('Users API (role: user)', function() {
     it('Authorized: updates password', function(done) {
       agent
         .put('/users/'+id)
-        .send({ username: 'a', password: 'updated' })
-        .expect(201, done)
+        .send({ password: 'updated' })
+        .expect('Content-Type', /json/)
+        .expect(201)
+        .end(function(err, res) {
+          if (err) {
+            return done(err);
+          }
+          var result = JSON.parse(res.text);
+          assert.equal(result._id, id);
+          assert(result.local);
+          assert.equal(result.local.username, user1.username);
+          assert.equal(result.local.role, 'user');
+          assert(!result.local.hashedPassword);
+          return done();
+        })
+      ;
+    });
+    it("Can't update the role", function(done) {
+      agent
+        .put('/users/'+id)
+        .send({ username: 'updated', role: 'admin' })
+        .expect(403)
+        .end(function(err, res) {
+          if (err) {
+            return done(err);
+          }
+          assert.equal(res.text, "Can't manually set the role of a user.");
+          return done();
+        })
       ;
     });
     it('Unauthorized', function(done) {
@@ -244,7 +298,7 @@ describe('Users API (role: user)', function() {
 
 });
 
-describe('Users API (role: admin)', function() {
+xdescribe('Users API (role: admin)', function() {
   var id, user;
 
   user = {
