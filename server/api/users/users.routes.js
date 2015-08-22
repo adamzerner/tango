@@ -59,11 +59,8 @@ router.post('/', function(req, res) {
   Local
     .create(req.body)
     .then(function(local) {
-      var userToCreate = {
-        local: local
-      };
       User
-        .create(userToCreate)
+        .create({ local: local })
         .then(function(user) {
           req.login(user, function(loginErr) {
             if (loginErr) {
@@ -73,8 +70,6 @@ router.post('/', function(req, res) {
             delete userCopy.local.hashedPassword;
             return res.status(201).json(userCopy);
           });
-        })
-        .then(null, function(err) {
         })
       ;
     })
@@ -119,10 +114,10 @@ router.put('/:id', Auth.isAuthorized, function(req, res) {
           user.local = updatedLocal;
           return res.status(201).json(user);
         })
-        .then(null, function(err) {
-          console.log('problem updating local: ', err);
-        })
       ;
+    })
+    .then(null, function(err) {
+      return res.status(404).end();
     })
   ;
 });

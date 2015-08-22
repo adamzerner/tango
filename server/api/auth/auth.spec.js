@@ -2,16 +2,16 @@ var mongoose = require('mongoose');
 var assert = require('assert');
 var request = require('supertest');
 var app = require('../../app.js');
-var User = mongoose.model('User');
-var Local = mongoose.model('Local');
+try {
+  var User = mongoose.model('User');
+  var Local = mongoose.model('Local');
+}
+catch(e) { // :( https://github.com/Automattic/mongoose/issues/1251
+  var schemas = require('../users/user.model.js');
+  var User = mongoose.model('User', schemas.UserSchema);
+  var Local = mongoose.model('Local', schemas.LocalSchema);
+}
 var agent = request.agent(app);
-// try {
-// }
-// catch(e) { // :( https://github.com/Automattic/mongoose/issues/1251
-//   var schemas = require('../users/user.model.js');
-//   var User = mongoose.model('User', schemas.UserSchema);
-//   var Local = mongoose.model('Local', schemas.LocalSchema);
-// }
 
 describe('Auth API', function() {
   var local = {
@@ -20,15 +20,18 @@ describe('Auth API', function() {
     hashedPassword: '$2a$08$7uGRhAW9gbbSCRLb4u/Sou07Zj0PMHwJKNg3NVgRYJVeo/8HE2J8m'
     // password: 'test'
   };
-  var user = { local: local };
+  var user;
 
   before(function(done) {
     Local.remove({}).exec(function() {
       User.remove({}).exec(function() {
-        Local.create(local, function(createdLocal) {
-          User.create({ local: createdLocal }, done);
+        Local.create(local, function(err, createdLocal) {
+          User.create({ local: createdLocal }, function(err, createdUser) {
+            user = createdUser;
+            done();
+          });
         });
-      })
+      });
     });
   });
 

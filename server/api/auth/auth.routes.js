@@ -1,11 +1,18 @@
+var mongoose = require('mongoose');
 var express = require('express');
 var passport = require('passport');
 var Auth = require('./auth.service.js');
+try {
+  var User = mongoose.model('User');
+}
+catch(e) {
+  var User = mongoose.model('User', require('../users/user.model.js').UserSchema);
+}
 var router = express.Router();
 
 // LOCAL
 router.post('/login', passport.authenticate('local'), function(req, res) {
-  res.status(200).json(userCopy);
+  res.status(200).json(req.user);
 });
 
 router.get('/logout', Auth.isLoggedIn, function(req, res) {

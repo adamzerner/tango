@@ -1,5 +1,3 @@
-console.log('top of user.model.js');
-
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var uniqueValidator = require('mongoose-unique-validator');
@@ -23,7 +21,7 @@ var localSchema = new Schema({
   role: {
     type: String,
     required: true,
-    enum: ['user', 'auth']
+    enum: ['user', 'admin']
   },
   hashedPassword: {
     type: String,
@@ -53,9 +51,6 @@ var Local = mongoose.model('Local', localSchema);
 var Facebook = mongoose.model('Facebook', facebookSchema);
 var Twitter = mongoose.model('Twitter', twitterSchema);
 var Google = mongoose.model('Google', googleSchema);
-
-console.log('bottom of user.model.js');
-// console.log('Created User model: ', User);
 
 exports.UserSchema = userSchema;
 exports.LocalSchema = localSchema;
