@@ -1,23 +1,37 @@
 var mongoose = require('mongoose');
 var assert = require('assert');
 var request = require('supertest');
-var userSchema = require('../users/user.schema.js');
-var User = mongoose.model('User', userSchema);
 var app = require('../../app.js');
+try {
+  var User = mongoose.model('User');
+  var Local = mongoose.model('Local');
+}
+catch(e) { // :( https://github.com/Automattic/mongoose/issues/1251
+  var schemas = require('../users/user.model.js');
+  var User = mongoose.model('User', schemas.UserSchema);
+  var Local = mongoose.model('Local', schemas.LocalSchema);
+}
 var agent = request.agent(app);
 
 describe('Auth API', function() {
-  var user = {
+  var local = {
     username: 'a',
-    auth: {
-      hashedPassword: '$2a$08$7uGRhAW9gbbSCRLb4u/Sou07Zj0PMHwJKNg3NVgRYJVeo/8HE2J8m'
-      // password: 'test'
-    }
+    role: 'user',
+    hashedPassword: '$2a$08$7uGRhAW9gbbSCRLb4u/Sou07Zj0PMHwJKNg3NVgRYJVeo/8HE2J8m'
+    // password: 'test'
   };
+  var user;
 
   before(function(done) {
-    User.remove({}).exec(function() {
-      User.create(user, done);
+    Local.remove({}).exec(function() {
+      User.remove({}).exec(function() {
+        Local.create(local, function(err, createdLocal) {
+          User.create({ local: createdLocal }, function(err, createdUser) {
+            user = createdUser;
+            done();
+          });
+        });
+      });
     });
   });
 
@@ -55,8 +69,11 @@ describe('Auth API', function() {
           return done(err);
         }
         var result = JSON.parse(res.text);
-        assert.equal(result.username, user.username);
-        assert(!result.auth);
+        assert(result._id);
+        assert(result.local);
+        assert.equal(result.local.username, user.local.username);
+        assert.equal(result.local.role, user.local.role);
+        assert(!result.local.hashedPassword);
         return done();
       })
     ;
@@ -70,8 +87,11 @@ describe('Auth API', function() {
           return done(err);
         }
         var result = JSON.parse(res.text);
-        assert.equal(result.username, user.username);
-        assert(!result.auth);
+        assert(result._id);
+        assert(result.local);
+        assert.equal(result.local.username, user.local.username);
+        assert.equal(result.local.role, user.local.role);
+        assert(!result.local.hashedPassword);
         return done();
       })
     ;

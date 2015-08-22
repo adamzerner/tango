@@ -26,6 +26,9 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Problem connecting to database.'));
 db.once('open', function onDbConnect() {
   console.log('Connected to ' + dbUrl + ' database...');
+  // create models
+  require('./api/users/user.model.js');
+
   // serving web files
   app.use(express.static('client/lib'));
   app.use(express.static('client/' + envFolder));
