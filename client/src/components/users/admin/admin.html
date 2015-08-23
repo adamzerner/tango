@@ -13,7 +13,7 @@
   </thead>
   <tbody>
     <tr ng-repeat='user in vm.users'>
-      <td>{{ user.username }}</td>
+      <td>{{ user.local.username }}</td>
       <td><a ui-sref='profile({ id: user._id })'>Profile</a></td>
       <td><a ui-sref='settings({ id: user._id })'>Settings</a></td>
       <td><a ng-click='vm.delete(user._id)'><span class='glyphicon glyphicon-trash'></span></a></td>

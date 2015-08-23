@@ -18,9 +18,9 @@ function ChangePasswordController($stateParams, User) {
   vm.invalidSubmitAttempted = false;
   vm.submit = function(isValid) {
     if (isValid) {
-      delete vm.user.passwordConfirmation;
+      delete vm.user.local.passwordConfirmation;
       User
-        .update(vm.user._id, vm.user)
+        .update(vm.user._id, vm.user.local)
         .catch(function() {
           console.log('Error updated password.');
         })

@@ -3,13 +3,13 @@ angular
   .factory('Auth', Auth)
 ;
 
-function Auth($http, $state, $window, $cookies, $q, Session) {
+function Auth($http, $state, $window, $cookies, $q, Session, $rootScope) {
   return {
     signup: function(user) {
       return $http
         .post('/users', user)
         .then(function(response) {
-          Session.setUser(response.data);
+          $rootScope.user = response.data;
           $cookies.put('userId', response.data._id);
           // $window.location.href = '/';
         })
@@ -19,7 +19,7 @@ function Auth($http, $state, $window, $cookies, $q, Session) {
       return $http
         .post('/login', user)
         .then(function(response) {
-          Session.setUser(response.data);
+          $rootScope.user = response.data;
           $cookies.put('userId', response.data._id);
           // $window.location.href = '/';
         })
@@ -29,7 +29,7 @@ function Auth($http, $state, $window, $cookies, $q, Session) {
       $http
         .get('/logout')
         .then(function() {
-          Session.removeUser();
+          $rootScope.user = {};
           $cookies.remove('userId');
           // $window.location.href = '/';
         })
@@ -40,14 +40,14 @@ function Auth($http, $state, $window, $cookies, $q, Session) {
     },
     getCurrentUser: function() {
       // user is logged in
-      if (Session.user) {
-        return $q.when(Session.user);
+      if ($rootScope.user) {
+        return $q.when($rootScope.user);
       }
       // user is logged in, but page has been refreshed and Session.user is lost
       if ($cookies.get('userId')) {
         return $http.get('/current-user')
           .then(function(response) {
-            Session.setUser(response.data);
+            $rootScope.user = response.data;
             return response.data;
           })
         ;

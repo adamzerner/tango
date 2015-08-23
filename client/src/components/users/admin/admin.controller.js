@@ -3,7 +3,7 @@ angular
   .controller('AdminController', AdminController)
 ;
 
-function AdminController(User, Auth, $state) {
+function AdminController(User, Auth, $state, $rootScope) {
   var vm = this;
   User
     .list()
@@ -19,17 +19,12 @@ function AdminController(User, Auth, $state) {
     User
       .delete(id)
       .then(function() {
-        Auth
-          .getCurrentUser()
-          .then(function(currentUser) {
-            if (currentUser._id === id) { // deleting yourself
-              Auth.logout();
-            }
-            else {
-              $state.reload();
-            }
-          })
-        ;
+        if ($rootScope.user._id === id) { // deleting yourself
+          Auth.logout();
+        }
+        else {
+          $state.reload();
+        }
       })
       .catch(function() {
         console.log('Problem deleting user.');

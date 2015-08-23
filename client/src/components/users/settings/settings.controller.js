@@ -3,7 +3,7 @@ angular
   .controller('SettingsController', SettingsController)
 ;
 
-function SettingsController($stateParams, $window, User, Auth) {
+function SettingsController($stateParams, $state, User, Auth) {
   var vm = this;
   User
     .get($stateParams.id)
@@ -19,9 +19,9 @@ function SettingsController($stateParams, $window, User, Auth) {
   vm.submit = function(isValid) {
     if (isValid) {
       User
-        .update(vm.user._id, vm.user)
+        .update(vm.user._id, vm.user.local)
         .then(function(response) {
-          $window.location.href = '/profile/' + vm.user._id; // $state doesn't update the navbar
+          $state.go('profile', { id: vm.user._id });
         })
         .catch(function() {
           console.log('Problem updating the user.');
