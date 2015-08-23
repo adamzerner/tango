@@ -21,6 +21,7 @@ function run($rootScope, Auth, $state) {
     Auth
       .getCurrentUser()
       .then(function (currentUser) {
+        console.log(currentUser);
         var isLoggedIn = !!currentUser._id;
         var isAdmin = isLoggedIn && currentUser.local.role === 'admin';
         var isAuthorized = isLoggedIn && currentUser._id.toString() === toParams.id;

@@ -3,7 +3,7 @@ angular
   .controller('AdminController', AdminController)
 ;
 
-function AdminController(User, Auth, $state, $rootScope) {
+function AdminController(User, Auth, $state, $rootScope, $cookies) {
   var vm = this;
   User
     .list()
@@ -20,7 +20,9 @@ function AdminController(User, Auth, $state, $rootScope) {
       .delete(id)
       .then(function() {
         if ($rootScope.user._id === id) { // deleting yourself
-          Auth.logout();
+          angular.copy({}, $rootScope.user);
+          $cookies.remove('userId');
+          $state.go('home');
         }
         else {
           $state.reload();

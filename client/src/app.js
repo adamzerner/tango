@@ -9,11 +9,13 @@ function config($locationProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/');
 }
 
-function run($http, Session, $cookies, $rootScope) {
+function run($http, $cookies, $rootScope) {
+  $rootScope.user = {};
+
   $http
     .get('/current-user')
     .then(function(response) {
-      $rootScope.user = response.data;
+      angular.copy(response.data, $rootScope.user);
       $cookies.put('userId', response.data._id);
     })
   ;

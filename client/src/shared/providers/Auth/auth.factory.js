@@ -3,15 +3,15 @@ angular
   .factory('Auth', Auth)
 ;
 
-function Auth($http, $state, $window, $cookies, $q, Session, $rootScope) {
+function Auth($http, $state, $window, $cookies, $q, $rootScope) {
   return {
     signup: function(user) {
       return $http
         .post('/users', user)
         .then(function(response) {
-          $rootScope.user = response.data;
+          angular.copy(response.data, $rootScope.user);
           $cookies.put('userId', response.data._id);
-          // $window.location.href = '/';
+          $state.go('home');
         })
       ;
     },
@@ -19,9 +19,9 @@ function Auth($http, $state, $window, $cookies, $q, Session, $rootScope) {
       return $http
         .post('/login', user)
         .then(function(response) {
-          $rootScope.user = response.data;
+          angular.copy(response.data, $rootScope.user);
           $cookies.put('userId', response.data._id);
-          // $window.location.href = '/';
+          $state.go('home');
         })
       ;
     },
@@ -29,9 +29,9 @@ function Auth($http, $state, $window, $cookies, $q, Session, $rootScope) {
       $http
         .get('/logout')
         .then(function() {
-          $rootScope.user = {};
+          angular.copy({}, $rootScope.user);
           $cookies.remove('userId');
-          // $window.location.href = '/';
+          $state.go('home');
         })
         .catch(function() {
           console.log('Problem logging out.');
@@ -40,15 +40,15 @@ function Auth($http, $state, $window, $cookies, $q, Session, $rootScope) {
     },
     getCurrentUser: function() {
       // user is logged in
-      if ($rootScope.user) {
+      if (Object.keys($rootScope.user).length > 0) {
         return $q.when($rootScope.user);
       }
-      // user is logged in, but page has been refreshed and Session.user is lost
+      // user is logged in, but page has been refreshed and $rootScope.user is lost
       if ($cookies.get('userId')) {
         return $http.get('/current-user')
           .then(function(response) {
-            $rootScope.user = response.data;
-            return response.data;
+            angular.copy(response.data, $rootScope.user);
+            return $rootScope.user;
           })
         ;
       }

@@ -12,9 +12,14 @@ function navbar() {
   };
 }
 
-function NavbarController(Auth, $rootScope) {
+function NavbarController(Auth) {
   var vm = this;
-  vm.currentUser = $rootScope.user;
+  Auth
+    .getCurrentUser()
+    .then(function(currentUser) {
+      vm.currentUser = currentUser;
+    })
+  ;
   vm.logout = function() {
     Auth.logout();
   };

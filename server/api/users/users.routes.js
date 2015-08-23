@@ -17,7 +17,7 @@ router.get('/', function(req, res) {
     .find({}).populate('local').exec()
     .then(function(users) {
       res.status(200).json(users);
-    }, forwardError)
+    }, forwardError(res))
   ;
 });
 
@@ -29,7 +29,7 @@ router.get('/:id', function(req, res) {
         return res.status(404).end();
       }
       return res.status(200).json(user);
-    }, forwardError)
+    }, forwardError(res))
   ;
 });
 
@@ -70,7 +70,7 @@ router.post('/', function(req, res) {
             delete userCopy.local.hashedPassword;
             return res.status(201).json(userCopy);
           });
-        })
+        }, forwardError(res))
       ;
     })
     .then(null, function(err) {
@@ -113,7 +113,7 @@ router.put('/:id', Auth.isAuthorized, function(req, res) {
           }
           user.local = updatedLocal;
           return res.status(201).json(user);
-        })
+        }, forwardError(res))
       ;
     })
     .then(null, function(err) {
@@ -129,11 +129,16 @@ router.delete('/:id', Auth.isAuthorized, function(req, res) {
       if (!user) {
         return res.status(404).end();
       }
-      if (req.user._id.toString() === req.params.id) {
-        req.logout();
-      }
-      return res.status(204).end();
-    }, forwardError)
+      Local
+        .findByIdAndRemove(user.local).exec()
+        .then(function() {
+          if (req.user._id.toString() === req.params.id) {
+            req.logout();
+          }
+          return res.status(204).end();
+        }, forwardError(res))
+      ;
+    }, forwardError(res))
   ;
 });
 
