@@ -41,10 +41,12 @@ function Auth($http, $state, $window, $cookies, $q, $rootScope) {
     getCurrentUser: function() {
       // user is logged in
       if (Object.keys($rootScope.user).length > 0) {
+        console.log(1);
         return $q.when($rootScope.user);
       }
       // user is logged in, but page has been refreshed and $rootScope.user is lost
       if ($cookies.get('userId')) {
+        console.log(2);
         return $http.get('/current-user')
           .then(function(response) {
             angular.copy(response.data, $rootScope.user);
@@ -54,6 +56,7 @@ function Auth($http, $state, $window, $cookies, $q, $rootScope) {
       }
       // user isn't logged in
       else  {
+        console.log(3);
         return $q.when({});
       }
     }
