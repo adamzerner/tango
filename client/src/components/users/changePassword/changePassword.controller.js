@@ -3,7 +3,7 @@ angular
   .controller('ChangePasswordController', ChangePasswordController)
 ;
 
-function ChangePasswordController($stateParams, User) {
+function ChangePasswordController($stateParams, User, $rootScope, $state) {
   var vm = this;
   User
     .get($stateParams.id)
@@ -18,9 +18,14 @@ function ChangePasswordController($stateParams, User) {
   vm.invalidSubmitAttempted = false;
   vm.submit = function(isValid) {
     if (isValid) {
-      delete vm.user.passwordConfirmation;
+      delete vm.user.local.passwordConfirmation;
+      delete vm.user.local.role;
       User
-        .update(vm.user._id, vm.user)
+        .update(vm.user._id, vm.user.local)
+        .then(function(response) {
+          angular.copy(response.data, $rootScope.user);
+          $state.go('profile', { id: vm.user._id });
+        })
         .catch(function() {
           console.log('Error updated password.');
         })

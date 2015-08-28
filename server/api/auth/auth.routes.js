@@ -36,6 +36,10 @@ router.get('/auth/facebook/callback',
 // TWITTER
 router.get('/auth/twitter', passport.authenticate('twitter'));
 router.get('/auth/twitter/callback',
+  function(req, res, next) {
+    debugger;
+    next();
+  },
   passport.authenticate('twitter', {
     successRedirect: '/',
     failureRedirect: '/login'

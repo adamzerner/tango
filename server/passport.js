@@ -61,24 +61,31 @@ module.exports = function(passport) {
     // asynchronous
     process.nextTick(function() {
       Facebook
-        .findOne({ token: token })
+        .findOne({ id: profile.id })
         .select('id token')
         .exec()
         .then(function(facebook) {
           if (facebook) {
-            return done(null, facebook);
+            User
+              .findOne({ facebook: facebook._id }).exec()
+              .then(function(user) {
+                return done(null, user);
+              })
+            ;
           }
-          Facebook
-            .create({ id: profile.id, token: token })
-            .then(function(createdFacebook) {
-              User
-                .create({ facebook: createdFacebook })
-                .then(function(user) {
-                  return done(null, user);
-                })
-              ;
-            })
-          ;
+          else {
+            Facebook
+              .create({ id: profile.id, token: token })
+              .then(function(createdFacebook) {
+                User
+                  .create({ facebook: createdFacebook })
+                  .then(function(user) {
+                    return done(null, user);
+                  })
+                ;
+              })
+            ;
+          }
         })
         .then(function(err) {
           return done(err);
@@ -93,28 +100,41 @@ module.exports = function(passport) {
     consumerSecret: config.twitterAuth.consumerSecret,
     callbackURL: config.twitterAuth.callbackURL
   }, function(token, tokenSecret, profile, done) {
+    debugger;
+    console.log('Outside of process.nextTick');
     process.nextTick(function() {
+      console.log('Inside of process.nextTick');
       Twitter
-        .findOne({ token: token })
+        .findOne({ id: profile.id })
         .select('id token')
         .exec()
         .then(function(twitter) {
           if (twitter) {
-            return done(null, twitter);
+            User
+              .findOne({ twitter: twitter._id }).exec()
+              .then(function(user) {
+                console.log('~~~ ERROR ~~~');
+                return done(null, user);
+              })
+            ;
           }
-          Twitter
-            .create({ id: profile.id, token: token })
-            .then(function(createdTwitter) {
-              User
-                .create({ twitter: createdTwitter })
-                .then(function(user) {
-                  return done(null, user);
-                })
-              ;
-            })
-          ;
+          else {
+            Twitter
+              .create({ id: profile.id, token: token })
+              .then(function(createdTwitter) {
+                User
+                  .create({ twitter: createdTwitter })
+                  .then(function(user) {
+                    console.log('~~~ ERROR 2 ~~~');
+                    return done(null, user);
+                  })
+                ;
+              })
+            ;
+          }
         })
         .then(null, function(err) {
+          console.log('~~~ ERROR 3 ~~~');
           return done(err);
         })
       ;
@@ -129,24 +149,31 @@ module.exports = function(passport) {
   }, function(token, refreshToken, profile, done) {
     process.nextTick(function() {
       Google
-        .findOne({ token: token })
+        .findOne({ id: profile.id })
         .select('id token')
         .exec()
         .then(function(google) {
           if (google) {
-            return done(null, google);
+            User
+              .findOne({ google: google._id }).exec()
+              .then(function(user) {
+                return done(null, user);
+              })
+            ;
           }
-          Google
-            .create({ id: profile.id, token: token })
-            .then(function(createdGoogle) {
-              User
-                .create({ google: createdGoogle })
-                .then(function(user) {
-                  return done(null, user);
-                })
-              ;
-            })
-          ;
+          else {
+            Google
+              .create({ id: profile.id, token: token })
+              .then(function(createdGoogle) {
+                User
+                  .create({ google: createdGoogle })
+                  .then(function(user) {
+                    return done(null, user);
+                  })
+                ;
+              })
+            ;
+          }
         })
         .then(null, function(err) {
           return done(err);

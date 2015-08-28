@@ -23,7 +23,7 @@ function isAuthorized(req, res, next) {
   ;
 
   if (isAuthorized) {
-      return next();
+    return next();
   }
 
   return res.status(401).send('Unauthorized.');

@@ -9,6 +9,7 @@ function SignupController(Auth, $window) {
   vm.usernameExists = false;
   vm.submit = function(isValid) {
     if (isValid) {
+      delete vm.user.passwordConfirmation;
       Auth
         .signup(vm.user)
         .catch(function(response) {

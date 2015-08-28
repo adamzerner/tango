@@ -2,9 +2,10 @@ describe('SettingsController', function() {
   var createController, User;
   var user = {
     _id: 1,
-    username: 'adamzerner',
-    password: 'test',
-    passwordConfirmation: 'test'
+    local: {
+      username: 'a',
+      role: 'user'
+    }
   };
 
   beforeEach(module('mean-starter', 'templates'));
@@ -22,14 +23,14 @@ describe('SettingsController', function() {
   it('gets the user when loaded', function() {
     spyOn(User, 'get').and.callThrough();
     var vm = createController();
-    expect(User.get).toHaveBeenCalled();
+    expect(User.get).toHaveBeenCalledWith(1);
   });
   it('can submit when valid', function() {
     var vm = createController();
     vm.user = user;
     spyOn(User, 'update').and.callThrough();
     vm.submit(true);
-    expect(User.update).toHaveBeenCalled();
+    expect(User.update).toHaveBeenCalledWith(1, vm.user.local);
   });
   it('keeps track of whether an invalid submit was attempted', function() {
     var vm = createController();

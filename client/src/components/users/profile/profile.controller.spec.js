@@ -16,6 +16,6 @@ describe('ProfileController', function() {
   it('gets the user when loaded', function() {
     spyOn(User, 'get').and.callThrough();
     var vm = createController();
-    expect(User.get).toHaveBeenCalled();
+    expect(User.get).toHaveBeenCalledWith(1);
   });
 });
