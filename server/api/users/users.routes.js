@@ -1,14 +1,17 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var router = express.Router();
-var User = mongoose.model('User');
-var Local = mongoose.model('Local');
 var Auth = require('../auth/auth.service.js');
 var bcrypt = require('bcrypt');
+var _ = require('lodash');
+var UserSchema = require('./user.schema.js').UserSchema;
+var User = mongoose.model('User', UserSchema);
+var LocalSchema = require('./user.schema.js').LocalSchema;
+var Local = mongoose.model('Local', LocalSchema);
 
 function forwardError(res) {
   return function errorForwarder(err) {
-    res.status(500).send(err);
+    res.status(500).send({ error: err });
   }
 }
 
@@ -36,7 +39,7 @@ router.get('/:id', function(req, res) {
 router.post('/', function(req, res) {
   // can't manually set the role
   if (req.body.role) {
-    return res.status(403).send("Can't manually set the role of a user.");
+    return res.status(403).send({ error: "Can't manually set the role of a user." });
   }
 
   // set admin: going with this approach for the time being. makes it easier to test.
@@ -53,7 +56,7 @@ router.post('/', function(req, res) {
     delete req.body.password;
   }
   else {
-    return res.status(400).send('A password is required.');
+    return res.status(400).send({ error: 'A password is required.' });
   }
 
   Local
@@ -64,7 +67,7 @@ router.post('/', function(req, res) {
         .then(function(user) {
           req.login(user, function(loginErr) {
             if (loginErr) {
-              return res.status(500).send('Problem logging in after signup.');
+              return res.status(500).send({ error: 'Problem logging in after signup.' });
             }
             var userCopy = JSON.parse(JSON.stringify(user));
             delete userCopy.local.hashedPassword;
@@ -78,13 +81,13 @@ router.post('/', function(req, res) {
       var usernameNotUnique = ~err.errors.username.message.indexOf('unique');
       var usernameNotPresent = ~err.errors.username.message.indexOf('required');
       if (usernameError && usernameNotUnique) {
-        return res.status(409).send('Username already exists.');
+        return res.status(409).send({ error: 'Username already exists.' });
       }
       else if (usernameError && usernameNotPresent) {
-        return res.status(400).send('A username is required.');
+        return res.status(400).send({ error: 'A username is required.' });
       }
       else {
-        return res.status(500).send(err);
+        return res.status(500).send({ error: err });
       }
     })
   ;
@@ -93,7 +96,7 @@ router.post('/', function(req, res) {
 router.put('/:id', Auth.isAuthorized, function(req, res) {
   // can't manually set the role
   if (req.body.role) {
-    return res.status(403).send("Can't manually set the role of a user.");
+    return res.status(403).send({ error: "Can't manually set the role of a user." });
   }
 
   // hash password

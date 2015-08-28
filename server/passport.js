@@ -1,15 +1,16 @@
+var mongoose = require('mongoose');
+var bcrypt = require('bcrypt');
+var config = require('./config.json');
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-var mongoose = require('mongoose');
-var User = mongoose.model('User');
-var Local = mongoose.model('Local');
-var Facebook = mongoose.model('Facebook');
-var Twitter = mongoose.model('Twitter');
-var Google = mongoose.model('Google');
-var bcrypt = require('bcrypt');
-var config = require('./config.json');
+var schemaFile = require('./api/users/user.schema.js');
+var User = mongoose.model('User', schemaFile.UserSchema);
+var Local = mongoose.model('Local', schemaFile.LocalSchema);
+var Facebook = mongoose.model('Facebook', schemaFile.FacebookSchema);
+var Twitter = mongoose.model('Twitter', schemaFile.TwitterSchema);
+var Google = mongoose.model('Google', schemaFile.GoogleSchema);
 
 module.exports = function(passport) {
   passport.serializeUser(function(user, done) {
@@ -48,6 +49,9 @@ module.exports = function(passport) {
             })
           ;
         }
+      })
+      .then(null, function(err) {
+        return done(err);
       })
     ;
   }));

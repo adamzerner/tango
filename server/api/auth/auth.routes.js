@@ -2,12 +2,8 @@ var mongoose = require('mongoose');
 var express = require('express');
 var passport = require('passport');
 var Auth = require('./auth.service.js');
-try {
-  var User = mongoose.model('User');
-}
-catch(e) {
-  var User = mongoose.model('User', require('../users/user.model.js').UserSchema);
-}
+var UserSchema = require('../users/user.schema.js').UserSchema;
+var User = mongoose.model('User', UserSchema);
 var router = express.Router();
 
 // LOCAL
@@ -36,10 +32,6 @@ router.get('/auth/facebook/callback',
 // TWITTER
 router.get('/auth/twitter', passport.authenticate('twitter'));
 router.get('/auth/twitter/callback',
-  function(req, res, next) {
-    debugger;
-    next();
-  },
   passport.authenticate('twitter', {
     successRedirect: '/',
     failureRedirect: '/login'
