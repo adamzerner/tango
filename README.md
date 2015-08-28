@@ -9,6 +9,21 @@ Features:
 - Admin panel
 - Tests
 
+### Commands ###
+```
+// START SERVER:
+node server/app.js
+
+// KARMA TESTS:
+gulp karma
+
+// MOCHA TESTS:
+gulp mocha
+
+// LIVE RELOAD:
+gulp livereload
+```
+
 ### Technical Notes ###
 - [Apiary Docs](http://docs.meanstarter.apiary.io)
 - If you're going to be using Facebook/Twitter/Google, you'll need to register your app with them. Use the following links:
@@ -42,22 +57,6 @@ Features:
     - Supertest + Mocha + Assert
 - Gulp
 - [Component-based](https://scotch.io/tutorials/angularjs-best-practices-directory-structure) file structure
-
-
-### Commands ###
-```
-// START SERVER:
-node server/app.js
-
-// KARMA TESTS:
-gulp karma
-
-// MOCHA TESTS:
-gulp mocha
-
-// LIVE RELOAD:
-gulp livereload
-```
 
 ### To Do ###
 - Fix run block problem for karma tests.

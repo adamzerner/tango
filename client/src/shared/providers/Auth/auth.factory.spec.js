@@ -24,7 +24,11 @@ describe('Auth Factory', function() {
     $cookies = _$cookies_;
     $q = _$q_;
   }));
+  beforeEach(function() {
+    spyOn(Auth, 'getCurrentUser');
+  });
   afterEach(function() {
+    expect(Auth.getCurrentUser).toHaveBeenCalled();
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
   });
