@@ -91,7 +91,7 @@ module.exports = function(passport) {
             ;
           }
         })
-        .then(function(err) {
+        .then(null, function(err) {
           return done(err);
         })
       ;
