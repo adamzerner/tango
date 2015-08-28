@@ -64,3 +64,4 @@ gulp livereload
 - Tests for directives.
 - Gulp task for deploying.
 - E2E tests?
+- test
