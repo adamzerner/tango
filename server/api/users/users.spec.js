@@ -2,8 +2,10 @@ var mongoose = require('mongoose');
 var assert = require('assert');
 var request = require('supertest');
 var app = require('../../app.js');
-var User = mongoose.model('User');
-var Local = mongoose.model('Local');
+var UserSchema = require('./user.schema.js').UserSchema;
+var User = mongoose.model('User', UserSchema);
+var LocalSchema = require('./user.schema.js').LocalSchema;
+var Local = mongoose.model('Local', LocalSchema);
 var agent = request.agent(app);
 
 var invalidId = 'aaaaaaaaaaaaaaaaaaaaaaaa';
@@ -39,6 +41,10 @@ testUsers.forEach(function(loggedInUser) {
     });
 
     beforeEach(function(done) {
+      // 1. clear Local and Users
+      // 2. create user 2
+      // 3. create user 1
+      // 4. log user 1 in
       Local.remove({}).exec(function() {
         User.remove({}).exec(function(){
           Local.create(local2, function(err, createdLocal2) {
@@ -92,6 +98,7 @@ testUsers.forEach(function(loggedInUser) {
             assert.equal(users[0].local.username, user2.local.username);
             assert.equal(users[0].local.role, user2.local.role);
             assert(!users[0].local.hashedPassword)
+
             if (loggedInUser) {
               assert.equal(users[1]._id, id);
               assert(users[1].local);
@@ -108,6 +115,7 @@ testUsers.forEach(function(loggedInUser) {
           })
         ;
       });
+
       it('When empty', function(done) {
         User.remove({}).exec(function() {
           agent
@@ -177,6 +185,7 @@ testUsers.forEach(function(loggedInUser) {
           })
         ;
       });
+
       it('Validates required username', function(done) {
         agent
           .post('/users')
@@ -186,11 +195,14 @@ testUsers.forEach(function(loggedInUser) {
             if (err) {
               return done(err);
             }
-            assert.equal(res.text, 'A username is required.');
+            var result = JSON.parse(res.text);
+            assert(result.error);
+            assert.equal(result.error, 'A username is required.');
             return done();
           })
         ;
       });
+
       it('Validates required password', function(done) {
         agent
           .post('/users')
@@ -200,11 +212,14 @@ testUsers.forEach(function(loggedInUser) {
             if (err) {
               return done(err);
             }
-            assert.equal(res.text, 'A password is required.');
+            var result = JSON.parse(res.text);
+            assert(result.error);
+            assert.equal(result.error, 'A password is required.');
             return done();
           })
         ;
       });
+
       it('Validates unique username', function(done) {
         agent
           .post('/users')
@@ -214,7 +229,9 @@ testUsers.forEach(function(loggedInUser) {
             if (err) {
               return done(err);
             }
-            assert.equal(res.text, 'Username already exists.');
+            var result = JSON.parse(res.text);
+            assert(result.error);
+            assert.equal(result.error, 'Username already exists.');
             return done();
           })
         ;
@@ -235,6 +252,7 @@ testUsers.forEach(function(loggedInUser) {
           })
         ;
       });
+
       it("Can't manually set the role", function(done) {
         agent
           .post('/users')
@@ -244,7 +262,9 @@ testUsers.forEach(function(loggedInUser) {
             if (err) {
               return done(err);
             }
-            assert.equal(res.text, "Can't manually set the role of a user.");
+            var result = JSON.parse(res.text);
+            assert(result.error);
+            assert.equal(result.error, "Can't manually set the role of a user.");
             return done();
           })
         ;
@@ -264,13 +284,7 @@ testUsers.forEach(function(loggedInUser) {
       */
 
       it('Invalid id', function(done) {
-        var expectedResponseCode;
-        if (loggedInUser && loggedInUser.username === 'admin') {
-          expectedResponseCode = 404;
-        }
-        else  {
-          expectedResponseCode = 401;
-        }
+        var expectedResponseCode = (loggedInUser && loggedInUser.username === 'admin') ? 404 : 401;
         agent
           .put('/users/'+invalidId)
           .send({ username: 'updated' })
@@ -281,7 +295,7 @@ testUsers.forEach(function(loggedInUser) {
       if (loggedInUser) {
         it('Yourself: updates username', function(done) {
           agent
-            .put('/users/'+id)
+            .put('/users/' + id)
             .send({ username: 'updated' })
             .expect('Content-Type', /json/)
             .expect(201)
@@ -304,9 +318,10 @@ testUsers.forEach(function(loggedInUser) {
             })
           ;
         });
+
         it('Yourself: updates password', function(done) {
           agent
-            .put('/users/'+id)
+            .put('/users/' + id)
             .send({ password: 'updated' })
             .expect('Content-Type', /json/)
             .expect(201)
@@ -329,16 +344,19 @@ testUsers.forEach(function(loggedInUser) {
             })
           ;
         });
+
         it("Yourself: can't update the role", function(done) {
           agent
-            .put('/users/'+id)
+            .put('/users/' + id)
             .send({ username: 'updated', role: 'admin' })
             .expect(403)
             .end(function(err, res) {
               if (err) {
                 return done(err);
               }
-              assert.equal(res.text, "Can't manually set the role of a user.");
+              var result = JSON.parse(res.text);
+              assert(result.error);
+              assert.equal(result.error, "Can't manually set the role of a user.");
               return done();
             })
           ;
@@ -348,7 +366,7 @@ testUsers.forEach(function(loggedInUser) {
       if (loggedInUser && loggedInUser.username === 'admin') {
         it('Admin can update others', function(done) {
           agent
-            .put('/users/'+user2id)
+            .put('/users/' + user2id)
             .send({ username: 'updated' })
             .expect('Content-Type', /json/)
             .expect(201)
@@ -371,7 +389,7 @@ testUsers.forEach(function(loggedInUser) {
       else { // not admin
         it("Non-admins can't update others", function(done) {
           agent
-            .put('/users/'+user2id)
+            .put('/users/' + user2id)
             .send({ username: 'updated' })
             .expect(401, done)
           ;
@@ -381,30 +399,26 @@ testUsers.forEach(function(loggedInUser) {
 
     describe('DELETE /users/:id', function() {
       it("Can't delete with an invalid id", function(done) {
-        var expectedResponseCode;
-        if (loggedInUser && loggedInUser.username === 'admin') {
-          expectedResponseCode = 404;
-        }
-        else  {
-          expectedResponseCode = 401;
-        }
+        var expectedResponseCode = (loggedInUser && loggedInUser.username === 'admin') ? 404 : 401;
         agent
-          .del('/users/'+invalidId)
+          .del('/users/' + invalidId)
           .expect(expectedResponseCode, done)
         ;
       });
+
       if (loggedInUser) {
         it('Can delete yourself when logged in', function(done) {
           agent
-            .del('/users/'+id)
+            .del('/users/' + id)
             .expect(204, done)
           ;
         });
       }
+
       if (loggedInUser && loggedInUser.username === 'admin') {
         it('Admin can delete others', function(done) {
           agent
-            .del('/users/'+user2id)
+            .del('/users/' + user2id)
             .expect(204, done)
           ;
         });
@@ -412,7 +426,7 @@ testUsers.forEach(function(loggedInUser) {
       else {
         it("Non-admins can't delete others", function(done) {
           agent
-            .del('/users/'+user2id)
+            .del('/users/' + user2id)
             .expect(401, done)
           ;
         });

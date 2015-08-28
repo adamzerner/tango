@@ -9,16 +9,9 @@ var favicon = require('serve-favicon');
 var bcrypt = require('bcrypt');
 var app = express();
 
-var dbUrl;
 var config = require('./config.json');
 var mochaUrl = '/usr/local/lib/node_modules/mocha/bin/_mocha';
-if (process.argv[1] === mochaUrl || process.argv[2] === 'mocha') {
-  dbUrl = config.db.test;
-}
-else {
-  dbUrl = config.db.dev;
-}
-
+var dbUrl = (process.argv[1] === mochaUrl || process.argv[2] === 'mocha') ? config.db.test : config.db.dev;
 var envFolder = 'src';
 
 mongoose.connect(dbUrl);
@@ -26,9 +19,6 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Problem connecting to database.'));
 db.once('open', function onDbConnect() {
   console.log('Connected to ' + dbUrl + ' database...');
-  // create models
-  require('./api/users/user.model.js');
-
   // serving web files
   app.use(express.static('client/lib'));
   app.use(express.static('client/' + envFolder));

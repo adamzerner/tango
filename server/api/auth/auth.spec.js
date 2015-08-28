@@ -2,15 +2,10 @@ var mongoose = require('mongoose');
 var assert = require('assert');
 var request = require('supertest');
 var app = require('../../app.js');
-try {
-  var User = mongoose.model('User');
-  var Local = mongoose.model('Local');
-}
-catch(e) { // :( https://github.com/Automattic/mongoose/issues/1251
-  var schemas = require('../users/user.model.js');
-  var User = mongoose.model('User', schemas.UserSchema);
-  var Local = mongoose.model('Local', schemas.LocalSchema);
-}
+var UserSchema = require('../users/user.schema.js').UserSchema;
+var LocalSchema = require('../users/user.schema.js').LocalSchema;
+var User = mongoose.model('User', UserSchema);
+var Local = mongoose.model('Local', LocalSchema);
 var agent = request.agent(app);
 
 describe('Auth API', function() {
@@ -45,6 +40,7 @@ describe('Auth API', function() {
       .expect(401, done)
     ;
   });
+
   it("Can't log in with wrong username", function(done) {
     agent
       .post('/login')
@@ -52,6 +48,7 @@ describe('Auth API', function() {
       .expect(401, done)
     ;
   });
+
   it("Can't log in with wrong password", function(done) {
     agent
       .post('/login')
@@ -59,6 +56,7 @@ describe('Auth API', function() {
       .expect(401, done)
     ;
   });
+
   it('Can log in with valid credentials', function(done) {
     agent
       .post('/login')
@@ -78,6 +76,7 @@ describe('Auth API', function() {
       })
     ;
   });
+
   it('Can access the current user', function(done) {
     agent
       .get('/current-user')
@@ -96,18 +95,21 @@ describe('Auth API', function() {
       })
     ;
   });
+
   it('Logout returns a 204', function(done) {
     agent
       .get('/logout')
       .expect(204, done)
     ;
   });
+
   it('Logout removes user from session', function(done) {
     agent
       .get('/current-user')
       .expect(401, done)
     ;
   });
+
   it("Can't log out if you're not logged in.", function(done) {
     agent
       .get('/logout')
