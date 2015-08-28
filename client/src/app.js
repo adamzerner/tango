@@ -12,12 +12,11 @@ function config($locationProvider, $urlRouterProvider) {
 function run($http, $cookies, $rootScope) {
   $rootScope.user = {};
 
-  // $http
-  //   .get('/current-user')
-  //   .then(function(response) {
-  //     console.log('response.data: ', response.data);
-  //     angular.copy(response.data, $rootScope.user);
-  //     $cookies.put('userId', response.data._id);
-  //   })
-  // ;
+  $http
+    .get('/current-user')
+    .then(function(response) {
+      angular.copy(response.data, $rootScope.user);
+      $cookies.put('userId', response.data._id);
+    })
+  ;
 }
