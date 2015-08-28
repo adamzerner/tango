@@ -1,0 +1,24 @@
+{
+  "db": {
+    "test": "mongodb://localhost/APPNAME-test",
+    "dev": "mongodb://localhost/APPNAME"
+  },
+
+  "facebookAuth": {
+		"clientID": "YOUR-CLIENT-ID-HERE",
+		"clientSecret": "YOUR-CLIENT-SECRET-HERE",
+		"callbackURL": "http://localhost:3000/auth/facebook/callback"
+	},
+
+	"twitterAuth": {
+		"consumerKey": "YOUR-CONSUMER-KEY-HERE",
+		"consumerSecret": "YOUR-CONSUMER-SECRET-HERE",
+		"callbackURL": "http://localhost:3000/auth/twitter/callback"
+	},
+
+	"googleAuth": {
+		"clientID": "YOUR-CLIENT-ID-HERE",
+		"clientSecret": "YOUR-CLIENT-SECRET-HERE",
+		"callbackURL": "http://localhost:3000/auth/google/callback"
+	}
+}
