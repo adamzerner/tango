@@ -1,5 +1,5 @@
 angular
-  .module('mean-starter')
+  .module('tango')
   .controller('SettingsController', SettingsController)
 ;
 

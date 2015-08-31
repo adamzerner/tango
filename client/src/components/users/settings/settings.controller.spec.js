@@ -8,7 +8,7 @@ describe('SettingsController', function() {
     }
   };
 
-  beforeEach(module('mean-starter', 'templates'));
+  beforeEach(module('tango', 'templates'));
   beforeEach(inject(function($controller, _User_) {
     User = _User_;
     createController = function() {

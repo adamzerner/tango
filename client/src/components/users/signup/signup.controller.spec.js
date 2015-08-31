@@ -6,7 +6,7 @@ describe('SignupController', function() {
     passwordConfirmation: 'password'
   };
 
-  beforeEach(module('mean-starter', 'templates'));
+  beforeEach(module('tango', 'templates'));
   beforeEach(inject(function($controller, _Auth_) {
     Auth = _Auth_;
     createController = function() {

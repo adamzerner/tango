@@ -1,5 +1,5 @@
 angular
-  .module('mean-starter', ['ui.router', 'ui.bootstrap', 'ngCookies', 'ngMessages'])
+  .module('tango', ['ui.router', 'ui.bootstrap', 'ngCookies', 'ngMessages'])
   .config(config)
   .run(run)
 ;

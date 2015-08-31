@@ -16,7 +16,7 @@ describe('Auth Factory', function() {
     return !!el.$$state;
   }
 
-  beforeEach(module('mean-starter', 'ngCookies', 'templates'));
+  beforeEach(module('tango', 'ngCookies', 'templates'));
   beforeEach(inject(function(_Auth_, _$httpBackend_, _$rootScope_, _$cookies_, _$q_) {
     Auth = _Auth_;
     $httpBackend = _$httpBackend_;
