@@ -1,43 +1,23 @@
 angular
-  .module('tango')
+  .module('auth', [])
   .factory('Auth', Auth)
 ;
 
-function Auth($http, $state, $window, $cookies, $q, $rootScope) {
+function Auth($http, $cookies, $q, $rootScope) {
   return {
-    signup: function(user) {
-      return $http
-        .post('/users', user)
-        .then(function(response) {
-          angular.copy(response.data, $rootScope.user);
-          $cookies.put('userId', response.data._id);
-          $state.go('home');
-        })
-      ;
-    },
-    login: function(user) {
-      return $http
-        .post('/login', user)
-        .then(function(response) {
-          angular.copy(response.data, $rootScope.user);
-          $cookies.put('userId', response.data._id);
-          $state.go('home');
-        })
-      ;
-    },
     logout: function() {
       $http
         .get('/logout')
         .then(function() {
           angular.copy({}, $rootScope.user);
           $cookies.remove('userId');
-          $state.go('home');
         })
         .catch(function() {
           console.log('Problem logging out.');
         })
       ;
     },
+
     getCurrentUser: function() {
       // user is logged in
       if (Object.keys($rootScope.user).length > 0) {
@@ -56,6 +36,17 @@ function Auth($http, $state, $window, $cookies, $q, $rootScope) {
       else  {
         return $q.when({});
       }
+    },
+
+    requestCurrentUser: function() {
+      return $http
+        .get('/current-user')
+        .then(function(response) {
+          angular.copy(response.data, $rootScope.user);
+          $cookies.put('userId', response.data._id);
+          return $rootScope.user;
+        })
+      ;
     }
   };
 }

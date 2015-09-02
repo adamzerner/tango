@@ -104,10 +104,7 @@ module.exports = function(passport) {
     consumerSecret: config.twitterAuth.consumerSecret,
     callbackURL: config.twitterAuth.callbackURL
   }, function(token, tokenSecret, profile, done) {
-    debugger;
-    console.log('Outside of process.nextTick');
     process.nextTick(function() {
-      console.log('Inside of process.nextTick');
       Twitter
         .findOne({ id: profile.id })
         .select('id token')
@@ -117,7 +114,6 @@ module.exports = function(passport) {
             User
               .findOne({ twitter: twitter._id }).exec()
               .then(function(user) {
-                console.log('~~~ ERROR ~~~');
                 return done(null, user);
               })
             ;
@@ -129,7 +125,6 @@ module.exports = function(passport) {
                 User
                   .create({ twitter: createdTwitter })
                   .then(function(user) {
-                    console.log('~~~ ERROR 2 ~~~');
                     return done(null, user);
                   })
                 ;
@@ -138,7 +133,6 @@ module.exports = function(passport) {
           }
         })
         .then(null, function(err) {
-          console.log('~~~ ERROR 3 ~~~');
           return done(err);
         })
       ;

@@ -8,7 +8,7 @@ function config ($stateProvider) {
     .state('home', {
       url: '/',
       templateUrl: '/components/home/home.html',
-      controller: HomeController
+      controller: 'HomeController as vm'
     })
   ;
 }

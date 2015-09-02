@@ -1,7 +1,24 @@
 <div id='home-template'>
 
-<div class='page-header'>
-  <h1>Home</h1>
+<div class='jumbotron'>
+  <h1>Tango</h1>
+  <p>To think well, there really needs to be some sort of back-and-forth.</p>
+  <p>It's hard to do that by yourself, but this app helps.</p>
 </div>
+
+<iframe width="640" height="360" src="https://www.youtube.com/embed/ImE6-3GuvhE?start=645" frameborder="0" allowfullscreen></iframe>
+
+<hr />
+
+<div ng-show='vm.currentUser._id'>
+  <p>Log in or register with:</p>
+  <a ng-click='vm.facebook()' class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
+  <a ng-click='vm.twitter()' class="btn btn-info"><span class="fa fa-twitter"></span> Twitter</a>
+  <a ng-click='vm.google()' class="btn btn-danger"><span class="fa fa-google"></span> Google</a>
+</div>
+
+<pre>
+  {{ vm.currentUser | json }}
+</pre>
 
 </div>
