@@ -12,6 +12,3 @@ function config ($stateProvider) {
     })
   ;
 }
-
-function HomeController() {
-}

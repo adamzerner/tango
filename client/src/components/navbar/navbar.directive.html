@@ -5,22 +5,17 @@
     <!-- left side -->
     <ul class='nav navbar-nav'>
       <li><a ui-sref='home'>Home</a></li>
+      <li><a ui-sref='createTango'>Create Tango</a></li>
+      <li ng-if='vm.currentUser'><a ui-sref='profile({ id: vm.currentUser._id })'>My Tangos</a></li>
       <li><a>{{ vm.currentUser }}</a></li>
-    </ul>
-
-    <!-- right side: not logged in -->
-    <ul class='nav navbar-nav navbar-right' ng-show='!vm.currentUser._id'>
-      <li><a ui-sref='signup'>Sign Up</a></li>
-      <li><a ui-sref='login'>Log In</a></li>
     </ul>
 
     <!-- right side: logged in -->
     <ul class='nav navbar-nav navbar-right' ng-show='vm.currentUser._id'>
-      <!-- local -->
+      <!-- admin -->
       <li ng-if="vm.currentUser.local.role === 'admin'"><a ui-sref='admin'>Admin</a></li>
-      <li ng-if='vm.currentUser.local'><a ui-sref='profile({ id: vm.currentUser._id })'>{{ vm.currentUser.local.username }}</a></li>
-      <li ng-if='vm.currentUser.local'><a ui-sref='settings({ id: vm.currentUser._id })'><span class='glyphicon glyphicon-cog'></span></a></li>
-      <!-- any -->
+      <!-- all -->
+      <li ng-if='vm.currentUser'><a ui-sref='settings({ id: vm.currentUser._id })'><span class='glyphicon glyphicon-cog'></span></a></li>
       <li><a ng-click='vm.logout()'>Log Out</a></li>
     </ul>
   </div>
