@@ -25,17 +25,4 @@ describe('SettingsController', function() {
     var vm = createController();
     expect(User.get).toHaveBeenCalledWith(1);
   });
-  it('can submit when valid', function() {
-    var vm = createController();
-    vm.user = user;
-    spyOn(User, 'update').and.callThrough();
-    vm.submit(true);
-    expect(User.update).toHaveBeenCalledWith(1, vm.user.local);
-  });
-  it('keeps track of whether an invalid submit was attempted', function() {
-    var vm = createController();
-    expect(vm.invalidSubmitAttempted).toBe(false);
-    vm.submit(false);
-    expect(vm.invalidSubmitAttempted).toBe(true);
-  });
 });
