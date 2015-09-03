@@ -17,7 +17,7 @@ function hasRole (roles) {
 function isAuthorized(req, res, next) {
   var isAuthorized = req.user &&
     (
-      req.user.local.role === 'admin' ||
+      (req.user.local && req.user.local.role === 'admin') ||
       req.params.id === req.user._id.toString()
     )
   ;

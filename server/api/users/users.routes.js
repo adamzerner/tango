@@ -4,10 +4,12 @@ var router = express.Router();
 var Auth = require('../auth/auth.service.js');
 var bcrypt = require('bcrypt');
 var _ = require('lodash');
-var UserSchema = require('./user.schema.js').UserSchema;
-var User = mongoose.model('User', UserSchema);
-var LocalSchema = require('./user.schema.js').LocalSchema;
-var Local = mongoose.model('Local', LocalSchema);
+var schemaFile = require('./user.schema.js');
+var User = mongoose.model('User', schemaFile.UserSchema);
+var Local = mongoose.model('Local', schemaFile.LocalSchema);
+var Facebook = mongoose.model('Facebook', schemaFile.FacebookSchema);
+var Twitter = mongoose.model('Twitter', schemaFile.TwitterSchema);
+var Google = mongoose.model('Google', schemaFile.GoogleSchema);
 
 function forwardError(res) {
   return function errorForwarder(err) {
@@ -132,15 +134,50 @@ router.delete('/:id', Auth.isAuthorized, function(req, res) {
       if (!user) {
         return res.status(404).end();
       }
-      Local
-        .findByIdAndRemove(user.local).exec()
-        .then(function() {
-          if (req.user._id.toString() === req.params.id) {
-            req.logout();
-          }
-          return res.status(204).end();
-        }, forwardError(res))
-      ;
+      if (user.local) {
+        Local
+          .findByIdAndRemove(user.local).exec()
+          .then(function() {
+            if (req.user._id.toString() === req.params.id) {
+              req.logout();
+            }
+            return res.status(204).end();
+          }, forwardError(res))
+        ;
+      }
+      else if (user.facebook) {
+        Facebook
+          .findByIdAndRemove(user.facebook).exec()
+          .then(function() {
+            if (req.user._id.toString() === req.params.id) {
+              req.logout();
+            }
+            return res.status(204).end();
+          }, forwardError(res))
+        ;
+      }
+      else if (user.twitter) {
+        Twitter
+          .findByIdAndRemove(user.twitter).exec()
+          .then(function() {
+            if (req.user._id.toString() === req.params.id) {
+              req.logout();
+            }
+            return res.status(204).end();
+          }, forwardError(res))
+        ;
+      }
+      else if (user.google) {
+        Google
+          .findByIdAndRemove(user.google).exec()
+          .then(function() {
+            if (req.user._id.toString() === req.params.id) {
+              req.logout();
+            }
+            return res.status(204).end();
+          }, forwardError(res))
+        ;
+      }
     }, forwardError(res))
   ;
 });
