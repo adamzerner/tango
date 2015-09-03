@@ -7,7 +7,7 @@ function config($stateProvider) {
   $stateProvider
     .state('tango:new', {
       url: '/tango/new',
-      templateUrl: '/components/tangos/new/new.html',
+      templateUrl: '/components/tangos/new/tango.new.html',
       controller: 'NewTangoController as vm'
     })
   ;

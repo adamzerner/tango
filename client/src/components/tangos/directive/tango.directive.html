@@ -1,0 +1,6 @@
+<p>{{ tango.text }} - level {{ level }}</p>
+<tango
+  ng-repeat='subtango in tango.children'
+  tango='subtango'
+  level='{{ +level + 1 }}'>
+</tango>
