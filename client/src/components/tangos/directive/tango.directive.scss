@@ -1,0 +1,51 @@
+.tango-directive-template {
+  .tango {
+    margin-bottom: 20px;
+    .left-icons {
+      display: inline-block;
+      text-align: right;
+      width: 67px;
+      img, .author {
+        position: relative;
+        bottom: 15px;
+        margin-right: 5px;
+      }
+      img {
+        height: 20px;
+      }
+      .author {
+        border: 1px solid gray;
+        border-radius: 25px;
+        padding: 10px;
+      }
+    }
+    textarea {
+      font-size: 18px;
+      width: 700px;
+      line-height: 135%;
+      padding: 8px 16px;
+      resize: none;
+      border: 1px solid white;
+      overflow: hidden;
+    }
+    textarea:focus {
+      outline: none;
+      border: 1px solid gray;
+      overflow: auto; // only have scroll bar when focused
+    }
+    .menu {
+      width: 750px;
+      span {
+        float: right;
+        margin-left: 15px;
+        cursor: pointer;
+      }
+    }
+  }
+  @for $i from 0 through 10 {
+    .level-#{$i} {
+      position: relative;
+      left: #{$i*65}px;
+    }
+  }
+}

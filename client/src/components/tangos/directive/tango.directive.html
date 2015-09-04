@@ -1,6 +1,28 @@
-<p>{{ tango.text }} - level {{ level }}</p>
+<div class='tango-directive-template'>
+
+<div class='tango level-{{ level }}'>
+  <span class='left-icons'>
+    <img
+      ng-show='tango.children.length > 0'
+      src='/assets/images/show-arrow.png'>
+    <span class='author'>A</span>
+  </span>
+  <textarea
+    ng-focus='focus = true;'
+    ng-blur='focus = false;'
+    rows='1'>{{ tango.text }}</textarea>
+  <p class='menu' ng-show='focus'>
+    <span class='glyphicon glyphicon-indent-left'></span>
+    <span class='glyphicon glyphicon-indent-right'></span>
+    <span class='glyphicon glyphicon-arrow-down'></span>
+    <span class='glyphicon glyphicon-arrow-right'></span.
+  </p>
+</div>
+
 <tango
   ng-repeat='subtango in tango.children'
   tango='subtango'
   level='{{ +level + 1 }}'>
 </tango>
+
+</div>

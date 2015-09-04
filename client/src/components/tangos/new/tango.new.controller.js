@@ -3,7 +3,7 @@ angular
   .controller('NewTangoController', NewTangoController)
 ;
 
-function NewTangoController() {
+function NewTangoController($scope) {
   var vm = this;
   vm.tangos = [{
     text: '1',
@@ -21,4 +21,7 @@ function NewTangoController() {
       }]
     }]
   }];
+  $scope.$evalAsync(function() {
+    autosize(document.getElementsByTagName('textarea'));
+  });
 }
