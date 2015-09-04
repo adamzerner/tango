@@ -6,7 +6,7 @@ angular
 function navbar() {
   return {
     restrict: 'E',
-    templateUrl: '/components/navbar/navbar.directive.html',
+    templateUrl: '/states/navbar/navbar.directive.html',
     controller: NavbarController,
     controllerAs: 'vm'
   };

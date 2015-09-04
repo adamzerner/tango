@@ -7,7 +7,7 @@ function config($stateProvider) {
   $stateProvider
     .state('settings', {
       url: '/settings/:id',
-      templateUrl: '/components/users/settings/settings.html',
+      templateUrl: '/states/users/settings/settings.html',
       controller: 'SettingsController as vm',
       authenticate: {
         authorized: true

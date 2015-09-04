@@ -10,7 +10,7 @@ function tango(RecursionHelper) {
       tango: '=',
       level: '@'
     },
-    templateUrl: '/components/tangos/directive/tango.directive.html',
+    templateUrl: '/states/tangos/directive/tango.directive.html',
     compile: function(tElement) {
       return RecursionHelper.compile(tElement);
     }
