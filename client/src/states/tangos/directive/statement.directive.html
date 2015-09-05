@@ -15,14 +15,21 @@
     <span class='glyphicon glyphicon-indent-left'></span>
     <span class='glyphicon glyphicon-indent-right'></span>
     <span> | </span>
-    <span class='glyphicon glyphicon-arrow-right'></span>
-    <span class='glyphicon glyphicon-arrow-down'></span>
+    <span
+      class='glyphicon glyphicon-arrow-right'
+      ng-mousedown='vm.createChild()'>
+    </span>
+    <span
+      class='glyphicon glyphicon-arrow-down'
+      ng-mousedown='vm.insertNextStatement()'>
+    </span>
   </p>
 </div>
 
 <statement
   ng-repeat='substatement in vm.statement.children'
   statement='substatement'
+  parent='vm.statement.children'
   level='{{ +vm.level + 1 }}'>
 </tango>
 

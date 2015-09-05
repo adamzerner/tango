@@ -9,10 +9,20 @@ function statement(RecursionHelper) {
     templateUrl: '/states/tangos/directive/statement.directive.html',
     scope: {
       statement: '=',
+      parent: '=',
       level: '@'
     },
-    controller: function statementController() {
-
+    controller: function statementController(StatementConstructor) {
+      var vm = this;
+      vm.insertNextStatement = function() {
+        var newStatement = new StatementConstructor();
+        var currIndex = vm.parent.indexOf(vm.statement);
+        vm.parent.splice(currIndex+1, 0, newStatement);
+      };
+      vm.createChild = function() {
+        var newStatement = new StatementConstructor();
+        vm.statement.children.push(newStatement);
+      };
     },
     controllerAs: 'vm',
     bindToController: true,
