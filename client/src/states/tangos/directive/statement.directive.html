@@ -12,15 +12,29 @@
     ng-blur='vm.focus = false;'
     rows='1'>{{ vm.statement.text }}</textarea>
   <p class='menu' ng-show='vm.focus'>
-    <span class='glyphicon glyphicon-indent-left'></span>
-    <span class='glyphicon glyphicon-indent-right'></span>
+    <span
+      class='glyphicon glyphicon-indent-left'
+      tooltip='indent right (cmd + <-)'
+      tooltip-placement='bottom'
+      ng-mousedown='vm.indentRight()'>
+    </span>
+    <span
+      class='glyphicon glyphicon-indent-right'
+      tooltip='indent left (cmd + ->)'
+      tooltip-placement='bottom'
+      ng-mousedown='vm.indentLeft()'>
+    </span>
     <span> | </span>
     <span
       class='glyphicon glyphicon-arrow-right'
+      tooltip='create child (cmd + shift + enter)'
+      tooltip-placement='bottom'
       ng-mousedown='vm.createChild($event)'>
     </span>
     <span
       class='glyphicon glyphicon-arrow-down'
+      tooltip='create new statement (cmd + enter)'
+      tooltip-placement='bottom'
       ng-mousedown='vm.insertNextStatement($event)'>
     </span>
   </p>

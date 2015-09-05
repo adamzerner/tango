@@ -25,14 +25,30 @@ function statement(RecursionHelper) {
         var newStatement = new StatementConstructor();
         vm.statement.children.push(newStatement);
       };
+      vm.indentRight = function() {
+        console.log('indent');
+      };
+      vm.indentLeft = function() {
+        console.log('indent back');
+      };
 
       // key bindings
       vm.shortCut = function(e) {
-        if (e.metaKey && e.which === 13) { // cmd + enter
-          vm.insertNextStatement(e);
-        }
-        else if (e.metaKey && e.which === 39) { // cmd + right arrow
-          vm.createChild(e);
+        if (e.metaKey) {
+          if (e.shiftKey && e.which === 13) { // cmd + shift + enter
+            vm.createChild(e);
+          }
+          else if (e.which === 13) { // cmd + enter
+            vm.insertNextStatement(e);
+          }
+          else if (e.keyCode === 39) { // cmd + right arrow
+            e.preventDefault();
+            vm.indentRight();
+          }
+          else if (e.keyCode === 37) { // cmd + left arrow
+            e.preventDefault();
+            vm.indentLeft();
+          }
         }
       };
     },
