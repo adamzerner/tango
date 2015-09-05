@@ -1,6 +1,6 @@
 <div class='statement-directive-template'>
 
-<div class='statement level-{{ vm.level }}'>
+<div class='statement level-{{ vm.level }}' ng-keydown='vm.shortCut($event)'>
   <span class='left-icons'>
     <img
       ng-show='statement.children.length > 0'
@@ -26,11 +26,11 @@
   </p>
 </div>
 
+</div>
+
 <statement
   ng-repeat='substatement in vm.statement.children'
   statement='substatement'
   parent='vm.statement.children'
   level='{{ +vm.level + 1 }}'>
 </tango>
-
-</div>

@@ -25,6 +25,16 @@ function statement(RecursionHelper) {
         var newStatement = new StatementConstructor();
         vm.statement.children.push(newStatement);
       };
+
+      // key bindings
+      vm.shortCut = function(e) {
+        if (e.metaKey && e.which === 13) { // cmd + enter
+          vm.insertNextStatement(e);
+        }
+        else if (e.metaKey && e.which === 39) { // cmd + right arrow
+          vm.createChild(e);
+        }
+      };
     },
     controllerAs: 'vm',
     bindToController: true,
