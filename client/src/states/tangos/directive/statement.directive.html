@@ -1,6 +1,6 @@
 <div class='statement-directive-template'>
 
-<div class='statement level-{{ vm.level }}'>
+<div class='statement level-{{ vm.level }}' ng-keydown='vm.shortCut($event)'>
   <span class='left-icons'>
     <img
       ng-show='statement.children.length > 0'
@@ -11,19 +11,35 @@
     ng-focus='vm.focus = true;'
     ng-blur='vm.focus = false;'
     rows='1'>{{ vm.statement.text }}</textarea>
-  <p class='menu' ng-show='vm.focus'>
-    <span class='glyphicon glyphicon-indent-left'></span>
-    <span class='glyphicon glyphicon-indent-right'></span>
+  <p class='menu clear' ng-show='true'>
+    <span
+      class='glyphicon glyphicon-indent-left'
+      tooltip-html='vm.indentRightHtml'
+      tooltip-placement='left'
+      ng-mousedown='vm.indentRight()'>
+    </span>
+    <span
+      class='glyphicon glyphicon-indent-right'
+      tooltip-html='vm.indentLeftHtml'
+      tooltip-placement='left'
+      ng-mousedown='vm.indentLeft()'>
+    </span>
     <span> | </span>
     <span
       class='glyphicon glyphicon-arrow-right'
-      ng-mousedown='vm.createChild($event)'>
+      tooltip-html='vm.insertChildHtml'
+      tooltip-placement='bottom'
+      ng-mousedown='vm.insertChild($event)'>
     </span>
     <span
       class='glyphicon glyphicon-arrow-down'
+      tooltip-html='vm.insertNextStatementHtml'
+      tooltip-placement='bottom'
       ng-mousedown='vm.insertNextStatement($event)'>
     </span>
   </p>
+</div>
+
 </div>
 
 <statement
@@ -31,6 +47,4 @@
   statement='substatement'
   parent='vm.statement.children'
   level='{{ +vm.level + 1 }}'>
-</tango>
-
-</div>
+</statement>
