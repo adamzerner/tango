@@ -12,20 +12,25 @@ function statement(RecursionHelper) {
       parent: '=',
       level: '@'
     },
-    controller: function statementController(StatementConstructor) {
+    controller: function statementController(StatementConstructor, $sce) {
       var vm = this;
+      vm.insertNextStatementHtml = $sce.trustAsHtml('Insert next statement<br />(cmd + enter)');
+      vm.insertChildHtml = $sce.trustAsHtml('Create child<br />(cmd + shift + enter)');
+      vm.indentRightHtml = $sce.trustAsHtml('Indent right<br />(cmd + -->)');
+      vm.indentLeftHtml = $sce.trustAsHtml('Indent left<br />(cmd + <--)');
       vm.insertNextStatement = function(e) {
         e.preventDefault();
         var newStatement = new StatementConstructor();
         var currIndex = vm.parent.indexOf(vm.statement);
         vm.parent.splice(currIndex+1, 0, newStatement);
       };
-      vm.createChild = function(e) {
+      vm.insertChild = function(e) {
         e.preventDefault();
         var newStatement = new StatementConstructor();
         vm.statement.children.push(newStatement);
       };
       vm.indentRight = function() {
+        // just have to navigate the array, don't have to deal with the DOM
         console.log('indent');
       };
       vm.indentLeft = function() {
@@ -36,7 +41,7 @@ function statement(RecursionHelper) {
       vm.shortCut = function(e) {
         if (e.metaKey) {
           if (e.shiftKey && e.which === 13) { // cmd + shift + enter
-            vm.createChild(e);
+            vm.insertChild(e);
           }
           else if (e.which === 13) { // cmd + enter
             vm.insertNextStatement(e);

@@ -11,29 +11,29 @@
     ng-focus='vm.focus = true;'
     ng-blur='vm.focus = false;'
     rows='1'>{{ vm.statement.text }}</textarea>
-  <p class='menu' ng-show='vm.focus'>
+  <p class='menu clear' ng-show='true'>
     <span
       class='glyphicon glyphicon-indent-left'
-      tooltip='indent right (cmd + <-)'
-      tooltip-placement='bottom'
+      tooltip-html='vm.indentRightHtml'
+      tooltip-placement='left'
       ng-mousedown='vm.indentRight()'>
     </span>
     <span
       class='glyphicon glyphicon-indent-right'
-      tooltip='indent left (cmd + ->)'
-      tooltip-placement='bottom'
+      tooltip-html='vm.indentLeftHtml'
+      tooltip-placement='left'
       ng-mousedown='vm.indentLeft()'>
     </span>
     <span> | </span>
     <span
       class='glyphicon glyphicon-arrow-right'
-      tooltip='create child (cmd + shift + enter)'
+      tooltip-html='vm.insertChildHtml'
       tooltip-placement='bottom'
-      ng-mousedown='vm.createChild($event)'>
+      ng-mousedown='vm.insertChild($event)'>
     </span>
     <span
       class='glyphicon glyphicon-arrow-down'
-      tooltip='create new statement (cmd + enter)'
+      tooltip-html='vm.insertNextStatementHtml'
       tooltip-placement='bottom'
       ng-mousedown='vm.insertNextStatement($event)'>
     </span>
@@ -47,4 +47,4 @@
   statement='substatement'
   parent='vm.statement.children'
   level='{{ +vm.level + 1 }}'>
-</tango>
+</statement>
