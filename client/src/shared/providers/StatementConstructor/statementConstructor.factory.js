@@ -7,5 +7,6 @@ function StatementConstructorFactory() {
   return function StatementConstructor() {
     this.text = '';
     this.children = [];
+    this.focus = true;
   }
 }

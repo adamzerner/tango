@@ -14,12 +14,14 @@ function statement(RecursionHelper) {
     },
     controller: function statementController(StatementConstructor) {
       var vm = this;
-      vm.insertNextStatement = function() {
+      vm.insertNextStatement = function(e) {
+        e.preventDefault();
         var newStatement = new StatementConstructor();
         var currIndex = vm.parent.indexOf(vm.statement);
         vm.parent.splice(currIndex+1, 0, newStatement);
       };
-      vm.createChild = function() {
+      vm.createChild = function(e) {
+        e.preventDefault();
         var newStatement = new StatementConstructor();
         vm.statement.children.push(newStatement);
       };
