@@ -5,7 +5,7 @@ angular
 
 function NewTangoController($scope) {
   var vm = this;
-  vm.tangos = [{
+  vm.statements = [{
     text: '1',
     children: []
   }, {

@@ -1,16 +1,16 @@
 angular
   .module('tango')
-  .directive('tango', tango)
+  .directive('statement', statement)
 ;
 
-function tango(RecursionHelper) {
+function statement(RecursionHelper) {
   return {
     restrict: 'E',
     scope: {
-      tango: '=',
+      statement: '=',
       level: '@'
     },
-    templateUrl: '/states/tangos/directive/tango.directive.html',
+    templateUrl: '/states/tangos/directive/statement.directive.html',
     compile: function(tElement) {
       return RecursionHelper.compile(tElement);
     }

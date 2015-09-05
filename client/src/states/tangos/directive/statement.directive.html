@@ -1,27 +1,28 @@
-<div class='tango-directive-template'>
+<div class='statement-directive-template'>
 
-<div class='tango level-{{ level }}'>
+<div class='statement level-{{ level }}'>
   <span class='left-icons'>
     <img
-      ng-show='tango.children.length > 0'
+      ng-show='statement.children.length > 0'
       src='/assets/images/show-arrow.png'>
     <span class='author'>WWW</span> <!-- 5 char limit -->
   </span>
   <textarea
     ng-focus='focus = true;'
     ng-blur='focus = false;'
-    rows='1'>{{ tango.text }}</textarea>
+    rows='1'>{{ statement.text }}</textarea>
   <p class='menu' ng-show='focus'>
     <span class='glyphicon glyphicon-indent-left'></span>
     <span class='glyphicon glyphicon-indent-right'></span>
+    <span> | </span>
+    <span class='glyphicon glyphicon-arrow-right'></span>
     <span class='glyphicon glyphicon-arrow-down'></span>
-    <span class='glyphicon glyphicon-arrow-right'></span.
   </p>
 </div>
 
-<tango
-  ng-repeat='subtango in tango.children'
-  tango='subtango'
+<statement
+  ng-repeat='substatement in statement.children'
+  statement='substatement'
   level='{{ +level + 1 }}'>
 </tango>
 

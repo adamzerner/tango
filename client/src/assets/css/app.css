@@ -8,34 +8,34 @@ html {
 a {
   cursor: pointer; }
 
-
 #home-template h1 {
   color: black; }
 
-.tango-directive-template .tango {
+
+.statement-directive-template .statement {
   margin-bottom: 20px; }
-  .tango-directive-template .tango .left-icons {
+  .statement-directive-template .statement .left-icons {
     display: inline-block;
     text-align: right;
     width: 110px;
     line-height: 100%;
     vertical-align: top; }
-    .tango-directive-template .tango .left-icons img, .tango-directive-template .tango .left-icons .author {
+    .statement-directive-template .statement .left-icons img, .statement-directive-template .statement .left-icons .author {
       margin-right: 5px;
       vertical-align: top;
       line-height: 100%; }
-    .tango-directive-template .tango .left-icons img {
+    .statement-directive-template .statement .left-icons img {
       height: 15px;
       position: relative;
       top: 15px; }
-    .tango-directive-template .tango .left-icons .author {
+    .statement-directive-template .statement .left-icons .author {
       border: 1px solid gray;
       border-radius: 25px;
       padding: 5px;
       position: relative;
       top: 15px;
       word-wrap: break-word; }
-  .tango-directive-template .tango textarea {
+  .statement-directive-template .statement textarea {
     font-size: 18px;
     width: 700px;
     line-height: 135%;
@@ -44,59 +44,59 @@ a {
     border: 1px solid white;
     overflow: hidden;
     vertical-align: bottom; }
-  .tango-directive-template .tango textarea:focus {
+  .statement-directive-template .statement textarea:focus {
     outline: none;
     border: 1px solid gray;
     overflow: auto; }
-  .tango-directive-template .tango .menu {
+  .statement-directive-template .statement .menu {
     margin-top: 5px;
     position: relative;
     right: 335px; }
-    .tango-directive-template .tango .menu span {
+    .statement-directive-template .statement .menu span {
       float: right;
       margin-left: 15px;
       cursor: pointer; }
 
-.tango-directive-template .level-0 {
+.statement-directive-template .level-0 {
   position: relative;
   left: 0px; }
 
-.tango-directive-template .level-1 {
+.statement-directive-template .level-1 {
   position: relative;
   left: 65px; }
 
-.tango-directive-template .level-2 {
+.statement-directive-template .level-2 {
   position: relative;
   left: 130px; }
 
-.tango-directive-template .level-3 {
+.statement-directive-template .level-3 {
   position: relative;
   left: 195px; }
 
-.tango-directive-template .level-4 {
+.statement-directive-template .level-4 {
   position: relative;
   left: 260px; }
 
-.tango-directive-template .level-5 {
+.statement-directive-template .level-5 {
   position: relative;
   left: 325px; }
 
-.tango-directive-template .level-6 {
+.statement-directive-template .level-6 {
   position: relative;
   left: 390px; }
 
-.tango-directive-template .level-7 {
+.statement-directive-template .level-7 {
   position: relative;
   left: 455px; }
 
-.tango-directive-template .level-8 {
+.statement-directive-template .level-8 {
   position: relative;
   left: 520px; }
 
-.tango-directive-template .level-9 {
+.statement-directive-template .level-9 {
   position: relative;
   left: 585px; }
 
-.tango-directive-template .level-10 {
+.statement-directive-template .level-10 {
   position: relative;
   left: 650px; }
