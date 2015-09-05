@@ -25,5 +25,5 @@ function NewTangoController($scope) {
     text: '',
     children: [],
     focus: true // start off with a statement with focus
-  }]
+  }];
 }

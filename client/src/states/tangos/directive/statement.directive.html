@@ -1,6 +1,6 @@
 <div class='statement-directive-template'>
 
-<div class='statement level-{{ level }}'>
+<div class='statement level-{{ vm.level }}'>
   <span class='left-icons'>
     <img
       ng-show='statement.children.length > 0'
@@ -8,10 +8,10 @@
     <span class='author'>WWW</span> <!-- 5 char limit -->
   </span>
   <textarea
-    ng-focus='focus = true;'
-    ng-blur='focus = false;'
-    rows='1'>{{ statement.text }}</textarea>
-  <p class='menu' ng-show='focus'>
+    ng-focus='vm.focus = true;'
+    ng-blur='vm.focus = false;'
+    rows='1'>{{ vm.statement.text }}</textarea>
+  <p class='menu' ng-show='vm.focus'>
     <span class='glyphicon glyphicon-indent-left'></span>
     <span class='glyphicon glyphicon-indent-right'></span>
     <span> | </span>
@@ -21,9 +21,9 @@
 </div>
 
 <statement
-  ng-repeat='substatement in statement.children'
+  ng-repeat='substatement in vm.statement.children'
   statement='substatement'
-  level='{{ +level + 1 }}'>
+  level='{{ +vm.level + 1 }}'>
 </tango>
 
 </div>
