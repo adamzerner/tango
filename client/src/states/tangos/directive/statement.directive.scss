@@ -1,0 +1,61 @@
+.statement-directive-template {
+  .statement {
+    margin-bottom: 20px;
+    .left-icons {
+      display: inline-block;
+      text-align: right;
+      width: 110px;
+      line-height: 100%;
+      vertical-align: top;
+      img, .author {
+        margin-right: 5px;
+        vertical-align: top;
+        line-height: 100%;
+      }
+      img {
+        height: 15px;
+        position: relative;
+        top: 15px;
+      }
+      .author {
+        border: 1px solid gray;
+        border-radius: 25px;
+        padding: 5px;
+        position: relative;
+        top: 15px;
+        word-wrap: break-word;
+      }
+    }
+    textarea {
+      font-size: 18px;
+      width: 700px;
+      line-height: 135%;
+      padding: 8px 16px;
+      resize: none;
+      border: 1px solid white;
+      overflow: hidden;
+      vertical-align: bottom;
+    }
+    textarea:focus {
+      outline: none;
+      border: 1px solid gray;
+      overflow: auto; // only have scroll bar when focused
+    }
+    .menu {
+      margin-top: 5px;
+      position: relative;
+      right: 335px;
+      span {
+        float: right;
+        margin-left: 15px;
+        cursor: pointer;
+      }
+    }
+  }
+  @for $i from 0 through 10 {
+    .level-#{$i} {
+      position: relative;
+      left: #{$i*65}px;
+    }
+  }
+}
