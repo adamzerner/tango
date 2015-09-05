@@ -21,7 +21,4 @@ function NewTangoController($scope) {
       }]
     }]
   }];
-  $scope.$evalAsync(function() {
-    autosize(document.getElementsByTagName('textarea'));
-  });
 }

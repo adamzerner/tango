@@ -8,26 +8,33 @@ html {
 a {
   cursor: pointer; }
 
+
 #home-template h1 {
   color: black; }
-
 
 .tango-directive-template .tango {
   margin-bottom: 20px; }
   .tango-directive-template .tango .left-icons {
     display: inline-block;
     text-align: right;
-    width: 67px; }
+    width: 110px;
+    line-height: 100%;
+    vertical-align: top; }
     .tango-directive-template .tango .left-icons img, .tango-directive-template .tango .left-icons .author {
-      position: relative;
-      bottom: 15px;
-      margin-right: 5px; }
+      margin-right: 5px;
+      vertical-align: top;
+      line-height: 100%; }
     .tango-directive-template .tango .left-icons img {
-      height: 20px; }
+      height: 15px;
+      position: relative;
+      top: 15px; }
     .tango-directive-template .tango .left-icons .author {
       border: 1px solid gray;
       border-radius: 25px;
-      padding: 10px; }
+      padding: 5px;
+      position: relative;
+      top: 15px;
+      word-wrap: break-word; }
   .tango-directive-template .tango textarea {
     font-size: 18px;
     width: 700px;
@@ -35,13 +42,16 @@ a {
     padding: 8px 16px;
     resize: none;
     border: 1px solid white;
-    overflow: hidden; }
+    overflow: hidden;
+    vertical-align: bottom; }
   .tango-directive-template .tango textarea:focus {
     outline: none;
     border: 1px solid gray;
     overflow: auto; }
   .tango-directive-template .tango .menu {
-    width: 750px; }
+    margin-top: 5px;
+    position: relative;
+    right: 335px; }
     .tango-directive-template .tango .menu span {
       float: right;
       margin-left: 15px;
