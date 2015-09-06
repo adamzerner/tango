@@ -6,7 +6,7 @@ angular
 function statement(RecursionHelper) {
   return {
     restrict: 'E',
-    templateUrl: '/states/tangos/directive/statement.directive.html',
+    templateUrl: '/states/tangos/statementDirective/statement.directive.html',
     scope: {
       statement: '=',
       level: '@'
@@ -14,6 +14,7 @@ function statement(RecursionHelper) {
     controller: function statementController(StatementConstructor, $sce) {
       var vm = this;
       vm.insertNextStatementHtml = $sce.trustAsHtml('Insert next statement<br />(cmd + enter)');
+      vm.deleteStatementHtml = $sce.trustAsHtml('Delete statement<br />(cmd + del/backspace)');
       vm.indentRightHtml = $sce.trustAsHtml('Indent right<br />(cmd + -->)');
       vm.indentLeftHtml = $sce.trustAsHtml('Indent left<br />(cmd + <--)');
       vm.insertNextStatement = function(e) {
@@ -23,6 +24,16 @@ function statement(RecursionHelper) {
         var parentArr = vm.statement.parent.children || vm.statement.parent;
         var currIndex = parentArr.indexOf(vm.statement);
         parentArr.splice(currIndex+1, 0, newStatement);
+      };
+      vm.deleteStatement = function() {
+        var parent = vm.statement.parent;
+        if (!parent.children && parent.length === 1) {
+          console.log('can\'t delete');
+          return; // can't delete the only statement
+        }
+        var parentArr = parent.children || parent;
+        var index = parentArr.indexOf(vm.statement);
+        parentArr.splice(index, 1);
       };
       vm.indentRight = function() {
         var parent = vm.statement.parent;
@@ -61,13 +72,17 @@ function statement(RecursionHelper) {
           if (e.which === 13) { // cmd + enter
             vm.insertNextStatement(e);
           }
+          else if (e.keyCode === 37) { // cmd + left arrow
+            e.preventDefault();
+            vm.indentLeft();
+          }
           else if (e.keyCode === 39) { // cmd + right arrow
             e.preventDefault();
             vm.indentRight();
           }
-          else if (e.keyCode === 37) { // cmd + left arrow
+          else if (e.which === 8) {
             e.preventDefault();
-            vm.indentLeft();
+            console.log('backspace');
           }
         }
       };
