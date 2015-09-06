@@ -14,7 +14,6 @@ function statement(RecursionHelper) {
     controller: function statementController(StatementConstructor, $sce) {
       var vm = this;
       vm.insertNextStatementHtml = $sce.trustAsHtml('Insert next statement<br />(cmd + enter)');
-      vm.insertChildHtml = $sce.trustAsHtml('Create child<br />(cmd + shift + enter)');
       vm.indentRightHtml = $sce.trustAsHtml('Indent right<br />(cmd + -->)');
       vm.indentLeftHtml = $sce.trustAsHtml('Indent left<br />(cmd + <--)');
       vm.insertNextStatement = function(e) {
@@ -24,12 +23,6 @@ function statement(RecursionHelper) {
         var parentArr = vm.statement.parent.children || vm.statement.parent;
         var currIndex = parentArr.indexOf(vm.statement);
         parentArr.splice(currIndex+1, 0, newStatement);
-      };
-      vm.insertChild = function(e) {
-        e.preventDefault();
-        var newStatement = new StatementConstructor();
-        newStatement.parent = vm.statement;
-        vm.statement.children.unshift(newStatement);
       };
       vm.indentRight = function() {
         var parent = vm.statement.parent;
@@ -65,10 +58,7 @@ function statement(RecursionHelper) {
       // key bindings
       vm.shortCut = function(e) {
         if (e.metaKey) {
-          if (e.shiftKey && e.which === 13) { // cmd + shift + enter
-            vm.insertChild(e);
-          }
-          else if (e.which === 13) { // cmd + enter
+          if (e.which === 13) { // cmd + enter
             vm.insertNextStatement(e);
           }
           else if (e.keyCode === 39) { // cmd + right arrow
