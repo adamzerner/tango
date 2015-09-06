@@ -9,7 +9,6 @@ function statement(RecursionHelper) {
     templateUrl: '/states/tangos/directive/statement.directive.html',
     scope: {
       statement: '=',
-      parent: '=',
       level: '@'
     },
     controller: function statementController(StatementConstructor, $sce) {
@@ -21,20 +20,46 @@ function statement(RecursionHelper) {
       vm.insertNextStatement = function(e) {
         e.preventDefault();
         var newStatement = new StatementConstructor();
-        var currIndex = vm.parent.indexOf(vm.statement);
-        vm.parent.splice(currIndex+1, 0, newStatement);
+        newStatement.parent = vm.statement.parent;
+        var parentArr = vm.statement.parent.children || vm.statement.parent;
+        var currIndex = parentArr.indexOf(vm.statement);
+        parentArr.splice(currIndex+1, 0, newStatement);
       };
       vm.insertChild = function(e) {
         e.preventDefault();
         var newStatement = new StatementConstructor();
-        vm.statement.children.push(newStatement);
+        newStatement.parent = vm.statement;
+        vm.statement.children.unshift(newStatement);
       };
       vm.indentRight = function() {
-        // just have to navigate the array, don't have to deal with the DOM
-        console.log('indent');
+        var parent = vm.statement.parent;
+        var parentArr = parent.children || parent;
+        var index = parentArr.indexOf(vm.statement);
+        if (index > 0) {
+          parentArr[index-1].children.push(vm.statement);
+          vm.statement.parent = parentArr[index-1];
+          parentArr.splice(index, 1);
+        }
+        else {
+          console.log('can\'t indent right');
+        }
       };
       vm.indentLeft = function() {
-        console.log('indent back');
+        var parent = vm.statement.parent;
+        var grandparent = parent.parent;
+        if (!grandparent) {
+          console.log('can\'t indent left');
+          return;
+        }
+        // insert statement into new position
+        var grandparentArr = grandparent.children || grandparent;
+        var grandparentIndex = grandparentArr.indexOf(parent);
+        var statementCopy = angular.copy(vm.statement);
+        grandparentArr.splice(grandparentIndex+1, 0, vm.statement);
+        vm.statement.parent = grandparent;
+        // remove statement from old position
+        var parentIndex = parent.children.indexOf(vm.statement);
+        parent.children.splice(parentIndex, 1);
       };
 
       // key bindings
