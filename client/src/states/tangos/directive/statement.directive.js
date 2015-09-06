@@ -9,11 +9,11 @@ function statement(RecursionHelper) {
     templateUrl: '/states/tangos/directive/statement.directive.html',
     scope: {
       statement: '=',
-      parent: '=',
       level: '@'
     },
     controller: function statementController(StatementConstructor, $sce) {
       var vm = this;
+      console.log(vm.statement);
       vm.insertNextStatementHtml = $sce.trustAsHtml('Insert next statement<br />(cmd + enter)');
       vm.insertChildHtml = $sce.trustAsHtml('Create child<br />(cmd + shift + enter)');
       vm.indentRightHtml = $sce.trustAsHtml('Indent right<br />(cmd + -->)');
@@ -21,19 +21,26 @@ function statement(RecursionHelper) {
       vm.insertNextStatement = function(e) {
         e.preventDefault();
         var newStatement = new StatementConstructor();
-        var currIndex = vm.parent.indexOf(vm.statement);
-        vm.parent.splice(currIndex+1, 0, newStatement);
+        newStatement.parent = vm.statement.parent;
+        var parentArr = vm.statement.parent.children || vm.statement.parent;
+        var currIndex = parentArr.indexOf(vm.statement);
+        parentArr.splice(currIndex+1, 0, newStatement);
       };
       vm.insertChild = function(e) {
         e.preventDefault();
         var newStatement = new StatementConstructor();
-        vm.statement.children.push(newStatement);
+        newStatement.parent = vm.statement;
+        vm.statement.children.unshift(newStatement);
       };
       vm.indentRight = function() {
         // just have to navigate the array, don't have to deal with the DOM
         console.log('indent');
       };
       vm.indentLeft = function() {
+        if (vm.level === '0') {
+          return;
+        }
+
         console.log('indent back');
       };
 

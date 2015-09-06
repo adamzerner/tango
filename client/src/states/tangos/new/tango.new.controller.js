@@ -21,9 +21,12 @@ function NewTangoController($scope) {
   //     }]
   //   }]
   // }];
-  vm.statements = [{
+
+  vm.statements = [];
+  vm.statements.push({
     text: '',
     children: [],
+    parent: vm.statements,
     focus: true // start off with a statement with focus
-  }];
+  });
 }
