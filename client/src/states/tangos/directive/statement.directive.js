@@ -13,7 +13,6 @@ function statement(RecursionHelper) {
     },
     controller: function statementController(StatementConstructor, $sce) {
       var vm = this;
-      console.log(vm.statement);
       vm.insertNextStatementHtml = $sce.trustAsHtml('Insert next statement<br />(cmd + enter)');
       vm.insertChildHtml = $sce.trustAsHtml('Create child<br />(cmd + shift + enter)');
       vm.indentRightHtml = $sce.trustAsHtml('Indent right<br />(cmd + -->)');
@@ -33,15 +32,34 @@ function statement(RecursionHelper) {
         vm.statement.children.unshift(newStatement);
       };
       vm.indentRight = function() {
-        // just have to navigate the array, don't have to deal with the DOM
-        console.log('indent');
+        var parent = vm.statement.parent;
+        var parentArr = parent.children || parent;
+        var index = parentArr.indexOf(vm.statement);
+        if (index > 0) {
+          parentArr[index-1].children.push(vm.statement);
+          vm.statement.parent = parentArr[index-1];
+          parentArr.splice(index, 1);
+        }
+        else {
+          console.log('can\'t indent right');
+        }
       };
       vm.indentLeft = function() {
-        if (vm.level === '0') {
+        var parent = vm.statement.parent;
+        var grandparent = parent.parent;
+        if (!grandparent) {
+          console.log('can\'t indent left');
           return;
         }
-
-        console.log('indent back');
+        // insert statement into new position
+        var grandparentArr = grandparent.children || grandparent;
+        var grandparentIndex = grandparentArr.indexOf(parent);
+        var statementCopy = angular.copy(vm.statement);
+        grandparentArr.splice(grandparentIndex+1, 0, vm.statement);
+        vm.statement.parent = grandparent;
+        // remove statement from old position
+        var parentIndex = parent.children.indexOf(vm.statement);
+        parent.children.splice(parentIndex, 1);
       };
 
       // key bindings
