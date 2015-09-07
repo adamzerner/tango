@@ -16,9 +16,9 @@ a {
 .clear:after {
   clear: both; }
 
+
 #home-template h1 {
   color: black; }
-
 
 .statement-directive-template .statement {
   margin-bottom: 20px; }
@@ -49,22 +49,27 @@ a {
     line-height: 135%;
     padding: 8px 16px;
     resize: none;
-    border: 1px solid white;
+    border: 1px solid #F1F1F1;
     overflow: hidden;
     vertical-align: bottom; }
   .statement-directive-template .statement textarea:focus {
     outline: none;
     border: 1px solid gray;
     overflow: auto; }
-  .statement-directive-template .statement .menu {
+  .statement-directive-template .statement .menu-container {
+    min-height: 20px;
     margin-top: 5px;
-    width: 810px;
-    position: relative;
-    right: 5px; }
-    .statement-directive-template .statement .menu span {
-      float: right;
-      margin-left: 15px;
-      cursor: pointer; }
+    margin-bottom: 10px; }
+    .statement-directive-template .statement .menu-container .menu {
+      margin-top: 5px;
+      width: 810px;
+      position: relative;
+      right: 5px;
+      margin: 0; }
+      .statement-directive-template .statement .menu-container .menu span {
+        float: right;
+        margin-left: 15px;
+        cursor: pointer; }
 
 .statement-directive-template .level-0 {
   position: relative;

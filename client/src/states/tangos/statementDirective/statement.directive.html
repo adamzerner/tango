@@ -1,0 +1,53 @@
+<div class='statement-directive-template'>
+
+<div class='statement level-{{ vm.level }}' ng-keydown='vm.shortCut($event)'>
+  <span class='left-icons'>
+    <img
+      ng-show='statement.children.length > 0'
+      src='/assets/images/show-arrow.png'>
+    <span class='author'>WWW</span> <!-- 5 char limit -->
+  </span>
+  <textarea
+    ng-model='vm.statement.text'
+    ng-focus='vm.statement.focus = true;'
+    ng-blur='vm.statement.focus = false;'
+    rows='1'></textarea>
+  <div class='menu-container'>
+    <p class='menu clear' ng-show='vm.statement.focus'>
+      <span
+        class='glyphicon glyphicon-remove'
+        tooltip-html='vm.deleteStatementHtml'
+        tooltip-placement='left'
+        ng-mousedown='vm.deleteStatement($event)'>
+      </span>
+      <span> &bull; </span>
+      <span
+        class='glyphicon glyphicon-indent-left'
+        tooltip-html='vm.indentRightHtml'
+        tooltip-placement='bottom'
+        ng-mousedown='vm.indentRight()'>
+      </span>
+      <span
+        class='glyphicon glyphicon-indent-right'
+        tooltip-html='vm.indentLeftHtml'
+        tooltip-placement='bottom'
+        ng-mousedown='vm.indentLeft()'>
+      </span>
+      <span> &bull; </span>
+      <span
+        class='glyphicon glyphicon-plus'
+        tooltip-html='vm.insertNextStatementHtml'
+        tooltip-placement='bottom'
+        ng-mousedown='vm.insertNextStatement($event)'>
+      </span>
+    </p>
+  </div>
+</div>
+
+</div>
+
+<statement
+  ng-repeat='substatement in vm.statement.children track by $index'
+  statement='substatement'
+  level='{{ +vm.level + 1 }}'>
+</statement>
