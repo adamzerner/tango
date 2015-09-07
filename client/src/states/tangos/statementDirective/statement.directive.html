@@ -3,8 +3,15 @@
 <div class='statement level-{{ vm.level }}' ng-keydown='vm.shortCut($event)'>
   <span class='left-icons'>
     <img
-      ng-show='statement.children.length > 0'
-      src='/assets/images/show-arrow.png'>
+      src='/assets/images/hide-arrow.png'
+      ng-click='vm.hideChildren()'
+      ng-show='vm.statement.children.length > 0
+               && !vm.statement.childrenHidden'>
+    <img
+      src='/assets/images/show-arrow.png'
+      ng-click='vm.showChildren()'
+      ng-show='vm.statement.children.length > 0
+               && vm.statement.childrenHidden'>
     <span class='author'>WWW</span> <!-- 5 char limit -->
   </span>
   <textarea
@@ -47,6 +54,7 @@
 </div>
 
 <statement
+  ng-hide='vm.statement.childrenHidden'
   ng-repeat='substatement in vm.statement.children track by $index'
   statement='substatement'
   level='{{ +vm.level + 1 }}'>

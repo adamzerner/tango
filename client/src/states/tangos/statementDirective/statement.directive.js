@@ -13,6 +13,12 @@ function statement(RecursionHelper) {
     },
     controller: function statementController(StatementConstructor, $sce, $timeout, $scope) {
       var vm = this;
+      vm.hideChildren = function() {
+        vm.statement.childrenHidden = true;
+      };
+      vm.showChildren = function() {
+        vm.statement.childrenHidden = false;
+      };
       vm.insertNextStatementHtml = $sce.trustAsHtml('Insert next statement<br />(cmd + enter)');
       vm.deleteStatementHtml = $sce.trustAsHtml('Delete statement<br />(cmd + del/backspace)');
       vm.indentRightHtml = $sce.trustAsHtml('Indent right<br />(cmd + -->)');

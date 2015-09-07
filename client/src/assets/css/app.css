@@ -16,9 +16,9 @@ a {
 .clear:after {
   clear: both; }
 
-
 #home-template h1 {
   color: black; }
+
 
 .statement-directive-template .statement {
   margin-bottom: 20px; }
@@ -35,7 +35,8 @@ a {
     .statement-directive-template .statement .left-icons img {
       height: 15px;
       position: relative;
-      top: 15px; }
+      top: 15px;
+      cursor: pointer; }
     .statement-directive-template .statement .left-icons .author {
       border: 1px solid gray;
       border-radius: 25px;
