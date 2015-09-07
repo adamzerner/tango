@@ -8,5 +8,6 @@ function StatementConstructorFactory() {
     this.text = '';
     this.children = [];
     this.focus = true;
+    this.childrenHidden = false;
   }
 }
