@@ -18,7 +18,7 @@
         class='glyphicon glyphicon-remove'
         tooltip-html='vm.deleteStatementHtml'
         tooltip-placement='left'
-        ng-mousedown='vm.deleteStatement()'>
+        ng-mousedown='vm.deleteStatement($event)'>
       </span>
       <span> &bull; </span>
       <span
@@ -35,7 +35,7 @@
       </span>
       <span> &bull; </span>
       <span
-        class='glyphicon glyphicon-arrow-down'
+        class='glyphicon glyphicon-plus'
         tooltip-html='vm.insertNextStatementHtml'
         tooltip-placement='bottom'
         ng-mousedown='vm.insertNextStatement($event)'>
