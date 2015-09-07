@@ -1,5 +1,33 @@
 <div id='new-tango-template'>
 
+<div class='sims'>
+  <p>
+    <strong>Sims</strong>
+    <span class='glyphicon glyphicon-question-sign'></span>
+  </p>
+  <div class='sim' ng-repeat='sim in vm.tango.sims'>
+    <label>Name: </label>
+    <input
+      type='text'
+      class='sim-name'
+      ng-model='sim.name'
+      maxlength='5'>
+    <label>Description: </label>
+    <input
+      type='text'
+      class='sim-description'
+      ng-model='sim.description'
+      maxlength='140'>
+    <span
+      class='glyphicon glyphicon-remove'
+      ng-click='vm.removeSim(sim)'>
+    </span>
+  </div>
+  <span
+    class='glyphicon glyphicon-plus'
+    ng-click='vm.newSim()'>
+</div>
+
 <div class='page-header'>
   <h1
     ng-show="vm.titleState === 'show'"
@@ -7,6 +35,7 @@
     {{ vm.tango.title }}
   </h1>
   <input
+    type='text'
     ng-show="vm.titleState === 'edit'"
     ng-model='vm.tango.title'
     ng-blur='vm.showTitle()'>
@@ -15,6 +44,7 @@
 <statement
   ng-repeat='statement in vm.tango.statements'
   statement='statement'
+  sims='vm.tango.sims'
   level='0'>
 </statement>
 

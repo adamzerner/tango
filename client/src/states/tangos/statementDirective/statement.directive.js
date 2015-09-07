@@ -9,10 +9,23 @@ function statement(RecursionHelper) {
     templateUrl: '/states/tangos/statementDirective/statement.directive.html',
     scope: {
       statement: '=',
+      sims: '=',
       level: '@'
     },
     controller: function statementController(StatementConstructor, $sce, $timeout, $scope) {
       var vm = this;
+
+      vm.sim = vm.sims[vm.statement.simNumber];
+      vm.changeSim = function() {
+        if (vm.statement.simNumber === vm.sims.length-1) {
+          vm.statement.simNumber = 0;
+        }
+        else {
+          vm.statement.simNumber++;
+        }
+        vm.sim = vm.sims[vm.statement.simNumber];
+      };
+
       vm.hideChildren = function() {
         vm.statement.childrenHidden = true;
       };
@@ -51,7 +64,7 @@ function statement(RecursionHelper) {
       };
       vm.insertNextStatement = function(e) {
         e.preventDefault();
-        var newStatement = new StatementConstructor();
+        var newStatement = new StatementConstructor(vm.statement.simNumber);
         newStatement.parent = vm.statement.parent;
         var parentArr = vm.statement.parent.children || vm.statement.parent;
         var currIndex = parentArr.indexOf(vm.statement);
@@ -121,6 +134,9 @@ function statement(RecursionHelper) {
           }
           else if (e.which === 40) { // cmd + down arrow
             vm.downOne(e);
+          }
+          else if (e.which === 74) { // cmd + j
+            vm.changeSim();
           }
         }
       };

@@ -3,9 +3,11 @@ angular
   .controller('NewTangoController', NewTangoController)
 ;
 
-function NewTangoController($scope, $timeout) {
+function NewTangoController($scope, $timeout, StatementConstructor) {
   var vm = this;
   vm.tango = {};
+
+  // title
   vm.tango.title = 'Title (click to edit)';
   vm.titleState = 'show'; // or edit
   vm.editTitle = function() {
@@ -18,13 +20,33 @@ function NewTangoController($scope, $timeout) {
     vm.titleState = 'show';
   }
 
-  vm.tango.statements = [];
-  vm.tango.statements.push({
-    text: '',
-    children: [],
-    parent: vm.tango.statements,
-    focus: true // start off with a statement with focus
+  // sims
+  vm.tango.sims = [];
+  vm.tango.sims.push({
+    name: 'A'
   });
+  vm.newSim = function() {
+    vm.tango.sims.push({
+      name: ''
+    });
+    $timeout(function() {
+      angular.element('input:last').focus();
+    }, 0);
+  };
+  vm.removeSim = function(sim) {
+    if (vm.tango.sims.length === 1) {
+      return;
+    }
+    var index = vm.tango.sims.indexOf(sim);
+    vm.tango.sims.splice(index, 1);
+  };
+
+  // statements
+  vm.tango.statements = [];
+  var newStatement = new StatementConstructor();
+  newStatement.parent = vm.tango.statements;
+  newStatement.focus = true; // start off with a statement with focus
+  vm.tango.statements.push(newStatement);
 
   // vm.tango.statements = [{
   //   text: '1',
