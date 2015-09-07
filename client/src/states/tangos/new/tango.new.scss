@@ -1,0 +1,15 @@
+#new-tango-template {
+  .page-header {
+    h1 {
+      cursor: pointer;
+    }
+    input {
+      font-size: 36px;
+      font-weight: 500;
+    }
+    input:focus {
+      outline: none;
+      border: 1px solid gray;
+    }
+  }
+}

@@ -20,6 +20,17 @@ a {
   color: black; }
 
 
+#new-tango-template .page-header h1 {
+  cursor: pointer; }
+
+#new-tango-template .page-header input {
+  font-size: 36px;
+  font-weight: 500; }
+
+#new-tango-template .page-header input:focus {
+  outline: none;
+  border: 1px solid gray; }
+
 .statement-directive-template .statement {
   margin-bottom: 20px; }
   .statement-directive-template .statement .left-icons {

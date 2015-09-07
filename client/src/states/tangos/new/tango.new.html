@@ -1,9 +1,21 @@
+<div id='new-tango-template'>
+
 <div class='page-header'>
-  <h1>Create a Tango</h1>
+  <h1
+    ng-show="vm.titleState === 'show'"
+    ng-click='vm.editTitle()'>
+    {{ vm.tango.title }}
+  </h1>
+  <input
+    ng-show="vm.titleState === 'edit'"
+    ng-model='vm.tango.title'
+    ng-blur='vm.showTitle()'>
 </div>
 
 <statement
-  ng-repeat='statement in vm.statements'
+  ng-repeat='statement in vm.tango.statements'
   statement='statement'
   level='0'>
 </statement>
+
+</div>
