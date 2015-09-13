@@ -32,10 +32,12 @@ function statement(RecursionHelper) {
       vm.showChildren = function() {
         vm.statement.childrenHidden = false;
       };
-      vm.insertNextStatementHtml = $sce.trustAsHtml('Insert next statement<br />(cmd + enter)');
-      vm.deleteStatementHtml = $sce.trustAsHtml('Delete statement<br />(cmd + del/backspace)');
-      vm.indentRightHtml = $sce.trustAsHtml('Indent right<br />(cmd + -->)');
-      vm.indentLeftHtml = $sce.trustAsHtml('Indent left<br />(cmd + <--)');
+      vm.insertNextStatementHtml = $sce.trustAsHtml('Insert next statement<br />cmd + ctrl + enter');
+      vm.deleteStatementHtml = $sce.trustAsHtml('Delete statement<br />cmd + ctrl + del/backspace');
+      vm.indentRightHtml = $sce.trustAsHtml('Indent right<br />cmd + ctrl + ]');
+      vm.indentLeftHtml = $sce.trustAsHtml('Indent left<br />cmd + ctrl + [');
+      vm.upOneHtml = $sce.trustAsHtml('Up one<br />cmd + ctrl + up')
+      vm.downOneHtml = $sce.trustAsHtml('Down one<br />cmd + ctrl + down');
       vm.upOne = function(e) {
         var textareas = $('textarea');
         var curr;
@@ -114,28 +116,28 @@ function statement(RecursionHelper) {
 
       // key bindings
       vm.shortCut = function(e) {
-        if (e.metaKey) {
-          if (e.which === 13) { // cmd + enter
+        if (e.metaKey && e.ctrlKey) {
+          if (e.which === 13) { // enter
             vm.insertNextStatement(e);
           }
-          else if (e.which === 37) { // cmd + left arrow
+          else if (e.which === 219) { // open bracket
             e.preventDefault();
             vm.indentLeft();
           }
-          else if (e.which === 39) { // cmd + right arrow
+          else if (e.which === 221) { // close bracket
             e.preventDefault();
             vm.indentRight();
           }
-          else if (e.which === 8) { // cmd + delete
+          else if (e.which === 8) { // delete
             vm.deleteStatement(e);
           }
-          else if (e.which === 38) { // cmd + up arrow
+          else if (e.which === 38) { // up arrow
             vm.upOne(e);
           }
-          else if (e.which === 40) { // cmd + down arrow
+          else if (e.which === 40) { // down arrow
             vm.downOne(e);
           }
-          else if (e.which === 74) { // cmd + j
+          else if (e.which === 74) { // j
             vm.changeSim();
           }
         }
