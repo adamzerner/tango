@@ -16,8 +16,7 @@ function AdminController(User, Auth, $state, $rootScope, $cookies) {
   ;
 
   vm.delete = function(id) {
-    User
-      .delete(id)
+    User.delete(id)
       .then(function() {
         if ($rootScope.user._id === id) { // deleting yourself
           angular.copy({}, $rootScope.user);

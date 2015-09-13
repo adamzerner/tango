@@ -18,8 +18,7 @@ function run($rootScope, Auth, $state) {
       return;
     }
 
-    Auth
-      .getCurrentUser()
+    Auth.getCurrentUser()
       .then(function (currentUser) {
         var isLoggedIn = !!currentUser._id;
         var isAdmin = isLoggedIn && currentUser.local && currentUser.local.role === 'admin';

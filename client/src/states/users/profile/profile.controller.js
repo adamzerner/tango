@@ -5,8 +5,7 @@ angular
 
 function ProfileController(User, $stateParams) {
   var vm = this;
-  User
-    .get($stateParams.id)
+  User.get($stateParams.id)
     .then(function(response) {
       vm.user = response.data;
     })
