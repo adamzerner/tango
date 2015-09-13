@@ -12,7 +12,11 @@
       ng-click='vm.showChildren()'
       ng-show='vm.statement.children.length > 0
                && vm.statement.childrenHidden'>
-    <span class='author'>WWW</span> <!-- 5 char limit -->
+    <span
+      class='author'
+      ng-click='vm.changeSim()'>
+      {{ vm.sim.name }}
+    </span> <!-- 5 char limit -->
   </span>
   <textarea
     ng-model='vm.statement.text'
@@ -57,5 +61,7 @@
   ng-hide='vm.statement.childrenHidden'
   ng-repeat='substatement in vm.statement.children track by $index'
   statement='substatement'
+  sims='vm.sims'
+  currSim='{{ vm.currSim }}'
   level='{{ +vm.level + 1 }}'>
 </statement>

@@ -1,0 +1,41 @@
+#new-tango-template {
+  .page-header {
+    h1 {
+      cursor: pointer;
+    }
+    input {
+      font-size: 36px;
+      font-weight: 500;
+    }
+    input:focus {
+      outline: none;
+      border: 1px solid gray;
+    }
+  }
+  .sims {
+    border: 1px solid lightGray;
+    padding: 5px;
+    width: 650px;
+    label {
+      font-weight: normal;
+    }
+    input {
+      margin-bottom: 5px;
+      padding: 4px 8px;
+      border: 1px solid gray;
+    }
+    .sim-name {
+      width: 5em;
+      margin-right: 5px;
+    }
+    .sim-description {
+      width: 400px;
+    }
+    .glyphicon-plus, .glyphicon-remove {
+      cursor: pointer;
+    }
+    .glyphicon-plus {
+      margin-top: 10px;
+    }
+  }
+}
