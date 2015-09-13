@@ -23,3 +23,7 @@ var StatementSchema = new Schema({
   childrenHidden: { type: Boolean, required: true },
   simId: { type: Number, required: true }
 });
+
+exports.TangoSchema = TangoSchema;
+exports.SimSchema = SimSchema;
+exports.StatementSchema = StatementSchema;

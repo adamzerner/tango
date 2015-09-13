@@ -1,6 +1,6 @@
 var express = require('express');
-var mongoose = require('mongoose');
 var router = express.Router();
+var mongoose = require('mongoose');
 var Auth = require('../auth/auth.service.js');
 var bcrypt = require('bcrypt');
 var _ = require('lodash');
