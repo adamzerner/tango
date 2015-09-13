@@ -6,8 +6,7 @@ angular
 function Auth($http, $cookies, $q, $rootScope) {
   return {
     logout: function() {
-      $http
-        .get('/logout')
+      $http.get('/logout')
         .then(function() {
           angular.copy({}, $rootScope.user);
           $cookies.remove('userId');
@@ -39,8 +38,7 @@ function Auth($http, $cookies, $q, $rootScope) {
     },
 
     requestCurrentUser: function() {
-      return $http
-        .get('/current-user')
+      return $http.get('/current-user')
         .then(function(response) {
           angular.copy(response.data, $rootScope.user);
           $cookies.put('userId', response.data._id);

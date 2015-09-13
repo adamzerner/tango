@@ -18,8 +18,7 @@ function forwardError(res) {
 }
 
 router.get('/', function(req, res) {
-  User
-    .find({}).populate('local').exec()
+  User.find({}).populate('local').exec()
     .then(function(users) {
       res.status(200).json(users);
     }, forwardError(res))
@@ -27,8 +26,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/:id', function(req, res) {
-  User
-    .findById(req.params.id).populate('local').exec()
+  User.findById(req.params.id).populate('local').exec()
     .then(function(user) {
       if (!user) {
         return res.status(404).end();
@@ -61,11 +59,9 @@ router.post('/', function(req, res) {
     return res.status(400).send({ error: 'A password is required.' });
   }
 
-  Local
-    .create(req.body)
+  Local.create(req.body)
     .then(function(local) {
-      User
-        .create({ local: local })
+      User.create({ local: local })
         .then(function(user) {
           req.login(user, function(loginErr) {
             if (loginErr) {
@@ -107,8 +103,7 @@ router.put('/:id', Auth.isAuthorized, function(req, res) {
     delete req.body.password;
   }
 
-  User
-    .findById(req.params.id).exec()
+  User.findById(req.params.id).exec()
     .then(function(user) {
       Local
         .findByIdAndUpdate(user.local, req.body, { new: true }).exec()
@@ -128,15 +123,13 @@ router.put('/:id', Auth.isAuthorized, function(req, res) {
 });
 
 router.delete('/:id', Auth.isAuthorized, function(req, res) {
-  User
-    .findByIdAndRemove(req.params.id).exec()
+  User.findByIdAndRemove(req.params.id).exec()
     .then(function(user) {
       if (!user) {
         return res.status(404).end();
       }
       if (user.local) {
-        Local
-          .findByIdAndRemove(user.local).exec()
+        Local.findByIdAndRemove(user.local).exec()
           .then(function() {
             if (req.user._id.toString() === req.params.id) {
               req.logout();
@@ -146,8 +139,7 @@ router.delete('/:id', Auth.isAuthorized, function(req, res) {
         ;
       }
       else if (user.facebook) {
-        Facebook
-          .findByIdAndRemove(user.facebook).exec()
+        Facebook.findByIdAndRemove(user.facebook).exec()
           .then(function() {
             if (req.user._id.toString() === req.params.id) {
               req.logout();
@@ -157,8 +149,7 @@ router.delete('/:id', Auth.isAuthorized, function(req, res) {
         ;
       }
       else if (user.twitter) {
-        Twitter
-          .findByIdAndRemove(user.twitter).exec()
+        Twitter.findByIdAndRemove(user.twitter).exec()
           .then(function() {
             if (req.user._id.toString() === req.params.id) {
               req.logout();
@@ -168,8 +159,7 @@ router.delete('/:id', Auth.isAuthorized, function(req, res) {
         ;
       }
       else if (user.google) {
-        Google
-          .findByIdAndRemove(user.google).exec()
+        Google.findByIdAndRemove(user.google).exec()
           .then(function() {
             if (req.user._id.toString() === req.params.id) {
               req.logout();

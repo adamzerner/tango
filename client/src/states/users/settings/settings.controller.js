@@ -5,8 +5,7 @@ angular
 
 function SettingsController($stateParams, $state, User, Auth, $rootScope, $cookies) {
   var vm = this;
-  User
-    .get($stateParams.id)
+  User.get($stateParams.id)
     .then(function(response) {
       vm.user = response.data;
     })
@@ -16,8 +15,7 @@ function SettingsController($stateParams, $state, User, Auth, $rootScope, $cooki
   ;
 
   vm.delete = function() {
-    User
-      .delete(vm.user._id)
+    User.delete(vm.user._id)
       .then(function() {
         angular.copy({}, $rootScope.user);
         $cookies.remove('userId');
