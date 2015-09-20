@@ -1,3 +1,5 @@
+// refactor note: change result to createdUser(s) to be more semantic
+
 var mongoose = require('mongoose');
 var assert = require('assert');
 var request = require('supertest');

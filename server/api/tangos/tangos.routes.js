@@ -1,12 +1,19 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-var TangoSchema = require('./tango.schema.js');
+var Auth = require('../../Auth/auth.service.js');
+var UserSchema = require('../users/user.schema.js').UserSchema;
+var User = mongoose.model('User', UserSchema);
+var TangoSchema = require('./tango.schema.js').TangoSchema;
 var Tango = mongoose.model('Tango', TangoSchema);
 
 function forwardError(res) {
   return function errorForwarder(err) {
-    res.status(500).send({ error: err });
+    if (err) {
+      console.log('ERROR');
+      console.log(err);
+    }
+    res.status(500).send({ error: err.message });
   }
 }
 
@@ -41,13 +48,18 @@ router.post('/', Auth.isLoggedIn, function(req, res) {
           currentUser.tangos.push(createdTango);
           currentUser.save(function(err) {
             if (err) {
-              return res.status(500).send({ error: err });
-              res.status(201).json(createdTango);
+              return res.status(500).send({ error: err.message });
             }
+            return res.status(201).json(createdTango);
           });
         }, forwardError(res))
       ;
-    }, forwardError(res))
+    })
+    .then(null, function(err) { // invalid tango
+      console.log('INVALID TANGO');
+      console.log(err);
+      res.status(400).send({ error: err.message });
+    });
   ;
 });
 
@@ -87,3 +99,5 @@ router.delete('/:id', Auth.isAuthorized, function(req, res) {
     }, forwardError(res))
   ;
 });
+
+module.exports = router;
