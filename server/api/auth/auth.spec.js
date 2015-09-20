@@ -34,10 +34,17 @@ describe('Auth API', function() {
     User.remove({}).exec(done);
   });
 
-  it('Starts off with no one logged in', function(done) {
+  it('#current-user when logged out', function(done) {
     agent
       .get('/current-user')
-      .expect(401, done)
+      .expect(200)
+      .end(function(err, res) {
+        if (err) {
+          return done(err);
+        }
+        assert(!res.text);
+        return done();
+      })
     ;
   });
 
@@ -106,14 +113,14 @@ describe('Auth API', function() {
   it('Logout removes user from session', function(done) {
     agent
       .get('/current-user')
-      .expect(401, done)
-    ;
-  });
-
-  it("Can't log out if you're not logged in.", function(done) {
-    agent
-      .get('/logout')
-      .expect(401, done)
+      .expect(200)
+      .end(function(err, res) {
+        if (err) {
+          return done(err);
+        }
+        assert(!res.text);
+        return done();
+      })
     ;
   });
 });
