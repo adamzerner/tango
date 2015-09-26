@@ -1,6 +1,7 @@
 function bypassAuth() {
   var mochaUrl = '/usr/local/lib/node_modules/mocha/bin/_mocha';
-  if (process.argv[2].indexOf('server/Auth') > -1) { // avoid bypassing when Auth is being explicitly tested
+  var serverAuthPresent = typeof process.argv[2] === 'string' && process.argv[2].indexOf('server/Auth') > -1;
+  if (serverAuthPresent) { // avoid bypassing when Auth is being explicitly tested
     return false;
   }
   return (process.argv[1] === mochaUrl || process.argv[2] === 'mocha');
