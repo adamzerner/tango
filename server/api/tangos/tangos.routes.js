@@ -9,10 +9,6 @@ var Tango = mongoose.model('Tango', TangoSchema);
 
 function forwardError(res) {
   return function errorForwarder(err) {
-    if (err) {
-      console.log('ERROR');
-      console.log(err);
-    }
     res.status(500).send({ error: err.message });
   }
 }
@@ -56,8 +52,6 @@ router.post('/', Auth.isLoggedIn, function(req, res) {
       ;
     })
     .then(null, function(err) { // invalid tango
-      console.log('INVALID TANGO');
-      console.log(err);
       res.status(400).send({ error: err.message });
     });
   ;

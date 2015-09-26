@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var uniqueValidator = require('mongoose-unique-validator');
-var autopopulate = require('mongoose-autopopulate');
 var ObjectId = Schema.Types.ObjectId;
 var schemaFile = require('../tangos/tango.schema.js');
 var TangoSchema = schemaFile.TangoSchema;
@@ -30,12 +29,12 @@ var GoogleSchema = new Schema({
 
 var UserSchema = new Schema({
   local: { type: ObjectId, ref: 'Local' },
-  facebook: { type: ObjectId, ref: 'Facebook', autopopulate: true },
-  twitter: { type: ObjectId, ref: 'Twitter', autopopulate: true },
-  google: { type: ObjectId, ref: 'Google', autopopulate: true },
+  facebook: { type: ObjectId, ref: 'Facebook' },
+  twitter: { type: ObjectId, ref: 'Twitter' },
+  google: { type: ObjectId, ref: 'Google' },
   tangos: { type: [TangoSchema] },
   sims: { type: [SimSchema] }
-}).plugin(autopopulate);
+});
 
 exports.LocalSchema = LocalSchema;
 exports.FacebookSchema = FacebookSchema;
