@@ -58,13 +58,16 @@ router.post('/', Auth.isLoggedIn, function(req, res) {
 });
 
 router.put('/:id', Auth.isAuthorized, function(req, res) {
-  Tango.findByIdAndUpdate(req.params.id, req.body, { new: true }).exec()
+  Tango.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true }).exec()
     .then(function(tango) {
       if (!tango) {
         return res.status(404).end();
       }
       return res.status(201).json(tango);
-    }, forwardError(res))
+    })
+    .then(null, function(err) { // invalid tango
+      res.status(400).send({ error: err.message });
+    });
   ;
 });
 

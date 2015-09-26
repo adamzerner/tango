@@ -119,6 +119,7 @@ describe('Tangos API:', function() {
           if (err) {
             return done(err);
           }
+
           var tangos = JSON.parse(res.text);
           assert(tangos[0]._id);
           removeMongooseFields(tangos[0]);
@@ -138,6 +139,7 @@ describe('Tangos API:', function() {
             if (err) {
               return done(err);
             }
+
             var tangos = JSON.parse(res.text);
             assert.deepEqual(tangos, []);
             return done();
@@ -157,6 +159,7 @@ describe('Tangos API:', function() {
           if (err) {
             return done(err);
           }
+
           var tango = JSON.parse(res.text);
           assert(tango._id);
           removeMongooseFields(tango);
@@ -185,6 +188,7 @@ describe('Tangos API:', function() {
           if (err) {
             return done(err);
           }
+
           var createdTango = JSON.parse(res.text);
           assert(createdTango._id);
           removeMongooseFields(createdTango);
@@ -193,6 +197,7 @@ describe('Tangos API:', function() {
         })
       ;
     });
+
     it('No title', function(done) {
       delete testTango.title;
 
@@ -204,13 +209,15 @@ describe('Tangos API:', function() {
           if (err) {
             return done(err);
           }
+
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
-          done();
+          return done();
         })
       ;
     });
+
     it('No sims', function(done) {
       delete testTango.sims;
 
@@ -222,13 +229,15 @@ describe('Tangos API:', function() {
           if (err) {
             return done(err);
           }
+
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
-          done();
+          return done();
         })
       ;
     });
+
     it('Empty sims', function(done) {
       testTango.sims = [];
 
@@ -240,13 +249,15 @@ describe('Tangos API:', function() {
           if (err) {
             return done(err);
           }
+
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
-          done();
+          return done();
         })
       ;
     });
+
     it('Sim has no name', function(done) {
       delete testTango.sims[0].name;
 
@@ -258,13 +269,15 @@ describe('Tangos API:', function() {
           if (err) {
             return done(err);
           }
+
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
-          done();
+          return done();
         })
       ;
     });
+
     it('Sim\'s name is too long', function(done) {
       testTango.sims[0].name = 'aaaaaa';
 
@@ -276,13 +289,15 @@ describe('Tangos API:', function() {
           if (err) {
             return done(err);
           }
+
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
-          done();
+          return done();
         })
       ;
     });
+
     it('Sim has no description', function(done) {
       delete testTango.sims[0].description;
 
@@ -294,13 +309,15 @@ describe('Tangos API:', function() {
           if (err) {
             return done(err);
           }
+
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
-          done();
+          return done();
         })
       ;
     });
+
     it('Sim\'s description is too long', function(done) {
       testTango.sims[0].description = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
 
@@ -312,13 +329,15 @@ describe('Tangos API:', function() {
           if (err) {
             return done(err);
           }
+
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
-          done();
+          return done();
         })
       ;
     });
+
     it('No statements', function(done) {
       delete testTango.statements;
 
@@ -330,13 +349,15 @@ describe('Tangos API:', function() {
           if (err) {
             return done(err);
           }
+
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
-          done();
+          return done();
         })
       ;
     });
+
     it('Empty statements', function(done) {
       testTango.statements = [];
 
@@ -348,13 +369,15 @@ describe('Tangos API:', function() {
           if (err) {
             return done(err);
           }
+
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
-          done();
+          return done();
         })
       ;
     });
+
     it('Statement has no text', function(done) {
       delete testTango.statements[0].text;
 
@@ -366,13 +389,15 @@ describe('Tangos API:', function() {
           if (err) {
             return done(err);
           }
+
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
-          done();
+          return done();
         })
       ;
     });
+
     it('Statement has valid and empty children', function(done) {
       agent
         .post('/tangos')
@@ -383,6 +408,7 @@ describe('Tangos API:', function() {
           if (err) {
             return done(err);
           }
+
           var createdTango = JSON.parse(res.text);
           assert(createdTango._id);
           removeMongooseFields(createdTango);
@@ -391,6 +417,7 @@ describe('Tangos API:', function() {
         })
       ;
     });
+
     it('Statement has invalid children', function(done) {
       delete testTango.statements[1].children[0].text;
 
@@ -402,13 +429,15 @@ describe('Tangos API:', function() {
           if (err) {
             return done(err);
           }
+
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
-          done();
+          return done();
         })
       ;
     });
+
     it('Statement has no focus', function(done) {
       delete testTango.statements[0].focus;
 
@@ -420,13 +449,15 @@ describe('Tangos API:', function() {
           if (err) {
             return done(err);
           }
+
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
-          done();
+          return done();
         })
       ;
     });
+
     it('Statement has no childrenHidden', function(done) {
       delete testTango.statements[0].childrenHidden;
 
@@ -438,13 +469,15 @@ describe('Tangos API:', function() {
           if (err) {
             return done(err);
           }
+
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
-          done();
+          return done();
         })
       ;
     });
+
     it('Statement has no simId', function(done) {
       delete testTango.statements[0].simNumber;
 
@@ -456,21 +489,126 @@ describe('Tangos API:', function() {
           if (err) {
             return done(err);
           }
+
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
-          done();
+          return done();
         })
       ;
     });
   });
 
-  // describe('PUT /tangos/:id', function() {
-  //
-  // });
-  //
-  // describe('DELETE /tangos/:id', function() {
-  //
-  // });
+  describe('PUT /tangos/:id', function() {
+    it('Invalid id', function(done) {
+      agent
+        .put('/tangos/' + invalidId)
+        .send(testTango)
+        .expect(404, done)
+      ;
+    });
 
+    it('Top level', function(done) {
+      testTango.title = 'new title';
+
+      agent
+        .put('/tangos/' + testTangoId)
+        .send(testTango)
+        .expect(201)
+        .end(function(err, res) {
+          if (err) {
+            return done(err);
+          }
+
+          var result = JSON.parse(res.text);
+          assert.equal(result.title, 'new title');
+          return done();
+        })
+      ;
+    });
+
+    it('Sim (valid)', function(done) {
+      testTango.sims[0].name = 'a';
+
+      agent
+        .put('/tangos/' + testTangoId)
+        .send(testTango)
+        .expect(201)
+        .end(function(err, res) {
+          if (err) {
+            return done(err);
+          }
+
+          var result = JSON.parse(res.text);
+          assert.equal(result.sims[0].name, 'a');
+          return done();
+        })
+      ;
+    });
+
+    it('Sim (invalid)', function(done) {
+      testTango.sims[0].name = 'xxxxxx';
+
+      agent
+        .put('/tangos/' + testTangoId)
+        .send(testTango)
+        .expect(400)
+        .end(function(err, res) {
+          if (err) {
+            return done(err);
+          }
+
+          var result = JSON.parse(res.text);
+          assert(result.error);
+          assert.equal(result.error, 'Validation failed');
+          return done();
+        })
+      ;
+    });
+
+    it('Statement (valid)', function(done) {
+      testTango.statements[0].text = 'updated';
+
+      agent
+        .put('/tangos/' + testTangoId)
+        .send(testTango)
+        .expect(201)
+        .end(function(err, res) {
+          if (err) {
+            return done(err);
+          }
+
+          var result = JSON.parse(res.text);
+          assert.equal(result.statements[0].text, 'updated');
+          return done();
+        })
+      ;
+    });
+
+    it('Statement (invalid)', function(done) {
+      testTango.statements[0].simNumber = 'foo';
+
+      agent
+        .put('/tangos/' + testTangoId)
+        .send(testTango)
+        .expect(400, done)
+      ;
+    });
+  });
+
+  describe('DELETE /tangos/:id', function() {
+    it('Valid id', function(done) {
+      agent
+        .del('/tangos/' + testTangoId)
+        .expect(204, done)
+      ;
+    });
+
+    it('Invalid id', function(done) {
+      agent
+        .del('/tangos/' + invalidId)
+        .expect(404, done)
+      ;
+    });
+  });
 });
