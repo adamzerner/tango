@@ -43,37 +43,44 @@ testUsers.forEach(function(loggedInUser) {
     });
 
     beforeEach(function(done) {
-      // 1. clear Local and Users
-      // 2. create user 2
-      // 3. create user 1
-      // 4. log user 1 in
-      Local.remove({}).exec(function() {
-        User.remove({}).exec(function(){
-          Local.create(local2, function(err, createdLocal2) {
-            User.create({ _id: user2id, local: createdLocal2 }, function(err, createdUser2) {
-              user2 = createdUser2;
+      async.series([
+        function removeLocal(callback) {
+          Local.remove({}, callback);
+        },
 
-              if (!loggedInUser) {
-                return done();
+        function removeUser(callback) {
+          User.remove({}, callback);
+        },
+
+        function createUser1(callback) {
+          if (!loggedInUser) {
+            return callback;
+          }
+
+          agent
+            .post('/users')
+            .send(loggedInUser)
+            .end(function(err, res) {
+              if (err) {
+                return callback(err);
               }
 
-              agent
-                .post('/users')
-                .send(loggedInUser)
-                .end(function(err, res) {
-                  if (err) {
-                    return done(err);
-                  }
-                  var result = JSON.parse(res.text);
-                  id = result._id;
-                  return done();
-                })
-              ;
+              var result = JSON.parse(res.text);
+              id = result._id;
+              return callback();
+            })
+          ;
+        },
 
+        function createUser2(callback) {
+          Local.create(local2, function(err, createdLocal2) {
+            User.create({ _id: user2id, local: createdLocal2 }, function(err, createdLocal2) {
+              user = createdUser2;
+              callback;
             });
           });
-        });
-      });
+        }
+      ], done);
     });
 
     after(function(done) { // clear database after tests finished
