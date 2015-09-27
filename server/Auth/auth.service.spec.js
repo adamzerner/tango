@@ -61,10 +61,7 @@ testUsers.forEach(function(loggedInUser) {
             .post('/users')
             .send(loggedInUser)
             .end(function(err, res) {
-              if (err) {
-                return callback(err);
-              }
-
+              assert(!err);
               var result = JSON.parse(res.text);
               id = result._id;
               return callback();
@@ -101,9 +98,7 @@ testUsers.forEach(function(loggedInUser) {
           .get('/current-user')
           .expect(401)
           .end(function(err, res) {
-            if (err) {
-              done(err);
-            }
+            assert(!err);
             var response = JSON.parse(res.text);
             assert.equal(response.error, 'Unauthorized');
             return done();

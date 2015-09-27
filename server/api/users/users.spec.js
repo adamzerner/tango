@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var assert = require('assert');
 var request = require('supertest');
 var app = require('../../app.js');
+var async = require('async');
 var UserSchema = require('./user.schema.js').UserSchema;
 var User = mongoose.model('User', UserSchema);
 var LocalSchema = require('./user.schema.js').LocalSchema;
@@ -34,33 +35,37 @@ describe('Users API', function() {
   };
 
   beforeEach(function(done) {
-    // 1. clear Local and Users
-    // 2. create user 2
-    // 3. create user 1
-    // 4. log user 1 in
-    Local.remove({}).exec(function() {
-      User.remove({}).exec(function(){
+    async.series([
+      function removeLocal(callback) {
+        Local.remove({}, callback);
+      },
+
+      function removeUser(callback) {
+        User.remove({}, callback);
+      },
+
+      function createUser1(callback) {
+        agent
+          .post('/users')
+          .send(loggedInUser)
+          .end(function(err, res) {
+            assert(!err);
+            var result = JSON.parse(res.text);
+            id = result._id;
+            return callback();
+          })
+        ;
+      },
+
+      function createUser2(callback) {
         Local.create(local2, function(err, createdLocal2) {
           User.create({ _id: user2id, local: createdLocal2 }, function(err, createdUser2) {
             user2 = createdUser2;
-
-            agent
-              .post('/users')
-              .send(loggedInUser)
-              .end(function(err, res) {
-                if (err) {
-                  return done(err);
-                }
-                var result = JSON.parse(res.text);
-                id = result._id;
-                return done();
-              })
-            ;
-
+            callback();
           });
         });
-      });
-    });
+      }
+    ], done);
   });
 
   after(function(done) { // clear database after tests finished
@@ -76,22 +81,21 @@ describe('Users API', function() {
         .expect('Content-Type', /json/)
         .expect(200)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
+          assert(!err);
           var users = JSON.parse(res.text);
-          var expectedUsersLength = loggedInUser ? 2 : 1;
-          assert.equal(users.length, expectedUsersLength);
-          assert(users[0]._id);
+          assert.equal(users.length, 2);
+
+          assert.equal(users[0]._id, id);
           assert(users[0].local);
-          assert.equal(users[0].local.username, user2.local.username);
-          assert.equal(users[0].local.role, user2.local.role);
+          assert.equal(users[0].local.username, loggedInUser.username);
+          assert.equal(users[0].local.role, 'user');
           assert(!users[0].local.hashedPassword)
-            assert.equal(users[1]._id, id);
-            assert(users[1].local);
-            assert.equal(users[1].local.username, loggedInUser.username);
-            assert.equal(users[1].local.role, 'user');
-            assert(!users[1].local.hashedPassword);
+
+          assert(users[1]._id);
+          assert(users[1].local);
+          assert.equal(users[1].local.username, user2.local.username);
+          assert.equal(users[1].local.role, user2.local.role);
+          assert(!users[1].local.hashedPassword);
           return done();
         })
       ;
@@ -104,9 +108,7 @@ describe('Users API', function() {
           .expect('Content-Type', /json/)
           .expect(200)
           .end(function(err, res) {
-            if (err) {
-              return done(err);
-            }
+            assert(!err);
             var result = JSON.parse(res.text);
             assert.deepEqual(result, []);
             return done();
@@ -119,13 +121,11 @@ describe('Users API', function() {
   describe('GET /users/:id', function() {
     it('Valid id', function(done) {
       agent
-        .get('/users/'+user2id)
+        .get('/users/' + user2id)
         .expect('Content-Type', /json/)
         .expect(200)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
+          assert(!err);
           var result = JSON.parse(res.text);
           assert.equal(result._id, user2id);
           assert(result.local);
@@ -139,7 +139,7 @@ describe('Users API', function() {
 
     it('Invalid id', function(done) {
       agent
-        .get('/users/'+invalidId)
+        .get('/users/' + invalidId)
         .expect(404, done)
       ;
     });
@@ -153,9 +153,7 @@ describe('Users API', function() {
         .expect('Content-Type', /json/)
         .expect(201)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
+          assert(!err);
           var result = JSON.parse(res.text);
           assert(result._id);
           assert(result.local);
@@ -173,9 +171,7 @@ describe('Users API', function() {
         .send({ password: 'password' })
         .expect(400)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
+          assert(!err);
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'A username is required.');
@@ -190,9 +186,7 @@ describe('Users API', function() {
         .send({ username: 'c' })
         .expect(400)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
+          assert(!err);
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'A password is required.');
@@ -207,9 +201,7 @@ describe('Users API', function() {
         .send({ username: 'b', password: 'password' })
         .expect(409)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
+          assert(!err);
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Username already exists.');
@@ -224,9 +216,7 @@ describe('Users API', function() {
         .send({ username: 'c', password: 'password', foo: 'bar' })
         .expect(201)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
+          assert(!err);
           var result = JSON.parse(res.text);
           assert.equal(result.local.username, 'c');
           assert(!result.foo);
@@ -241,9 +231,7 @@ describe('Users API', function() {
         .send({ username: 'c', password: 'password', role: 'admin' })
         .expect(403)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
+          assert(!err);
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, "Can't manually set the role of a user.");
@@ -254,20 +242,9 @@ describe('Users API', function() {
   });
 
   describe('PUT /users/:id', function() {
-    /*
-    - all
-      - invalid id
-    - user + admin
-      - update yourself
-    - user + not logged in
-      - can't update someone else
-    - admin
-      - can update someone else
-    */
-
     it('Invalid id', function(done) {
       agent
-        .put('/users/'+invalidId)
+        .put('/users/' + invalidId)
         .send({ username: 'updated' })
         .expect(404, done)
       ;
@@ -280,9 +257,7 @@ describe('Users API', function() {
         .expect('Content-Type', /json/)
         .expect(201)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
+          assert(!err);
           var result = JSON.parse(res.text);
           assert.equal(result._id, id);
           assert(result.local);
@@ -301,9 +276,7 @@ describe('Users API', function() {
         .expect('Content-Type', /json/)
         .expect(201)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
+          assert(!err);
           var result = JSON.parse(res.text);
           assert.equal(result._id, id);
           assert(result.local);
@@ -321,9 +294,7 @@ describe('Users API', function() {
         .send({ username: 'updated', role: 'admin' })
         .expect(403)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
+          assert(!err);
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, "Can't manually set the role of a user.");

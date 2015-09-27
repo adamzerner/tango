@@ -39,9 +39,7 @@ describe('Auth API', function() {
       .get('/current-user')
       .expect(200)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        assert(!err);
         assert(!res.text);
         return done();
       })
@@ -70,9 +68,7 @@ describe('Auth API', function() {
       .send({ username: 'a', password: 'test' })
       .expect(200)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        assert(!err);
         var result = JSON.parse(res.text);
         assert(result._id);
         assert(result.local);
@@ -89,9 +85,7 @@ describe('Auth API', function() {
       .get('/current-user')
       .expect(200)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        assert(!err);
         var result = JSON.parse(res.text);
         assert(result._id);
         assert(result.local);
@@ -115,9 +109,7 @@ describe('Auth API', function() {
       .get('/current-user')
       .expect(200)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        assert(!err);
         assert(!res.text);
         return done();
       })

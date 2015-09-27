@@ -83,9 +83,7 @@ describe('Tangos API:', function() {
         agent
           .post('/users')
           .send(testUser)
-          .end(function(err, res) {
-            callback();
-          })
+          .end(callback)
         ;
       }, function(callback) {
         agent
@@ -116,10 +114,7 @@ describe('Tangos API:', function() {
         .expect('Content-Type', /json/)
         .expect(200)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var tangos = JSON.parse(res.text);
           assert(tangos[0]._id);
           removeMongooseFields(tangos[0]);
@@ -136,10 +131,7 @@ describe('Tangos API:', function() {
           .expect('Content-Type', /json/)
           .expect(200)
           .end(function(err, res) {
-            if (err) {
-              return done(err);
-            }
-
+            assert(!err);
             var tangos = JSON.parse(res.text);
             assert.deepEqual(tangos, []);
             return done();
@@ -156,10 +148,7 @@ describe('Tangos API:', function() {
         .expect('Content-Type', /json/)
         .expect(200)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var tango = JSON.parse(res.text);
           assert(tango._id);
           removeMongooseFields(tango);
@@ -185,10 +174,7 @@ describe('Tangos API:', function() {
         .expect('Content-Type', /json/)
         .expect(201)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var createdTango = JSON.parse(res.text);
           assert(createdTango._id);
           removeMongooseFields(createdTango);
@@ -206,10 +192,7 @@ describe('Tangos API:', function() {
         .send(testTango)
         .expect(400)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
@@ -226,10 +209,7 @@ describe('Tangos API:', function() {
         .send(testTango)
         .expect(400)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
@@ -246,10 +226,7 @@ describe('Tangos API:', function() {
         .send(testTango)
         .expect(400)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
@@ -266,10 +243,7 @@ describe('Tangos API:', function() {
         .send(testTango)
         .expect(400)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
@@ -286,10 +260,7 @@ describe('Tangos API:', function() {
         .send(testTango)
         .expect(400)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
@@ -306,10 +277,7 @@ describe('Tangos API:', function() {
         .send(testTango)
         .expect(400)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
@@ -326,10 +294,7 @@ describe('Tangos API:', function() {
         .send(testTango)
         .expect(400)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
@@ -346,10 +311,7 @@ describe('Tangos API:', function() {
         .send(testTango)
         .expect(400)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
@@ -366,10 +328,7 @@ describe('Tangos API:', function() {
         .send(testTango)
         .expect(400)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
@@ -386,10 +345,7 @@ describe('Tangos API:', function() {
         .send(testTango)
         .expect(400)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
@@ -405,10 +361,7 @@ describe('Tangos API:', function() {
         .expect('Content-Type', /json/)
         .expect(201)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var createdTango = JSON.parse(res.text);
           assert(createdTango._id);
           removeMongooseFields(createdTango);
@@ -426,10 +379,7 @@ describe('Tangos API:', function() {
         .send(testTango)
         .expect(400)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
@@ -446,10 +396,7 @@ describe('Tangos API:', function() {
         .send(testTango)
         .expect(400)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
@@ -466,10 +413,7 @@ describe('Tangos API:', function() {
         .send(testTango)
         .expect(400)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
@@ -486,10 +430,7 @@ describe('Tangos API:', function() {
         .send(testTango)
         .expect(400)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Tango validation failed');
@@ -516,10 +457,7 @@ describe('Tangos API:', function() {
         .send(testTango)
         .expect(201)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var result = JSON.parse(res.text);
           assert.equal(result.title, 'new title');
           return done();
@@ -535,10 +473,7 @@ describe('Tangos API:', function() {
         .send(testTango)
         .expect(201)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var result = JSON.parse(res.text);
           assert.equal(result.sims[0].name, 'a');
           return done();
@@ -554,10 +489,7 @@ describe('Tangos API:', function() {
         .send(testTango)
         .expect(400)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var result = JSON.parse(res.text);
           assert(result.error);
           assert.equal(result.error, 'Validation failed');
@@ -574,10 +506,7 @@ describe('Tangos API:', function() {
         .send(testTango)
         .expect(201)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-
+          assert(!err);
           var result = JSON.parse(res.text);
           assert.equal(result.statements[0].text, 'updated');
           return done();
