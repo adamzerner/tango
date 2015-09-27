@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-var Auth = require('../../Auth/auth.service.js');
+var AuthConstructor = require('../../Auth/auth.service.js');
+var Auth = new AuthConstructor(true);
 var UserSchema = require('../users/user.schema.js').UserSchema;
 var User = mongoose.model('User', UserSchema);
 var TangoSchema = require('./tango.schema.js').TangoSchema;

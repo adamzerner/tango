@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var assert = require('assert');
-var Auth = require('./auth.service.js');
+var AuthConstructor = require('./auth.service.js');
+var Auth = new AuthConstructor(false);
 var app = require('../app.js');
 var request = require('supertest');
 var async = require('async');
@@ -10,9 +11,7 @@ var LocalSchema = require('../api/users/user.schema.js').LocalSchema;
 var Local = mongoose.model('Local', LocalSchema);
 var agent = request.agent(app);
 
-var invalidId = 'aaaaaaaaaaaaaaaaaaaaaaaa';
 var user2id = '000000000000000000000000';
-
 var testUsers = [{
   username: 'a',
   password: 'password'
@@ -24,13 +23,13 @@ var testUsers = [{
 testUsers.forEach(function(loggedInUser) {
   var describeStr;
   if (loggedInUser && loggedInUser.username === 'a') {
-    describeStr = 'Auth API (role: user)';
+    describeStr = 'Auth Service (role: user)';
   }
   else if (loggedInUser && loggedInUser.username === 'admin') {
-    describeStr = 'Auth API (role: admin)';
+    describeStr = 'Auth Service (role: admin)';
   }
   else {
-    describeStr = 'Auth API (not logged in)';
+    describeStr = 'Auth Service (not logged in)';
   }
 
   describe(describeStr, function() {
@@ -54,7 +53,7 @@ testUsers.forEach(function(loggedInUser) {
 
         function createUser1(callback) {
           if (!loggedInUser) {
-            return callback;
+            return callback();
           }
 
           agent
@@ -71,9 +70,9 @@ testUsers.forEach(function(loggedInUser) {
 
         function createUser2(callback) {
           Local.create(local2, function(err, createdLocal2) {
-            User.create({ _id: user2id, local: createdLocal2 }, function(err, createdLocal2) {
-              user = createdUser2;
-              callback;
+            User.create({ _id: user2id, local: createdLocal2 }, function(err, createdUser2) {
+              user2 = createdUser2;
+              callback();
             });
           });
         }
@@ -89,13 +88,13 @@ testUsers.forEach(function(loggedInUser) {
     it('#isLoggedIn', function(done) {
       if (loggedInUser) {
         agent
-          .get('/current-user')
+          .get('/authTest/isLoggedIn')
           .expect(200, done)
         ;
       }
       else {
         agent
-          .get('/current-user')
+          .get('/authTest/isLoggedIn')
           .expect(401)
           .end(function(err, res) {
             assert(!err);
@@ -110,28 +109,28 @@ testUsers.forEach(function(loggedInUser) {
     it('#isAuthorized', function(done) {
       if (loggedInUser && loggedInUser.username === 'admin') {
         agent
-          .del('/users/' + user2id)
-          .expect(204, done)
+          .get('/authTest/isAuthorized/' + user2id)
+          .expect(200, done)
         ;
       }
       else if (loggedInUser && loggedInUser.username === 'a') {
         async.series([
           function(callback) {
             agent
-              .del('/users/' + user2id)
+              .get('/authTest/isAuthorized/' + user2id)
               .expect(401, callback)
             ;
           }, function(callback) {
             agent
-              .del('/users/' + id)
-              .expect(204, callback)
+              .get('/authTest/isAuthorized/' + id)
+              .expect(200, callback)
             ;
           }
         ], done);
       }
       else if (!loggedInUser) {
         agent
-          .del('/users/' + user2id)
+          .get('/authTest/isAuthorized/' + user2id)
           .expect(401, done)
         ;
       }
@@ -140,13 +139,13 @@ testUsers.forEach(function(loggedInUser) {
     it('#hasRole', function(done) {
       if (loggedInUser && loggedInUser.username === 'admin') {
         agent
-          .get('/tangos')
+          .get('/authTest/hasRole')
           .expect(200, done)
         ;
       }
       else {
         agent
-          .get('/tangos')
+          .get('/authTest/hasRole')
           .expect(401, done)
         ;
       }

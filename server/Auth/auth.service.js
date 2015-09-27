@@ -1,61 +1,56 @@
-function bypassAuth() {
+module.exports = function(skipAuth) {
   var mochaUrl = '/usr/local/lib/node_modules/mocha/bin/_mocha';
-  var serverAuthPresent = typeof process.argv[2] === 'string' && process.argv[2].indexOf('server/Auth') > -1;
-  if (serverAuthPresent) { // avoid bypassing when Auth is being explicitly tested
-    return false;
-  }
-  return (process.argv[1] === mochaUrl || process.argv[2] === 'mocha');
-}
+  var testing = (process.argv[1] === mochaUrl || process.argv[2] === 'mocha');
+  skipAuth = skipAuth && testing;
 
-function hasRole (roles) {
-  if (typeof roles === 'string') {
-    roles = [roles];
-  }
-  else if (!(roles instanceof 'array')) {
-    throw new ReferenceError('Argument must be a string or an array of strings');
-  }
-
-  return function (req, res, next) {
-    if (bypassAuth()) {
+  this.isLoggedIn = function (req, res, next) {
+    if (skipAuth) {
       return next();
     }
 
-    if (!req.user || !req.user.local || roles.indexOf(req.user.local.role) === -1) {
-      return res.status(401).send({ error: 'Unauthorized' });
+    if (req.user) {
+      return next();
     }
-    next();
-  }
-}
+    return res.status(401).send({ error: 'Unauthorized' });
+  };
 
-function isAuthorized(req, res, next) {
-  if (bypassAuth()) {
-    return next();
-  }
+  this.isAuthorized = function (req, res, next) {
+    if (skipAuth) {
+      return next();
+    }
 
-  var isAuthorized = req.user &&
-    (
-      (req.user.local && req.user.local.role === 'admin') ||
-      req.params.id === req.user._id.toString()
-    )
-  ;
+    var isAuthorized = req.user &&
+      (
+        (req.user.local && req.user.local.role === 'admin') ||
+        req.params.id === req.user._id.toString()
+      )
+    ;
 
-  if (isAuthorized) {
-    return next();
-  }
+    if (isAuthorized) {
+      return next();
+    }
 
-  return res.status(401).send({ error: 'Unauthorized' });
-}
+    return res.status(401).send({ error: 'Unauthorized' });
+  };
 
-function isLoggedIn(req, res, next) {
-  if (bypassAuth()) {
-    return next();
-  }
-  if (req.user) {
-    return next();
-  }
-  return res.status(401).send({ error: 'Unauthorized' });
-}
+  this.hasRole = function (roles) {
+    // accept a string or an array of strings
+    if (typeof roles === 'string') {
+      roles = [roles];
+    }
+    else if (!(roles instanceof 'array')) {
+      throw new ReferenceError('Argument must be a string or an array of strings');
+    }
 
-exports.hasRole = hasRole;
-exports.isAuthorized = isAuthorized;
-exports.isLoggedIn = isLoggedIn;
+    return function (req, res, next) {
+      if (skipAuth) {
+        return next();
+      }
+
+      if (!req.user || !req.user.local || roles.indexOf(req.user.local.role) === -1) {
+        return res.status(401).send({ error: 'Unauthorized' });
+      }
+      return next();
+    }
+  };
+};
