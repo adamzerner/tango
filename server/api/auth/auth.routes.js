@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 var express = require('express');
 var passport = require('passport');
-var Auth = require('./auth.service.js');
+var AuthConstructor = require('../../Auth/auth.service.js');
+var Auth = new AuthConstructor(true);
 var UserSchema = require('../users/user.schema.js').UserSchema;
 var User = mongoose.model('User', UserSchema);
 var router = express.Router();

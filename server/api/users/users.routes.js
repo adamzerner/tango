@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-var Auth = require('../auth/auth.service.js');
+var AuthConstructor = require('../../Auth/auth.service.js');
+var Auth = new AuthConstructor(true);
 var bcrypt = require('bcrypt');
 var _ = require('lodash');
 var schemaFile = require('./user.schema.js');
@@ -18,7 +19,7 @@ function forwardError(res) {
 }
 
 router.get('/', function(req, res) {
-  User.find({}).populate('local').exec()
+  User.find({}).populate('local facebook twitter google').exec()
     .then(function(users) {
       res.status(200).json(users);
     }, forwardError(res))
@@ -26,7 +27,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/:id', function(req, res) {
-  User.findById(req.params.id).populate('local').exec()
+  User.findById(req.params.id).populate('local facebook twitter google').exec()
     .then(function(user) {
       if (!user) {
         return res.status(404).end();

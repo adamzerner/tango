@@ -1,12 +1,16 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-var TangoSchema = require('./tango.schema.js');
+var AuthConstructor = require('../../Auth/auth.service.js');
+var Auth = new AuthConstructor(true);
+var UserSchema = require('../users/user.schema.js').UserSchema;
+var User = mongoose.model('User', UserSchema);
+var TangoSchema = require('./tango.schema.js').TangoSchema;
 var Tango = mongoose.model('Tango', TangoSchema);
 
 function forwardError(res) {
   return function errorForwarder(err) {
-    res.status(500).send({ error: err });
+    res.status(500).send({ error: err.message });
   }
 }
 
@@ -41,24 +45,30 @@ router.post('/', Auth.isLoggedIn, function(req, res) {
           currentUser.tangos.push(createdTango);
           currentUser.save(function(err) {
             if (err) {
-              return res.status(500).send({ error: err });
-              res.status(201).json(createdTango);
+              return res.status(500).send({ error: err.message });
             }
+            return res.status(201).json(createdTango);
           });
         }, forwardError(res))
       ;
-    }, forwardError(res))
+    })
+    .then(null, function(err) { // invalid tango
+      res.status(400).send({ error: err.message });
+    });
   ;
 });
 
 router.put('/:id', Auth.isAuthorized, function(req, res) {
-  Tango.findByIdAndUpdate(req.params.id, req.body, { new: true }).exec()
+  Tango.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true }).exec()
     .then(function(tango) {
       if (!tango) {
         return res.status(404).end();
       }
       return res.status(201).json(tango);
-    }, forwardError(res))
+    })
+    .then(null, function(err) { // invalid tango
+      res.status(400).send({ error: err.message });
+    });
   ;
 });
 
@@ -87,3 +97,5 @@ router.delete('/:id', Auth.isAuthorized, function(req, res) {
     }, forwardError(res))
   ;
 });
+
+module.exports = router;

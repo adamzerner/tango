@@ -41,9 +41,9 @@ db.once('open', function onDbConnect() {
   require('./passport.js')(passport);
 
   // routes
-  app.use('/users', require('./api/users/users.routes.js'));
+  app.use('/authTest', require('./Auth/auth.spec.routes.js'));
   app.use('/tangos', require('./api/tangos/tangos.routes.js'));
-  app.use('/sims', require('./api/sims/sims.routes.js'));
+  app.use('/users', require('./api/users/users.routes.js'));
   app.use('/', require('./api/auth/auth.routes.js'));
 
   // serving index.html
