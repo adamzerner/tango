@@ -6,13 +6,10 @@ angular
 function Auth($http, $cookies, $q, $rootScope) {
   return {
     logout: function() {
-      $http.get('/logout')
+      return $http.get('/logout')
         .then(function() {
           angular.copy({}, $rootScope.user);
           $cookies.remove('userId');
-        })
-        .catch(function() {
-          console.log('Problem logging out.');
         })
       ;
     },

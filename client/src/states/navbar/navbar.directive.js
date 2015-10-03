@@ -1,5 +1,6 @@
 angular
   .module('tango')
+  .controller('NavbarController', NavbarController)
   .directive('navbar', navbar)
 ;
 
