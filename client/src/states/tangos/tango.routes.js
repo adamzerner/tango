@@ -8,7 +8,10 @@ function config($stateProvider) {
     .state('tango::new', {
       url: '/tango/new',
       templateUrl: '/states/tangos/tango.html',
-      controller: 'TangoController as vm'
+      controller: 'TangoController as vm',
+      authenticate: {
+        isLoggedIn: true
+      }
     })
     .state('tango', {
       url: '/tango/:id',

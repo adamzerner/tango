@@ -5,6 +5,7 @@ angular
 
 function run($rootScope, Auth, $state) {
   function preventStateChange (message, redirect) {
+    alert(message);
     if (redirect) {
       $state.go(redirect);
     }
@@ -30,7 +31,7 @@ function run($rootScope, Auth, $state) {
           }
         }
         else if (!isLoggedIn) {
-          preventStateChange('Must be logged in to access this route.', 'login');
+          preventStateChange('Must be logged in to access this route.');
         }
         else if (toState.authenticate.authorized) {
           if (!isAuthorized && !isAdmin) {
