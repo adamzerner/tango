@@ -1,5 +1,12 @@
 <div id='new-tango-template'>
 
+<alert ng-show='vm.alert' type='danger' close='vm.closeAlert()'>
+  {{ vm.alert }}
+</alert>
+<alert ng-show='vm.updateSuccess' type='success' close='vm.closeUpdateSuccess()'>
+  Successfully updated Tango!
+</alert>
+
 <div class='sims'>
   <p>
     <strong>Sims</strong>
@@ -51,9 +58,9 @@
 <hr />
 
 <button
-  ng-click='vm.createTango()'
+  ng-click='vm.submit()'
   class='btn btn-primary'>
-  Create Tango
+  {{ vm.submitText }}
 </button>
 
 </div>

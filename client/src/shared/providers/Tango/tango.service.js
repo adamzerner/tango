@@ -16,7 +16,7 @@ function Tango($http) {
     return $http.post('/tangos', tango);
   };
 
-  this.update = function(tango, id) {
+  this.update = function(id, tango) {
     return $http.put('/tangos/' + id, tango);
   };
 
