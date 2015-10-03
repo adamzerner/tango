@@ -1,3 +1,20 @@
+<alert ng-show='vm.alertSuccess' type='success' close='vm.closeAlertSuccess()'>
+  Successfully removed Tango.
+</alert>
+<alert ng-show='vm.alertFailure' type='danger' close='vm.closeAlertFailure()'>
+  Problem removing Tango.
+</alert>
+
 <div class='page-header'>
   <h1>Profile</h1>
 </div>
+
+<ul>
+  <li ng-repeat='tango in vm.user.tangos'>
+    <a ui-sref='tango({ id: tango._id })'>{{ tango.title }}</a> |
+    <span
+      ng-click='vm.remove(tango)'
+      class='glyphicon glyphicon-trash'>
+    </span>
+  </li>
+</ul>

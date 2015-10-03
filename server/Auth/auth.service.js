@@ -14,23 +14,24 @@ module.exports = function(skipAuth) {
     return res.status(401).send({ error: 'Unauthorized' });
   };
 
-  this.isAuthorized = function (req, res, next) {
+  this.isAuthorized = function (id1, id2, req, res) {
     if (skipAuth) {
-      return next();
+      return false;
     }
 
     var isAuthorized = req.user &&
       (
-        (req.user.local && req.user.local.role === 'admin') ||
-        req.params.id === req.user._id.toString()
+        req.user.local && req.user.local.role === 'admin' ||
+        id1.toString() === id2.toString()
       )
     ;
 
     if (isAuthorized) {
-      return next();
+      return false;
     }
 
-    return res.status(401).send({ error: 'Unauthorized' });
+    res.status(401).send({ error: 'Unauthorized '});
+    return true;
   };
 
   this.hasRole = function (roles) {

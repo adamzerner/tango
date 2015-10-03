@@ -4,11 +4,11 @@ angular
 ;
 
 function StatementConstructorFactory() {
-  return function StatementConstructor(simId) {
+  return function StatementConstructor(simNumber) {
     this.text = '';
     this.children = [];
     this.focus = true;
     this.childrenHidden = false;
-    this.simId = simId || 0;
+    this.simNumber = simNumber || 0;
   }
 }

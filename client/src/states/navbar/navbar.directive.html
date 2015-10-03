@@ -5,9 +5,8 @@
     <!-- left side -->
     <ul class='nav navbar-nav'>
       <li><a ui-sref='home'>Home</a></li>
-      <li><a ui-sref='tango:new'>Create Tango</a></li>
+      <li><a ui-sref='tango::new'>Create Tango</a></li>
       <li ng-if='vm.currentUser'><a ui-sref='profile({ id: vm.currentUser._id })'>My Tangos</a></li>
-      <li><a>{{ vm.currentUser }}</a></li>
     </ul>
 
     <!-- right side: logged in -->
@@ -15,7 +14,7 @@
       <!-- admin -->
       <li ng-if="vm.currentUser.local.role === 'admin'"><a ui-sref='admin'>Admin</a></li>
       <!-- all -->
-      <li ng-if='vm.currentUser'><a ui-sref='settings({ id: vm.currentUser._id })'><span class='glyphicon glyphicon-cog'></span></a></li>
+      <li><a ui-sref='settings({ id: vm.currentUser._id })'><span class='glyphicon glyphicon-cog'></span></a></li>
       <li><a ng-click='vm.logout()'>Log Out</a></li>
     </ul>
   </div>

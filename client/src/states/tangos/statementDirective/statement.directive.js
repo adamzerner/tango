@@ -15,15 +15,15 @@ function statement(RecursionHelper) {
     controller: function statementController(StatementConstructor, $sce, $timeout, $scope) {
       var vm = this;
 
-      vm.sim = vm.sims[vm.statement.simId];
+      vm.sim = vm.sims[vm.statement.simNumber];
       vm.changeSim = function() {
-        if (vm.statement.simId === vm.sims.length-1) {
-          vm.statement.simId = 0;
+        if (vm.statement.simNumber === vm.sims.length-1) {
+          vm.statement.simNumber = 0;
         }
         else {
-          vm.statement.simId++;
+          vm.statement.simNumber++;
         }
-        vm.sim = vm.sims[vm.statement.simId];
+        vm.sim = vm.sims[vm.statement.simNumber];
       };
 
       vm.hideChildren = function() {
@@ -66,7 +66,7 @@ function statement(RecursionHelper) {
       };
       vm.insertNextStatement = function(e) {
         e.preventDefault();
-        var newStatement = new StatementConstructor(vm.statement.simId);
+        var newStatement = new StatementConstructor(vm.statement.simNumber);
         newStatement.parent = vm.statement.parent;
         var parentArr = vm.statement.parent.children || vm.statement.parent;
         var currIndex = parentArr.indexOf(vm.statement);

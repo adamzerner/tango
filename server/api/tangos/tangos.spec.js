@@ -12,7 +12,7 @@ var TangoSchema = require('./tango.schema.js').TangoSchema;
 var Tango = mongoose.model('Tango', TangoSchema);
 var agent = request.agent(app);
 
-var testUser, testTangoId, invalidId, testTango;
+var testUser, testUserId, testTangoId, invalidId, testTango;
 
 function removeMongooseFields(obj) {
   delete obj._id;
@@ -38,6 +38,14 @@ function removeMongooseFields(obj) {
 }
 
 describe('Tangos API:', function() {
+  before(function(done) { // clear database before testing
+    Local.remove({}).exec(function() {
+      User.remove({}).exec(function() {
+        Tango.remove({}).exec(done);
+      });
+    });
+  });
+
   beforeEach(function(done) {
     testUser = {
       username: 'a',
@@ -83,13 +91,19 @@ describe('Tangos API:', function() {
         agent
           .post('/users')
           .send(testUser)
-          .end(callback)
+          .end(function(err, res) {
+            assert(!err);
+            var createdUser = JSON.parse(res.text);
+            testUserId = createdUser._id;
+            callback();
+          })
         ;
       }, function(callback) {
         agent
           .post('/tangos')
           .send(testTango)
           .end(function(err, res) {
+            assert(!err);
             var createdTango = JSON.parse(res.text);
             testTangoId = createdTango._id;
             callback();
@@ -118,6 +132,7 @@ describe('Tangos API:', function() {
           var tangos = JSON.parse(res.text);
           assert(tangos[0]._id);
           removeMongooseFields(tangos[0]);
+          testTango.author = testUserId;
           assert.deepEqual(tangos[0], testTango);
           return done();
         })
@@ -144,7 +159,7 @@ describe('Tangos API:', function() {
   describe('GET /tangos/:id', function() {
     it('Valid id', function(done) {
       agent
-        .get('/tangos/'+testTangoId)
+        .get('/tangos/' + testTangoId)
         .expect('Content-Type', /json/)
         .expect(200)
         .end(function(err, res) {
@@ -152,6 +167,7 @@ describe('Tangos API:', function() {
           var tango = JSON.parse(res.text);
           assert(tango._id);
           removeMongooseFields(tango);
+          testTango.author = testUserId;
           assert.deepEqual(tango, testTango);
           return done();
         })
@@ -160,7 +176,7 @@ describe('Tangos API:', function() {
 
     it('Invalid id', function(done) {
       agent
-        .get('/tangos/'+invalidId)
+        .get('/tangos/' + invalidId)
         .expect(404, done)
       ;
     });
@@ -178,6 +194,7 @@ describe('Tangos API:', function() {
           var createdTango = JSON.parse(res.text);
           assert(createdTango._id);
           removeMongooseFields(createdTango);
+          testTango.author = testUserId;
           assert.deepEqual(createdTango, testTango);
           return done();
         })
@@ -365,6 +382,7 @@ describe('Tangos API:', function() {
           var createdTango = JSON.parse(res.text);
           assert(createdTango._id);
           removeMongooseFields(createdTango);
+          testTango.author = testUserId;
           assert.deepEqual(createdTango, testTango);
           return done();
         })
@@ -422,7 +440,7 @@ describe('Tangos API:', function() {
       ;
     });
 
-    it('Statement has no simId', function(done) {
+    it('Statement has no simNumber', function(done) {
       delete testTango.statements[0].simNumber;
 
       agent

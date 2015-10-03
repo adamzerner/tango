@@ -7,7 +7,10 @@ router.get('/isLoggedIn', Auth.isLoggedIn, function(req, res) {
   res.status(200).send('success');
 });
 
-router.get('/isAuthorized/:id', Auth.isAuthorized, function(req, res) {
+router.get('/isAuthorized/:id', Auth.isLoggedIn, function(req, res) {
+  if (Auth.isAuthorized(req.params.id, req.user._id, req, res)) {
+    return;
+  };
   res.status(200).send('success');
 });
 
