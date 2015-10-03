@@ -1,11 +1,20 @@
 angular
   .module('tango')
-  .controller('NewTangoController', NewTangoController)
+  .controller('TangoController', TangoController)
 ;
 
-function NewTangoController($scope, $timeout, StatementConstructor) {
+function TangoController($scope, $timeout, StatementConstructor, Tango, $stateParams) {
   var vm = this;
   vm.tango = {};
+
+  if ($stateParams.id) {
+    Tango
+      .get($stateParams.id)
+      .then(function(response) {
+        vm.tango = response.data;
+      })
+    ;
+  }
 
   // title
   vm.tango.title = 'Title (click to edit)';
@@ -48,20 +57,26 @@ function NewTangoController($scope, $timeout, StatementConstructor) {
   newStatement.focus = true; // start off with a statement with focus
   vm.tango.statements.push(newStatement);
 
-  // vm.tango.statements = [{
-  //   text: '1',
-  //   children: []
-  // }, {
-  //   text: '2',
-  //   children: [{
-  //     text: '2.1',
-  //     children: []
-  //   }, {
-  //     text: '2.2',
-  //     children: [{
-  //       text: '2.2.1',
-  //       children: []
-  //     }]
-  //   }]
-  // }];
+  vm.createTango = function() {
+    removeParentProperty(vm.tango.statements);
+
+    Tango
+      .create(vm.tango)
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(response) {
+        console.log(response);
+      })
+    ;
+  };
+
+  function removeParentProperty(statements) {
+    for (var i = 0, len = statements.length; i < len; i++) {
+      statements[i] = _.omit(statements[i], 'parent');
+      if (statements[i].children.length > 0) {
+        removeParentProperty(statements[i].children);
+      }
+    }
+  }
 }

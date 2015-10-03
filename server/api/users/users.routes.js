@@ -92,7 +92,11 @@ router.post('/', function(req, res) {
   ;
 });
 
-router.put('/:id', Auth.isAuthorized, function(req, res) {
+router.put('/:id', Auth.isLoggedIn, function(req, res) {
+  if (Auth.isAuthorized(req.params.id, req.user._id, req, res)) {
+    return;
+  }
+
   // can't manually set the role
   if (req.body.role) {
     return res.status(403).send({ error: "Can't manually set the role of a user." });
@@ -123,7 +127,11 @@ router.put('/:id', Auth.isAuthorized, function(req, res) {
   ;
 });
 
-router.delete('/:id', Auth.isAuthorized, function(req, res) {
+router.delete('/:id', Auth.isLoggedIn, function(req, res) {
+  if (Auth.isAuthorized(req.params.id, req.user._id, req, res)) {
+    return;
+  }
+
   User.findByIdAndRemove(req.params.id).exec()
     .then(function(user) {
       if (!user) {

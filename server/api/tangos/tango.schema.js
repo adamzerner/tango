@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var ObjectId = Schema.Types.ObjectId;
 
 var StatementSchema = new Schema();
 StatementSchema.add({
@@ -18,7 +19,8 @@ var SimSchema = new Schema({
 var TangoSchema = new Schema({
   title: { type: String, required: true },
   sims: { type: [SimSchema], required: true },
-  statements: { type: [StatementSchema], required: true }
+  statements: { type: [StatementSchema], required: true },
+  author: { type: ObjectId, ref: 'User', required: true }
 });
 
 exports.TangoSchema = TangoSchema;
