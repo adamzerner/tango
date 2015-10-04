@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
-var config = require('./config.json');
+var config = require('./config/config.js');
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;

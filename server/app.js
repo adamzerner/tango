@@ -9,9 +9,18 @@ var favicon = require('serve-favicon');
 var bcrypt = require('bcrypt');
 var app = express();
 
-var config = require('./config.json');
+var config = require('./config/config.js');
 var mochaUrl = '/usr/local/lib/node_modules/mocha/bin/_mocha';
-var dbUrl = (process.argv[1] === mochaUrl || process.argv[2] === 'mocha') ? config.db.test : config.db.dev;
+var dbUrl;
+if (process.env.NODE_ENV === 'production') {
+  dbUrl = config.db;
+}
+else if (process.argv[1] === mochaUrl || process.argv[2] === 'mocha') {
+  dbUrl = config.db.test;
+}
+else {
+  dbUrl = config.db.dev;
+}
 var envFolder = 'src';
 
 mongoose.connect(dbUrl);

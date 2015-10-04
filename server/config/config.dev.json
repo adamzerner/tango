@@ -1,0 +1,24 @@
+{
+  "db": {
+    "test": "mongodb://localhost/tango-test",
+    "dev": "mongodb://localhost/tango"
+  },
+
+  "facebookAuth": {
+		"clientID": "1615234125392231",
+		"clientSecret": "972c2a9a44fcc73d1decd6ffd2bbf097",
+		"callbackURL": "http://localhost:3000/auth/facebook/callback"
+	},
+
+	"twitterAuth": {
+		"consumerKey": "yf6G16hJm2hFDcpBdvEeOYZ83",
+		"consumerSecret": "IETELzhsW0hSMR2FGvfGFrLSsM8YxarwF8tMjjljivgdmRHxdj",
+		"callbackURL": "http://localhost:3000/auth/twitter/callback"
+	},
+
+	"googleAuth": {
+		"clientID": "906463517562-70rugjlkg1o77a4f3cksvt0ljt0usfma.apps.googleusercontent.com",
+		"clientSecret": "9gBtmB7tNp7Eee18Ozx1Y-lx",
+		"callbackURL": "http://localhost:3000/auth/google/callback"
+	}
+}
