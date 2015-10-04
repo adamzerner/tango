@@ -24,7 +24,10 @@ else {
 }
 var envFolder = 'src';
 
-mongoose.connect(uriUtil.formatMongoose(dbUrl));
+var mongooseConnectString = uriUtil.formatMongoose(dbUrl);
+console.log('mongooseConnectString: ', mongooseConnectString);
+console.log('process.env.MONGOLAB_URI: ', process.env.MONGOLAB_URI);
+mongoose.connect(mongooseConnectString);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Problem connecting to database.'));
 db.once('open', function onDbConnect() {
