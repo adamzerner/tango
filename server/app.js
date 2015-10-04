@@ -9,6 +9,7 @@ var favicon = require('serve-favicon');
 var bcrypt = require('bcrypt');
 var app = express();
 
+console.log(process.env.PRODUCTION_DB);
 var config = require('./config/config.js');
 var mochaUrl = '/usr/local/lib/node_modules/mocha/bin/_mocha';
 var dbUrl;
