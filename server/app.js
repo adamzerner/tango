@@ -7,6 +7,7 @@ var mongoose = require('mongoose');
 var path = require('path');
 var favicon = require('serve-favicon');
 var bcrypt = require('bcrypt');
+var uriUtil = require('mongodb-uri');
 var app = express();
 
 var config = require('./config/config.js');
@@ -23,7 +24,7 @@ else {
 }
 var envFolder = 'src';
 
-mongoose.connect(dbUrl);
+mongoose.connect(uriUtil.formatMongoose(dbUrl));
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Problem connecting to database.'));
 db.once('open', function onDbConnect() {
