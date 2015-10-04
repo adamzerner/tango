@@ -1,5 +1,5 @@
 {
-  "db": "process.env.PRODUCTION_DB",
+  "db": "process.env.MONGOLAB_URI",
 
   "facebookAuth": {
     "clientId": "process.env.FACEBOOK_CLIENT_ID",
