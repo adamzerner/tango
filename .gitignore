@@ -1,7 +1,7 @@
 ### PROJECT ###
 .notes.txt
 node_modules
-server/config.dev.json
+server/config/config.dev.js
 
 ### https://gist.githubusercontent.com/octocat/9257657/raw/3f9569e65df83a7b328b39a091f0ce9c6efc6429/.gitignore ###
 
