@@ -10,6 +10,16 @@ a, .glyphicon {
   cursor: pointer;
 }
 
+.bullet {
+  cursor: auto !important;
+}
+
+// inputs have solid gray outline instead of blue
+input:focus, textarea:focus {
+  outline: none;
+  border: 1px solid gray;
+}
+
 // clearfix
 .clear:before,
 .clear:after {
@@ -19,10 +29,4 @@ a, .glyphicon {
 
 .clear:after {
     clear: both;
-}
-
-// inputs have solid gray outline instead of blue
-input:focus, textarea:focus {
-  outline: none;
-  border: 1px solid gray;
 }

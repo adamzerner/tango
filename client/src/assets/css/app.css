@@ -7,6 +7,13 @@ html {
 a, .glyphicon {
   cursor: pointer; }
 
+.bullet {
+  cursor: auto !important; }
+
+input:focus, textarea:focus {
+  outline: none;
+  border: 1px solid gray; }
+
 .clear:before,
 .clear:after {
   content: " ";
@@ -15,9 +22,8 @@ a, .glyphicon {
 .clear:after {
   clear: both; }
 
-input:focus, textarea:focus {
-  outline: none;
-  border: 1px solid gray; }
+#home-template h1 {
+  color: black; }
 
 
 #new-tango-template .page-header h1 {
@@ -50,9 +56,6 @@ input:focus, textarea:focus {
     cursor: pointer; }
   #new-tango-template .sims .glyphicon-plus {
     margin-top: 10px; }
-
-#home-template h1 {
-  color: black; }
 
 .statement-directive-template .statement {
   margin-bottom: 20px; }
