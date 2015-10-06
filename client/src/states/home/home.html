@@ -1,4 +1,6 @@
-<div id='home-template'>
+<alert type='success' close='vm.closeLogoutFlash()' ng-show='vm.logoutFlash'>
+  Successfully logged out.
+</alert>
 
 <div class='jumbotron'>
   <h1>Tango</h1>
@@ -21,5 +23,3 @@
   <a ng-click='vm.google()' class="btn btn-danger"><span class="fa fa-google"></span> Google</a>
 </div>
 <br />
-
-</div>
