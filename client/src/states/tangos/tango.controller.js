@@ -5,8 +5,6 @@ angular
 
 function TangoController($scope, $timeout, StatementConstructor, Tango, $stateParams, $state) {
   var vm = this;
-  vm.tango = {};
-  vm.submitText = 'Create Tango';
 
   if ($stateParams.id) {
     vm.submitText = 'Update Tango';
@@ -18,9 +16,28 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
       })
     ;
   }
+  else {
+    vm.tango = {};
+    vm.submitText = 'Create Tango';
+
+    // title
+    vm.tango.title = 'Title (click to edit)';
+
+    // sims
+    vm.tango.sims = [];
+    vm.tango.sims.push({
+      name: 'A'
+    });
+
+    // statements
+    vm.tango.statements = [];
+    var newStatement = new StatementConstructor();
+    newStatement.parent = vm.tango.statements;
+    newStatement.focus = true; // start off with a statement with focus
+    vm.tango.statements.push(newStatement);
+  }
 
   // title
-  vm.tango.title = 'Title (click to edit)';
   vm.titleState = 'show'; // or edit
   vm.editTitle = function() {
     vm.titleState = 'edit';
@@ -33,10 +50,6 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
   };
 
   // sims
-  vm.tango.sims = [];
-  vm.tango.sims.push({
-    name: 'A'
-  });
   vm.newSim = function() {
     vm.tango.sims.push({
       name: ''
@@ -52,13 +65,6 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
     var index = vm.tango.sims.indexOf(sim);
     vm.tango.sims.splice(index, 1);
   };
-
-  // statements
-  vm.tango.statements = [];
-  var newStatement = new StatementConstructor();
-  newStatement.parent = vm.tango.statements;
-  newStatement.focus = true; // start off with a statement with focus
-  vm.tango.statements.push(newStatement);
 
   vm.submit = function() {
     removeParents(vm.tango.statements);
