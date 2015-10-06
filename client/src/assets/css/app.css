@@ -22,10 +22,6 @@ input:focus, textarea:focus {
 .clear:after {
   clear: both; }
 
-#home-template h1 {
-  color: black; }
-
-
 #new-tango-template .page-header h1 {
   cursor: pointer; }
 

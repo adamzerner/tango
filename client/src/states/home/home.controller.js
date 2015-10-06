@@ -3,8 +3,11 @@ angular
   .controller('HomeController', HomeController)
 ;
 
-function HomeController($window, $rootScope) {
+function HomeController($window, $rootScope, $stateParams) {
   var vm = this;
+
+  vm.currentUser = $rootScope.user;
+
   vm.facebook = function() {
     $window.location.href = '/auth/facebook';
   };
@@ -14,5 +17,9 @@ function HomeController($window, $rootScope) {
   vm.google = function() {
     $window.location.href = '/auth/google';
   };
-  vm.currentUser = $rootScope.user;
+
+  vm.logoutFlash = $stateParams.justLoggedOut;
+  vm.closeLogoutFlash = function() {
+    vm.logoutFlash = false;
+  };
 }
