@@ -20,6 +20,15 @@ input:focus, textarea:focus {
   border: 1px solid gray;
 }
 
+.alert {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  margin: 1px;
+}
+
 // clearfix
 .clear:before,
 .clear:after {
