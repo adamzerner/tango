@@ -79,6 +79,7 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
         .update($stateParams.id, vm.tango)
         .then(function(response) {
           vm.updateSuccess = true;
+          addParents(vm.tango.statements);
         })
         .catch(function(response) {
           vm.alert = 'Failed to update Tango';
