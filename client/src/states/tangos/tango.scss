@@ -1,4 +1,4 @@
-#new-tango-template {
+.new-tango-template {
   .page-header {
     h1 {
       cursor: pointer;
@@ -6,6 +6,7 @@
     input {
       font-size: 36px;
       font-weight: 500;
+      padding-left: 15px;
     }
     input:focus {
       outline: none;

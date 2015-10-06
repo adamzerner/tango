@@ -6,39 +6,8 @@ angular
 function TangoController($scope, $timeout, StatementConstructor, Tango, $stateParams, $state) {
   var vm = this;
 
-  if ($stateParams.id) {
-    vm.submitText = 'Update Tango';
-    Tango
-      .get($stateParams.id)
-      .then(function(response) {
-        vm.tango = response.data;
-        addParents(vm.tango.statements);
-      })
-    ;
-  }
-  else {
-    vm.tango = {};
-    vm.submitText = 'Create Tango';
-
-    // title
-    vm.tango.title = 'Title (click to edit)';
-
-    // sims
-    vm.tango.sims = [];
-    vm.tango.sims.push({
-      name: 'A'
-    });
-
-    // statements
-    vm.tango.statements = [];
-    var newStatement = new StatementConstructor();
-    newStatement.parent = vm.tango.statements;
-    newStatement.focus = true; // start off with a statement with focus
-    vm.tango.statements.push(newStatement);
-  }
-
   // title
-  vm.titleState = 'show'; // or edit
+  vm.titleState = 'show';
   vm.editTitle = function() {
     vm.titleState = 'edit';
     $timeout(function() {
@@ -103,6 +72,40 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
   vm.closeUpdateSuccess = function() {
     vm.updateSuccess = false;
   };
+
+  if ($stateParams.id) {
+    vm.submitText = 'Update Tango';
+    Tango
+      .get($stateParams.id)
+      .then(function(response) {
+        vm.tango = response.data;
+        addParents(vm.tango.statements);
+        $timeout(function() {
+          angular.element('textarea:first').focus();
+        }, 0);
+      })
+    ;
+  }
+  else {
+    vm.tango = {};
+    vm.submitText = 'Create Tango';
+
+    // title
+    vm.tango.title = 'Title';
+    vm.editTitle();
+
+    // sims
+    vm.tango.sims = [];
+    vm.tango.sims.push({
+      name: 'A'
+    });
+
+    // statements
+    vm.tango.statements = [];
+    var newStatement = new StatementConstructor();
+    newStatement.parent = vm.tango.statements;
+    vm.tango.statements.push(newStatement);
+  }
 
   function removeParents(statements) {
     for (var i = 0, len = statements.length; i < len; i++) {
