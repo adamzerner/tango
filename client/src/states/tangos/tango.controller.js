@@ -45,7 +45,7 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
           $state.go('tango', { id: response.data._id })
         })
         .catch(function(response) {
-          vm.alert = 'Failed to create Tango';
+          vm.alert = 'Failed to create Tango. All fields are required.';
           addParents(vm.tango.statements);
         })
       ;
@@ -58,7 +58,7 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
           addParents(vm.tango.statements);
         })
         .catch(function(response) {
-          vm.alert = 'Failed to update Tango';
+          vm.alert = 'Failed to update Tango. All fields are required.';
           addParents(vm.tango.statements);
         })
       ;
