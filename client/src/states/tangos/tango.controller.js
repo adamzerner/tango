@@ -46,19 +46,20 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
         })
         .catch(function(response) {
           vm.alert = 'Failed to create Tango';
+          addParents(vm.tango.statements);
         })
       ;
     }
     else {
-      vm.updateSuccess = true;
       Tango
         .update($stateParams.id, vm.tango)
         .then(function(response) {
-          addParents(vm.tango.statements);
           vm.updateSuccess = true;
+          addParents(vm.tango.statements);
         })
         .catch(function(response) {
           vm.alert = 'Failed to update Tango';
+          addParents(vm.tango.statements);
         })
       ;
     }
