@@ -50,11 +50,12 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
       ;
     }
     else {
+      vm.updateSuccess = true;
       Tango
         .update($stateParams.id, vm.tango)
         .then(function(response) {
-          vm.updateSuccess = true;
           addParents(vm.tango.statements);
+          vm.updateSuccess = true;
         })
         .catch(function(response) {
           vm.alert = 'Failed to update Tango';
@@ -70,6 +71,7 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
     vm.alert = false;
   };
   vm.closeUpdateSuccess = function() {
+    console.log('closeUpdateSuccess');
     vm.updateSuccess = false;
   };
 

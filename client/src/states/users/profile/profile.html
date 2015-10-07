@@ -1,7 +1,7 @@
-<alert ng-show='vm.alertSuccess' type='success' close='vm.closeAlertSuccess()'>
+<alert ng-if='vm.alertSuccess' type='success' close='vm.closeAlertSuccess()' dismiss-on-timeout='2000'>
   Successfully removed Tango.
 </alert>
-<alert ng-show='vm.alertFailure' type='danger' close='vm.closeAlertFailure()'>
+<alert ng-if='vm.alertFailure' type='danger' close='vm.closeAlertFailure()'>
   Problem removing Tango.
 </alert>
 

@@ -17,7 +17,7 @@ function ProfileController(User, $stateParams, Tango) {
 
   vm.alertSuccess = false;
   vm.alertFailure = false;
-  vm.closeAlertSucces = function() {
+  vm.closeAlertSuccess = function() {
     vm.alertSuccess = false;
   };
   vm.closeAlertFailure = function() {
