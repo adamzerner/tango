@@ -77,7 +77,6 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
     vm.alert = false;
   };
   vm.closeUpdateSuccess = function() {
-    console.log('closeUpdateSuccess');
     vm.updateSuccess = false;
   };
 
