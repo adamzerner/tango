@@ -3,7 +3,7 @@ angular
   .controller('TangoController', TangoController)
 ;
 
-function TangoController($scope, $timeout, StatementConstructor, Tango, $stateParams, $state) {
+function TangoController($scope, $timeout, StatementConstructor, Tango, $stateParams, $state, $q) {
   var vm = this;
 
   // title
@@ -39,25 +39,32 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
     removeParents(vm.tango.statements);
 
     if (!$stateParams.id) {
-      Tango
+      return Tango
         .create(vm.tango)
         .then(function(response) {
           $state.go('tango', { id: response.data._id })
         })
         .catch(function(response) {
-          vm.alert = 'Failed to create Tango';
+          vm.alert = 'Failed to create Tango. All fields are required.';
+          addParents(vm.tango.statements);
         })
       ;
     }
     else {
-      Tango
+      if (angular.equals(vm.tango, vm.originalTango)) {
+        vm.alert = 'You haven\'t made any changes!';
+        return $q.when({});
+      }
+
+      return Tango
         .update($stateParams.id, vm.tango)
         .then(function(response) {
           vm.updateSuccess = true;
           addParents(vm.tango.statements);
         })
         .catch(function(response) {
-          vm.alert = 'Failed to update Tango';
+          vm.alert = 'Failed to update Tango. All fields are required.';
+          addParents(vm.tango.statements);
         })
       ;
     }
@@ -70,6 +77,7 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
     vm.alert = false;
   };
   vm.closeUpdateSuccess = function() {
+    console.log('closeUpdateSuccess');
     vm.updateSuccess = false;
   };
 
@@ -79,6 +87,7 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
       .get($stateParams.id)
       .then(function(response) {
         vm.tango = response.data;
+        vm.originalTango = angular.copy(response.data);
         addParents(vm.tango.statements);
         $timeout(function() {
           angular.element('textarea:first').focus();

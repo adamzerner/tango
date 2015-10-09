@@ -20,6 +20,7 @@ function HomeController($window, $rootScope, $stateParams) {
 
   vm.logoutFlash = $stateParams.justLoggedOut;
   vm.closeLogoutFlash = function() {
+    console.log('closeLogoutFlash');
     vm.logoutFlash = false;
   };
 }

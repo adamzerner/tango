@@ -1,9 +1,9 @@
 <div class='new-tango-template'>
 
-<alert ng-show='vm.alert' type='danger' close='vm.closeAlert()'>
+<alert ng-if='vm.alert' type='danger' close='vm.closeAlert()'>
   {{ vm.alert }}
 </alert>
-<alert ng-show='vm.updateSuccess' type='success' close='vm.closeUpdateSuccess()'>
+<alert ng-if='vm.updateSuccess' type='success' close='vm.closeUpdateSuccess()' dismiss-on-timeout='2000'>
   Successfully updated Tango!
 </alert>
 
@@ -58,7 +58,8 @@
 <hr />
 
 <button
-  ng-click='vm.submit()'
+  az-loading='Submitting...'
+  on-click='vm.submit()'
   class='btn btn-primary'>
   {{ vm.submitText }}
 </button>
