@@ -3,7 +3,7 @@ angular
   .controller('TangoController', TangoController)
 ;
 
-function TangoController($scope, $timeout, StatementConstructor, Tango, $stateParams, $state) {
+function TangoController($scope, $rootScope, $timeout, StatementConstructor, Tango, $stateParams, $state) {
   var vm = this;
 
   // title
@@ -39,7 +39,7 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
     removeParents(vm.tango.statements);
 
     if (!$stateParams.id) {
-      Tango
+      return Tango
         .create(vm.tango)
         .then(function(response) {
           $state.go('tango', { id: response.data._id })
@@ -51,11 +51,12 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
       ;
     }
     else {
-      Tango
+      return Tango
         .update($stateParams.id, vm.tango)
         .then(function(response) {
           vm.updateSuccess = true;
           addParents(vm.tango.statements);
+          $rootScope.$broadcast('loading::tango-submit');
         })
         .catch(function(response) {
           vm.alert = 'Failed to update Tango. All fields are required.';

@@ -39,3 +39,22 @@ input:focus, textarea:focus {
 .clear:after {
     clear: both;
 }
+
+// az-loading
+body.az-loading * { // necessary to override everything
+  cursor: wait !important;
+}
+
+button.az-loading {
+  cursor: wait;
+  background-color: lightGray;
+}
+
+.az-lightbox {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
