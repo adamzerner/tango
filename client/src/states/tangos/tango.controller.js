@@ -3,7 +3,7 @@ angular
   .controller('TangoController', TangoController)
 ;
 
-function TangoController($scope, $rootScope, $timeout, StatementConstructor, Tango, $stateParams, $state) {
+function TangoController($scope, $timeout, StatementConstructor, Tango, $stateParams, $state, $q) {
   var vm = this;
 
   // title
@@ -51,12 +51,16 @@ function TangoController($scope, $rootScope, $timeout, StatementConstructor, Tan
       ;
     }
     else {
+      if (angular.equals(vm.tango, vm.originalTango)) {
+        vm.alert = 'You haven\'t made any changes!';
+        return $q.when({});
+      }
+
       return Tango
         .update($stateParams.id, vm.tango)
         .then(function(response) {
           vm.updateSuccess = true;
           addParents(vm.tango.statements);
-          $rootScope.$broadcast('loading::tango-submit');
         })
         .catch(function(response) {
           vm.alert = 'Failed to update Tango. All fields are required.';
@@ -83,6 +87,7 @@ function TangoController($scope, $rootScope, $timeout, StatementConstructor, Tan
       .get($stateParams.id)
       .then(function(response) {
         vm.tango = response.data;
+        vm.originalTango = angular.copy(response.data);
         addParents(vm.tango.statements);
         $timeout(function() {
           angular.element('textarea:first').focus();
