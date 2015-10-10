@@ -29,7 +29,7 @@ router.get('/:id', Auth.isLoggedIn, function(req, res) {
         return res.status(404).end();
       }
 
-      if (Auth.isAuthorized(tango.author, req.user._id, req, res)) {
+      if (!Auth.isAuthorized(tango.author, req.user._id, req, res)) {
         return;
       }
 
@@ -72,7 +72,7 @@ router.put('/:id', Auth.isLoggedIn, function(req, res) {
         return res.status(404).end();
       }
 
-      if (Auth.isAuthorized(tango.author, req.user._id, req, res)) {
+      if (!Auth.isAuthorized(tango.author, req.user._id, req, res)) {
         return;
       }
 
@@ -95,7 +95,7 @@ router.delete('/:id', Auth.isLoggedIn, function(req, res) {
       if (!foundTango) {
         return res.status(404).end();
       }
-      if (Auth.isAuthorized(foundTango.author, req.user._id, req, res)) {
+      if (!Auth.isAuthorized(foundTango.author, req.user._id, req, res)) {
         return;
       }
 

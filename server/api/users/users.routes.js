@@ -93,7 +93,7 @@ router.post('/', function(req, res) {
 });
 
 router.put('/:id', Auth.isLoggedIn, function(req, res) {
-  if (Auth.isAuthorized(req.params.id, req.user._id, req, res)) {
+  if (!Auth.isAuthorized(req.params.id, req.user._id, req, res)) {
     return;
   }
 
@@ -128,7 +128,7 @@ router.put('/:id', Auth.isLoggedIn, function(req, res) {
 });
 
 router.delete('/:id', Auth.isLoggedIn, function(req, res) {
-  if (Auth.isAuthorized(req.params.id, req.user._id, req, res)) {
+  if (!Auth.isAuthorized(req.params.id, req.user._id, req, res)) {
     return;
   }
 
