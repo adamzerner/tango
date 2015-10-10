@@ -1,6 +1,7 @@
 <div class='statement-directive-template'>
 
 <div class='statement level-{{ vm.level }}' ng-keydown='vm.shortCut($event)'>
+  <!-- LEFT ICONS -->
   <span class='left-icons'>
     <img
       src='/assets/images/hide-arrow.png'
@@ -18,12 +19,16 @@
       {{ vm.sim.name }}
     </span> <!-- 5 char limit -->
   </span>
+
+  <!-- TEXTAREA -->
   <textarea
     ng-model='vm.statement.text'
     ng-focus='vm.statement.focus = true;'
     ng-blur='vm.statement.focus = false;'
     rows='1'
     tabby></textarea>
+
+  <!-- MENU RIGHT -->
   <div class='menu-container'>
     <p class='menu clear' ng-show='vm.statement.focus'>
       <span
@@ -69,6 +74,7 @@
 
 </div>
 
+<!-- CHILDREN STATEMENTS -->
 <statement
   ng-hide='vm.statement.childrenHidden'
   ng-repeat='substatement in vm.statement.children track by $index'

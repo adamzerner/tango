@@ -17,7 +17,7 @@ a, .glyphicon {
 // inputs have solid gray outline instead of blue
 input:focus, textarea:focus {
   outline: none;
-  border: 1px solid gray;
+  border-color: gray;
 }
 
 .alert {
@@ -27,6 +27,10 @@ input:focus, textarea:focus {
   left: 0;
   z-index: 1;
   margin: 1px;
+}
+
+body {
+  margin-bottom: 25px;
 }
 
 // clearfix

@@ -6,18 +6,6 @@ angular
 function TangoController($scope, $timeout, StatementConstructor, Tango, $stateParams, $state, $q) {
   var vm = this;
 
-  // title
-  vm.titleState = 'show';
-  vm.editTitle = function() {
-    vm.titleState = 'edit';
-    $timeout(function() {
-      angular.element('.page-header input').focus();
-    }, 0);
-  };
-  vm.showTitle = function() {
-    vm.titleState = 'show';
-  };
-
   // sims
   vm.newSim = function() {
     vm.tango.sims.push({
@@ -100,7 +88,9 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
 
     // title
     vm.tango.title = 'Title';
-    vm.editTitle();
+    $timeout(function() {
+      angular.element('.page-header input').focus();
+    }, 0);
 
     // sims
     vm.tango.sims = [];
