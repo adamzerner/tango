@@ -31,6 +31,12 @@ function statement(RecursionHelper) {
       };
       vm.showChildren = function() {
         vm.statement.childrenHidden = false;
+
+        // autosize the height of the textarea
+        $timeout(function() {
+          var ta = document.querySelectorAll('textarea');
+          autosize.update(ta);
+        }, 0);
       };
       vm.insertNextStatementHtml = $sce.trustAsHtml('Insert next statement<br />cmd + ctrl + enter');
       vm.deleteStatementHtml = $sce.trustAsHtml('Delete statement<br />cmd + ctrl + del/backspace');
