@@ -1,8 +1,5 @@
-html {
-  box-sizing: border-box; }
-
-*, *:before, *:after {
-  box-sizing: inherit; }
+body {
+  margin-bottom: 25px; }
 
 a, .glyphicon {
   cursor: pointer; }
@@ -22,8 +19,11 @@ input:focus, textarea:focus {
   z-index: 1;
   margin: 1px; }
 
-body {
-  margin-bottom: 25px; }
+html {
+  box-sizing: border-box; }
+
+*, *:before, *:after {
+  box-sizing: inherit; }
 
 .clear:before,
 .clear:after {
@@ -48,18 +48,6 @@ button.az-loading {
   width: 100%;
   height: 100%; }
 
-.new-tango-template .page-header input {
-  font-size: 36px;
-  font-weight: 500;
-  padding-left: 15px;
-  width: 100%;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  border: 1px solid #F1F1F1; }
-
-.new-tango-template .page-header input:focus {
-  border: 1px solid gray; }
-
 .new-tango-template .sims {
   border: 1px solid lightGray;
   padding: 5px;
@@ -79,6 +67,18 @@ button.az-loading {
     cursor: pointer; }
   .new-tango-template .sims .glyphicon-plus {
     margin-top: 10px; }
+
+.new-tango-template .page-header input {
+  font-size: 36px;
+  font-weight: 500;
+  padding-left: 15px;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  border: 1px solid #F1F1F1; }
+
+.new-tango-template .page-header input:focus {
+  border: 1px solid gray; }
 
 .statement-directive-template .statement {
   margin-bottom: 20px; }
@@ -176,3 +176,13 @@ button.az-loading {
 .statement-directive-template .level-10 {
   position: relative;
   left: 650px; }
+
+.my-tangos-template ul {
+  margin-top: 10px;
+  list-style-type: circle; }
+  .my-tangos-template ul li {
+    font-size: 18px;
+    margin-bottom: 15px; }
+    .my-tangos-template ul li span.glyphicon-trash {
+      display: inline-block;
+      margin-left: 5px; }

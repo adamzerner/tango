@@ -6,7 +6,7 @@
   <thead>
     <tr>
       <th>Username</th>
-      <th>Profile</th>
+      <th>Tangos</th>
       <th>Settings</th>
       <th>Delete</th>
     </tr>
@@ -14,7 +14,7 @@
   <tbody>
     <tr ng-repeat='user in vm.users'>
       <td>{{ user.local.username }}</td>
-      <td><a ui-sref='profile({ id: user._id })'>Profile</a></td>
+      <td><a ui-sref='my-tangos({ id: user._id })'>Tangos</a></td>
       <td><a ui-sref='settings({ id: user._id })'>Settings</a></td>
       <td><a ng-click='vm.delete(user._id)'><span class='glyphicon glyphicon-trash'></span></a></td>
     </tr>

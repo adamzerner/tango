@@ -1,9 +1,9 @@
 angular
   .module('tango')
-  .controller('ProfileController', ProfileController)
+  .controller('MyTangosController', MyTangosController)
 ;
 
-function ProfileController(User, $stateParams, Tango) {
+function MyTangosController(User, $stateParams, Tango) {
   var vm = this;
 
   User.get($stateParams.id)

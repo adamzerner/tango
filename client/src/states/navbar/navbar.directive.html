@@ -6,7 +6,7 @@
     <ul class='nav navbar-nav'>
       <li><a ui-sref='home'>Home</a></li>
       <li ng-if='vm.currentUser._id'><a ui-sref='tango::new'>Create Tango</a></li>
-      <li ng-if='vm.currentUser._id'><a ui-sref='profile({ id: vm.currentUser._id })'>My Tangos</a></li>
+      <li ng-if='vm.currentUser._id'><a ui-sref='my-tangos({ id: vm.currentUser._id })'>My Tangos</a></li>
     </ul>
 
     <!-- right side: logged in -->
