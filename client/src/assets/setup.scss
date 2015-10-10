@@ -5,6 +5,10 @@ html {
   box-sizing: inherit;
 }
 
+.container {
+  min-width: 970px !important;
+}
+
 // clearfix
 .clear:before,
 .clear:after {
