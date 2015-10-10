@@ -16,7 +16,7 @@ module.exports = function(skipAuth) {
 
   this.isAuthorized = function (id1, id2, req, res) {
     if (skipAuth) {
-      return false;
+      return true;
     }
 
     var isAuthorized = req.user &&
@@ -27,11 +27,11 @@ module.exports = function(skipAuth) {
     ;
 
     if (isAuthorized) {
-      return false;
+      return true;
     }
 
     res.status(401).send({ error: 'Unauthorized '});
-    return true;
+    return false;
   };
 
   this.hasRole = function (roles) {

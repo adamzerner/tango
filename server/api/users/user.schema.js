@@ -32,8 +32,8 @@ var UserSchema = new Schema({
   facebook: { type: ObjectId, ref: 'Facebook' },
   twitter: { type: ObjectId, ref: 'Twitter' },
   google: { type: ObjectId, ref: 'Google' },
-  tangos: { type: [TangoSchema] },
-  sims: { type: [SimSchema] }
+  tangos: [{ type: ObjectId, ref: 'Tango' }],
+  sims: [{ type: ObjectId, ref: 'Sim' }]
 });
 
 exports.LocalSchema = LocalSchema;

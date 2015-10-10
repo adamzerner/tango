@@ -29,7 +29,7 @@ router.get('/:id', Auth.isLoggedIn, function(req, res) {
         return res.status(404).end();
       }
 
-      if (Auth.isAuthorized(tango.author, req.user._id, req, res)) {
+      if (!Auth.isAuthorized(tango.author, req.user._id, req, res)) {
         return;
       }
 
@@ -49,7 +49,7 @@ router.post('/', Auth.isLoggedIn, function(req, res) {
     .then(function(createdTango) {
       User.findById(req.user._id).exec()
         .then(function(currentUser) {
-          currentUser.tangos.push(createdTango);
+          currentUser.tangos.push(createdTango._id);
           currentUser.save(function(err) {
             if (err) {
               return res.status(500).send({ error: err.message });
@@ -72,7 +72,7 @@ router.put('/:id', Auth.isLoggedIn, function(req, res) {
         return res.status(404).end();
       }
 
-      if (Auth.isAuthorized(tango.author, req.user._id, req, res)) {
+      if (!Auth.isAuthorized(tango.author, req.user._id, req, res)) {
         return;
       }
 
@@ -95,7 +95,7 @@ router.delete('/:id', Auth.isLoggedIn, function(req, res) {
       if (!foundTango) {
         return res.status(404).end();
       }
-      if (Auth.isAuthorized(foundTango.author, req.user._id, req, res)) {
+      if (!Auth.isAuthorized(foundTango.author, req.user._id, req, res)) {
         return;
       }
 
@@ -103,7 +103,7 @@ router.delete('/:id', Auth.isLoggedIn, function(req, res) {
         .then(function(removedTango) {
           User.findById(req.user._id).exec()
             .then(function(currentUser) {
-              var index = currentUser.tangos.indexOf(removedTango);
+              var index = currentUser.tangos.indexOf(removedTango._id);
               currentUser.tangos.splice(index, 1);
               currentUser.save(function(err) {
                 if (err) {

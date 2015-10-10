@@ -3,7 +3,7 @@ angular
   .controller('TangoController', TangoController)
 ;
 
-function TangoController($scope, $timeout, StatementConstructor, Tango, $stateParams, $state, $q) {
+function TangoController($scope, $timeout, StatementConstructor, Tango, $stateParams, $state, $q, $rootScope) {
   var vm = this;
 
   // sims
@@ -30,7 +30,7 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
       return Tango
         .create(vm.tango)
         .then(function(response) {
-          $state.go('tango', { id: response.data._id })
+          $state.go('profile', { id: $rootScope.user._id });
         })
         .catch(function(response) {
           vm.alert = 'Failed to create Tango. All fields are required.';
