@@ -192,11 +192,20 @@ describe('Tangos API:', function() {
         .end(function(err, res) {
           assert(!err);
           var createdTango = JSON.parse(res.text);
+          var createdTangoId = createdTango._id;
           assert(createdTango._id);
           removeMongooseFields(createdTango);
           testTango.author = testUserId;
           assert.deepEqual(createdTango, testTango);
-          return done();
+          agent
+            .get('/users/' + testTango.author)
+            .end(function(err, res) {
+              assert(!err);
+              var response = JSON.parse(res.text);
+              assert.equal(response.tangos[1]._id, createdTangoId);
+              return done();
+            })
+          ;
         })
       ;
     });
@@ -547,7 +556,19 @@ describe('Tangos API:', function() {
     it('Valid id', function(done) {
       agent
         .del('/tangos/' + testTangoId)
-        .expect(204, done)
+        .expect(204)
+        .end(function(err, res) {
+          assert(!err);
+          agent
+            .get('/users/' + testUserId)
+            .end(function(err, res) {
+              assert(!err);
+              var result = JSON.parse(res.text);
+              assert.equal(result.tangos.length, 0);
+              return done();
+            })
+          ;
+        })
       ;
     });
 
