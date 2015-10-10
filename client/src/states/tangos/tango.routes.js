@@ -16,7 +16,10 @@ function config($stateProvider) {
     .state('tango', {
       url: '/tango/:id',
       templateUrl: '/states/tangos/tango.html',
-      controller: 'TangoController as vm'
+      controller: 'TangoController as vm',
+      authenticate: {
+        authorized: 'tango'
+      }
     })
   ;
 }

@@ -30,7 +30,7 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
       return Tango
         .create(vm.tango)
         .then(function(response) {
-          $state.go('myTangos', { id: $rootScope.user._id });
+          $state.go('my-tangos', { id: $rootScope.user._id });
         })
         .catch(function(response) {
           vm.alert = 'Failed to create Tango. All fields are required.';
