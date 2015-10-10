@@ -1,18 +1,4 @@
 .new-tango-template {
-  .page-header {
-    input {
-      font-size: 36px;
-      font-weight: 500;
-      padding-left: 15px;
-      width: 100%;
-      margin-top: 20px;
-      margin-bottom: 10px;
-      border: 1px solid #F1F1F1;
-    }
-    input:focus {
-      border: 1px solid gray;
-    }
-  }
   .sims {
     border: 1px solid lightGray;
     padding: 5px;
@@ -37,6 +23,21 @@
     }
     .glyphicon-plus {
       margin-top: 10px;
+    }
+  }
+
+  .page-header {
+    input {
+      font-size: 36px;
+      font-weight: 500;
+      padding-left: 15px;
+      width: 100%;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      border: 1px solid #F1F1F1;
+    }
+    input:focus {
+      border: 1px solid gray;
     }
   }
 }

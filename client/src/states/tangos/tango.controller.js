@@ -30,7 +30,7 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
       return Tango
         .create(vm.tango)
         .then(function(response) {
-          $state.go('profile', { id: $rootScope.user._id });
+          $state.go('myTangos', { id: $rootScope.user._id });
         })
         .catch(function(response) {
           vm.alert = 'Failed to create Tango. All fields are required.';
@@ -49,6 +49,7 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
         .then(function(response) {
           vm.updateSuccess = true;
           addParents(vm.tango.statements);
+          vm.originalTango = angular.copy(vm.tango);
         })
         .catch(function(response) {
           vm.alert = 'Failed to update Tango. All fields are required.';

@@ -1,11 +1,11 @@
-describe('ProfileController', function() {
+describe('MyTangosController', function() {
   var createController, User;
 
   beforeEach(module('tango', 'templates'));
   beforeEach(inject(function($controller, _User_) {
     User = _User_;
     createController = function() {
-      return $controller('ProfileController', {
+      return $controller('MyTangosController', {
         $stateParams: {
           id: 1
         }

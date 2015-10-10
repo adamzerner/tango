@@ -1,0 +1,17 @@
+.my-tangos-template {
+  ul {
+    margin-top: 10px;
+    list-style-type: circle;
+    //padding-left: 0;
+
+    li {
+      font-size: 18px;
+      margin-bottom: 15px;
+
+      span.glyphicon-trash {
+        display: inline-block;
+        margin-left: 5px;
+      }
+    }
+  }
+}
