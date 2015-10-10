@@ -10,7 +10,7 @@ function config($stateProvider) {
       templateUrl: '/states/users/settings/settings.html',
       controller: 'SettingsController as vm',
       authenticate: {
-        authorized: true
+        authorized: 'user'
       }
     })
   ;

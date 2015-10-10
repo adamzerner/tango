@@ -3,11 +3,11 @@ angular
   .run(run)
 ;
 
-function run($rootScope, Auth, $state) {
-  function preventStateChange (message, redirect) {
+function run($rootScope, Auth, $state, Tango) {
+  function redirect (message, state) {
     alert(message);
-    if (redirect) {
-      $state.go(redirect);
+    if (state) {
+      $state.go(state);
     }
     else {
       $state.go('home');
@@ -23,24 +23,46 @@ function run($rootScope, Auth, $state) {
       .then(function (currentUser) {
         var isLoggedIn = !!currentUser._id;
         var isAdmin = isLoggedIn && currentUser.local && currentUser.local.role === 'admin';
-        var isAuthorized = isLoggedIn && currentUser._id.toString() === toParams.id;
 
         if (toState.authenticate.loggedOut) { // this route requires you to be logged out
           if (isLoggedIn) {
-            preventStateChange("You're logged in.");
+            redirect("You're logged in.");
           }
         }
         else if (!isLoggedIn) {
-          preventStateChange('Must be logged in to access this route.');
+          redirect('Must be logged in to access this route.');
         }
         else if (toState.authenticate.authorized) {
-          if (!isAuthorized && !isAdmin) {
-            preventStateChange('You are not authorized to access that route.');
+          // set isAuthorized based on user/tango
+          var isAuthorized;
+          if (toState.authenticate.authorized === 'user') {
+            isAuthorized = toParams.id === currentUser._id.toString();
+
+            if (!isAuthorized && !isAdmin) {
+              redirect('You are not authorized to access that route.');
+            }
+          }
+          else if (toState.authenticate.authorized === 'tango') {
+            Tango
+              .get(toParams.id)
+              .then(function(response) {
+                isAuthorized = response.data.author === currentUser._id.toString();
+
+                if (!isAuthorized && !isAdmin) {
+                  redirect('You are not authorized to access that route.');
+                }
+              })
+              .catch(function(response) {
+                if (!isAuthorized) {
+                  redirect('You are not authorized to access that route.');
+                }
+              })
+            ;
           }
         }
         else if (toState.authenticate.admin) {
           if (!isAdmin) {
-            preventStateChange('You must be an admin to access this route.');
+            redirect('You must be an admin to access this route.');
           }
         }
       })
