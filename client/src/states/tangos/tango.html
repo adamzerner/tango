@@ -36,16 +36,7 @@
 </div>
 
 <div class='page-header'>
-  <h1
-    ng-show="vm.titleState === 'show'"
-    ng-click='vm.editTitle()'>
-    {{ vm.tango.title }}
-  </h1>
-  <input
-    type='text'
-    ng-show="vm.titleState === 'edit'"
-    ng-model='vm.tango.title'
-    ng-blur='vm.showTitle()'>
+  <input type='text' ng-model='vm.tango.title'>
 </div>
 
 <statement

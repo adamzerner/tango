@@ -12,7 +12,7 @@ a, .glyphicon {
 
 input:focus, textarea:focus {
   outline: none;
-  border: 1px solid gray; }
+  border-color: gray; }
 
 .alert {
   position: fixed;
@@ -22,6 +22,9 @@ input:focus, textarea:focus {
   z-index: 1;
   margin: 1px; }
 
+body {
+  margin-bottom: 25px; }
+
 .clear:before,
 .clear:after {
   content: " ";
@@ -30,17 +33,31 @@ input:focus, textarea:focus {
 .clear:after {
   clear: both; }
 
-.new-tango-template .page-header h1 {
-  cursor: pointer;
-  display: inline-block; }
+body.az-loading * {
+  cursor: wait !important; }
+
+button.az-loading {
+  cursor: wait;
+  background-color: lightGray; }
+
+.az-lightbox {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
 
 .new-tango-template .page-header input {
   font-size: 36px;
   font-weight: 500;
-  padding-left: 15px; }
+  padding-left: 15px;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  border: 1px solid #F1F1F1; }
 
 .new-tango-template .page-header input:focus {
-  outline: none;
   border: 1px solid gray; }
 
 .new-tango-template .sims {

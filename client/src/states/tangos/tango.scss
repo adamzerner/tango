@@ -1,16 +1,15 @@
 .new-tango-template {
   .page-header {
-    h1 {
-      cursor: pointer;
-      display: inline-block;
-    }
     input {
       font-size: 36px;
       font-weight: 500;
       padding-left: 15px;
+      width: 100%;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      border: 1px solid #F1F1F1;
     }
     input:focus {
-      outline: none;
       border: 1px solid gray;
     }
   }
