@@ -25,6 +25,9 @@ html {
 *, *:before, *:after {
   box-sizing: inherit; }
 
+.container {
+  min-width: 970px !important; }
+
 .clear:before,
 .clear:after {
   content: " ";
