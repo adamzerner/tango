@@ -1,25 +1,59 @@
+<div class='home-template'>
+
 <alert type='success' close='vm.closeLogoutFlash()' ng-if='vm.logoutFlash' dismiss-on-timeout='2000'>
   Successfully logged out.
 </alert>
 
-<div class='jumbotron'>
-  <h1>Tango</h1>
-  <p>Thinking is difficult.<p>
-  <ol>
-    <li>Because you need back-and-forth, and it's hard to get that by yourself.</li>
-    <li>Because it's hard to keep track of the nested structure of your logic.</li>
-  </ol>
-  <p>Tango intends to help mitigate these problems.</p>
-</div>
-
-<iframe width="640" height="360" src="https://www.youtube.com/embed/ImE6-3GuvhE?start=645" frameborder="0" allowfullscreen></iframe>
-
-<hr />
-
+<h1>
+  Tango
+  <small>A tool to help you think.</small>
+</h1>
 <div ng-hide='vm.currentUser._id'>
   <p>Log in or register with:</p>
   <a ng-click='vm.facebook()' class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
   <a ng-click='vm.twitter()' class="btn btn-info"><span class="fa fa-twitter"></span> Twitter</a>
   <a ng-click='vm.google()' class="btn btn-danger"><span class="fa fa-google"></span> Google</a>
 </div>
-<br />
+
+<hr />
+
+<div class='row'>
+  <div class='col-xs-5 content'>
+    <h3>Benefit #1 - Visualize the structure. Offload your working memory.</h3>
+    <ul>
+      <li>
+        Representation matters.
+        <blockquote>
+          Solving a problem simply means representing it so as to make the solution transparent.<br />
+          - Herb Simon
+        </blockquote>
+      </li>
+      <li>It's easier when the structure of your thoughts are right in front of you.</li>
+      <li>Tango presents this structure to you.</li>
+    </ul>
+
+    <h3>Benefit #2 - Back and forth is necessary.</h3>
+    <ul>
+      <li>
+        A good quote:
+        <blockquote>
+          Both optimists and pessimists contribute to our society. The optimist invents the airplane and the pessimist the parachute.<br />
+          - Gil Stern
+        </blockquote>
+      </li>
+      <li>
+        Daniel Dennet argues that individuals are biased and good at arguing for extreme positions. They're specialists at one-sided arguments. This doesn't work well in isolation, but it does work well in groups where there is a back and forth.
+        <div class='embed-responsive embed-responsive-4by3'>
+          <iframe src='https://www.youtube.com/embed/ImE6-3GuvhE?start=645' class='embed-responsive-item' frameborder='0' allowfullscreen></iframe>
+        </div>
+      </li>
+      <li>Tango helps you simulate this back and forth by using Sims.</li>
+    </ul>
+  </div>
+  <div class='col-xs-7'>
+    <p>Example:</p>
+    <img src='/assets/images/example.png'>
+  </div>
+</div>
+
+</div>

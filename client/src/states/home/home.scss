@@ -1,0 +1,34 @@
+.home-template {
+  h1 {
+    margin-bottom: 20px;
+  }
+
+  img, iframe {
+    width: 100%;
+  }
+
+  .content {
+    h3 {
+      margin-top: 0;
+    }
+
+    blockquote {
+      font-size: 14px;
+      margin: 10px 0;
+    }
+
+    ul {
+      margin-bottom: 50px;
+      list-style-type: circle;
+
+      li {
+        font-size: 18px;
+
+        .embed-responsive {
+          margin-top: 20px;
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
+}
