@@ -1,5 +1,5 @@
 angular
-  .module('tango', ['auth', 'ui.router', 'ui.bootstrap', 'ngCookies', 'ngMessages', 'tabby'])
+  .module('tango', ['auth', 'ui.router', 'ui.bootstrap', 'ngCookies', 'ngMessages', 'ngAnimate', 'tabby'])
   .config(config)
 ;
 

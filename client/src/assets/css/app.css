@@ -108,6 +108,14 @@ button.az-loading {
 .new-tango-template .page-header input:focus {
   border: 1px solid gray; }
 
+.sim-modal blockquote {
+  font-size: 14px; }
+
+.sim-modal img {
+  width: 60%;
+  display: block;
+  margin: 0 auto; }
+
 .statement-directive-template .statement {
   margin-bottom: 20px; }
   .statement-directive-template .statement .left-icons {

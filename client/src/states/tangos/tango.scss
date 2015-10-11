@@ -3,6 +3,7 @@
     border: 1px solid lightGray;
     padding: 5px;
     width: 650px;
+
     label {
       font-weight: normal;
     }
@@ -39,5 +40,16 @@
     input:focus {
       border: 1px solid gray;
     }
+  }
+}
+
+.sim-modal {
+  blockquote {
+    font-size: 14px;
+  }
+  img {
+    width: 60%;
+    display: block;
+    margin: 0 auto;
   }
 }
