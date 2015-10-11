@@ -54,6 +54,9 @@ button.az-loading {
 .home-template h1 {
   margin-bottom: 20px; }
 
+.home-template img {
+  border: 1px solid lightGray; }
+
 .home-template img, .home-template iframe {
   width: 100%; }
 
