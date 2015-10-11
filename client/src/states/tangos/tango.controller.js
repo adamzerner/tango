@@ -3,7 +3,7 @@ angular
   .controller('TangoController', TangoController)
 ;
 
-function TangoController($scope, $timeout, StatementConstructor, Tango, $stateParams, $state, $q, $rootScope) {
+function TangoController($scope, $timeout, StatementConstructor, Tango, $stateParams, $state, $q, $rootScope, $uibModal) {
   var vm = this;
 
   // sims
@@ -21,6 +21,11 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
     }
     var index = vm.tango.sims.indexOf(sim);
     vm.tango.sims.splice(index, 1);
+  };
+  vm.openSimModal = function() {
+    $uibModal.open({
+      templateUrl: '/states/tangos/simModal.html'
+    });
   };
 
   vm.submit = function() {
