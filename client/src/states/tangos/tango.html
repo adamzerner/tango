@@ -1,18 +1,16 @@
 <div class='new-tango-template'>
 
-<uib-alert ng-if='vm.alert' type='danger' close='vm.closeAlert()'>
-  {{ vm.alert }}
-</uib-alert>
-<uib-alert ng-if='vm.updateSuccess' type='success' close='vm.closeUpdateSuccess()' dismiss-on-timeout='2000'>
-  Successfully updated Tango!
-</uib-alert>
-
 <div class='sims'>
   <p>
     <strong>Sims</strong>
     <span
+      class='glyphicon glyphicon-download'
+      ng-click='vm.openLoadModal()'>
+    </span>
+    <span
       class='glyphicon glyphicon-question-sign'
-      ng-click='vm.openSimModal()'>
+      ng-click='vm.openSimModal()'
+      ng-hide='vm.unauthorized'>
     </span>
   </p>
   <div class='sim' ng-repeat='sim in vm.tango.sims track by $index'>

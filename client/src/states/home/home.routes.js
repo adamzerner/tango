@@ -6,7 +6,7 @@ angular
 function config ($stateProvider) {
   $stateProvider
     .state('home', {
-      url: '/?justLoggedOut',
+      url: '/',
       templateUrl: '/states/home/home.html',
       controller: 'HomeController as vm'
     })

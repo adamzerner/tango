@@ -19,6 +19,34 @@ input:focus, textarea:focus {
   z-index: 1;
   margin: 1px; }
 
+.sims {
+  border: 1px solid lightGray;
+  padding: 5px;
+  width: 650px; }
+  .sims label {
+    font-weight: normal; }
+  .sims input {
+    margin-bottom: 5px;
+    padding: 4px 8px;
+    border: 1px solid gray; }
+  .sims .sim-name {
+    width: 5em;
+    margin-right: 5px; }
+  .sims .sim-description {
+    width: 400px; }
+  .sims .glyphicon-plus, .sims .glyphicon-remove {
+    cursor: pointer; }
+  .sims .glyphicon-plus {
+    margin-top: 10px; }
+
+.sim-modal blockquote {
+  font-size: 14px; }
+
+.sim-modal img {
+  width: 60%;
+  display: block;
+  margin: 0 auto; }
+
 html {
   box-sizing: border-box; }
 
@@ -76,26 +104,6 @@ button.az-loading {
       margin-top: 20px;
       margin-bottom: 20px; }
 
-.new-tango-template .sims {
-  border: 1px solid lightGray;
-  padding: 5px;
-  width: 650px; }
-  .new-tango-template .sims label {
-    font-weight: normal; }
-  .new-tango-template .sims input {
-    margin-bottom: 5px;
-    padding: 4px 8px;
-    border: 1px solid gray; }
-  .new-tango-template .sims .sim-name {
-    width: 5em;
-    margin-right: 5px; }
-  .new-tango-template .sims .sim-description {
-    width: 400px; }
-  .new-tango-template .sims .glyphicon-plus, .new-tango-template .sims .glyphicon-remove {
-    cursor: pointer; }
-  .new-tango-template .sims .glyphicon-plus {
-    margin-top: 10px; }
-
 .new-tango-template .page-header input {
   font-size: 36px;
   font-weight: 500;
@@ -107,14 +115,6 @@ button.az-loading {
 
 .new-tango-template .page-header input:focus {
   border: 1px solid gray; }
-
-.sim-modal blockquote {
-  font-size: 14px; }
-
-.sim-modal img {
-  width: 60%;
-  display: block;
-  margin: 0 auto; }
 
 .statement-directive-template .statement {
   margin-bottom: 20px; }

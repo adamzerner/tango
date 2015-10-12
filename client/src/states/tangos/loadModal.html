@@ -1,0 +1,23 @@
+<div class='modal-header'>
+  <h3 class='modal-title'>Load Sims</h3>
+</div>
+<div class='modal-body sim-modal'>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th><input type='checkbox' ng-model='vm.foo' ng-change='vm.toggleSelectAll()'></th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat='sim in vm.userSims'>
+        <td><input type='checkbox' ng-model='sim.selected'></td>
+        <td>{{ sim.name }}</td>
+        <td>{{ sim.description }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button class='btn btn-default' ng-click='vm.load()'>Load</button>
+</div>

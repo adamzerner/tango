@@ -27,6 +27,39 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
       templateUrl: '/states/tangos/simModal.html'
     });
   };
+  vm.openLoadModal = function() {
+    $uibModal.open({
+      templateUrl: '/states/tangos/loadModal.html',
+      controller: function($modalInstance, tangoSims, $rootScope) {
+        var vm = this;
+
+        vm.tangoSims = tangoSims;
+        vm.userSims = angular.copy($rootScope.user.sims);
+
+        vm.toggleSelectAll = function() {
+          vm.userSims.forEach(function(userSim) {
+            userSim.selected = !userSim.selected;
+          });
+        };
+
+        vm.load = function() {
+          vm.userSims.forEach(function(userSim) {
+            if (userSim.selected) {
+              vm.tangoSims.push({
+                name: userSim.name,
+                description: userSim.description
+              })
+            }
+          });
+          $modalInstance.close();
+        };
+      },
+      controllerAs: 'vm',
+      resolve: {
+        tangoSims: function() { return vm.tango.sims }
+      }
+    });
+  };
 
   vm.submit = function() {
     removeParents(vm.tango.statements);
@@ -35,43 +68,34 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
       return Tango
         .create(vm.tango)
         .then(function(response) {
+          $rootScope.successAlert = 'Your Tango has been created.';
           $state.go('my-tangos', { id: $rootScope.user._id });
         })
         .catch(function(response) {
-          vm.alert = 'Failed to create Tango. All fields are required.';
+          $rootScope.errorAlert = 'Failed to create Tango. All fields are required.';
           addParents(vm.tango.statements);
         })
       ;
     }
     else {
       if (angular.equals(vm.tango, vm.originalTango)) {
-        vm.alert = 'You haven\'t made any changes!';
+        $rootScope.errorAlert = 'You haven\'t made any changes!';
         return $q.when({});
       }
 
       return Tango
         .update($stateParams.id, vm.tango)
         .then(function(response) {
-          vm.updateSuccess = true;
+          $rootScope.successAlert = 'Successfully updated your Tango.';
           addParents(vm.tango.statements);
           vm.originalTango = angular.copy(vm.tango);
         })
         .catch(function(response) {
-          vm.alert = 'Failed to update Tango. All fields are required.';
+          $rootScope.errorAlert = 'Failed to update Tango. All fields are required.';
           addParents(vm.tango.statements);
         })
       ;
     }
-  };
-
-  // alerts
-  vm.alert = false;
-  vm.updateSuccess = false;
-  vm.closeAlert = function() {
-    vm.alert = false;
-  };
-  vm.closeUpdateSuccess = function() {
-    vm.updateSuccess = false;
   };
 
   if ($stateParams.id) {

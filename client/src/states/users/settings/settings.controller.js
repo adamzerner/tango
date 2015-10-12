@@ -3,7 +3,7 @@ angular
   .controller('SettingsController', SettingsController)
 ;
 
-function SettingsController($stateParams, $state, User, Auth, $rootScope, $cookies) {
+function SettingsController($stateParams, $state, User, $rootScope, $cookies) {
   var vm = this;
   User.get($stateParams.id)
     .then(function(response) {
@@ -19,10 +19,11 @@ function SettingsController($stateParams, $state, User, Auth, $rootScope, $cooki
       .then(function() {
         angular.copy({}, $rootScope.user);
         $cookies.remove('userId');
+        $rootScope.successAlert = 'Successfully deleted your account.';
         $state.go('home');
       })
       .catch(function() {
-        console.log('Problem deleting the user.');
+        $rootScope.errorAlert = 'Unable to delete your account.';
       })
     ;
   };

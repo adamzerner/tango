@@ -19,7 +19,8 @@ function NavbarController(Auth, $state, $rootScope) {
   vm.logout = function() {
     Auth.logout()
       .then(function() {
-        $state.go('home', { justLoggedOut: true });
+        $rootScope.successAlert = 'Successfully logged out.';
+        $state.go('home');
       })
     ;
   };

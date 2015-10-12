@@ -1,0 +1,47 @@
+<div class='page-header'>
+  <h1>My Sims</h1>
+</div>
+
+<p>These sims will be available for you to load in your Tangos.</p>
+<br /><br />
+
+<div class='sims'>
+  <p>
+    <strong>Sims</strong>
+    <span
+      class='glyphicon glyphicon-question-sign'
+      ng-click='vm.openSimModal()'>
+    </span>
+  </p>
+  <p ng-hide='vm.user.sims.length > 0'>You have no Sims. Click below to create one.</p>
+  <div class='sim' ng-repeat='sim in vm.user.sims track by $index'>
+    <label>Name: </label>
+    <input
+      type='text'
+      class='sim-name'
+      ng-model='sim.name'
+      maxlength='5'>
+    <label>Description: </label>
+    <input
+      type='text'
+      class='sim-description'
+      ng-model='sim.description'
+      maxlength='140'>
+    <span
+      class='glyphicon glyphicon-remove'
+      ng-click='vm.removeSim(sim)'>
+    </span>
+  </div>
+  <span
+    class='glyphicon glyphicon-plus'
+    ng-click='vm.newSim()'>
+  </span>
+</div>
+
+<br />
+<button
+  az-loading='Saving...'
+  on-click='vm.save()'
+  class='btn btn-primary'>
+  Save
+</button>
