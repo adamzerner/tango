@@ -28,12 +28,12 @@ var GoogleSchema = new Schema({
 });
 
 var UserSchema = new Schema({
-  local: { type: ObjectId, ref: 'Local' },
+  local: { type: ObjectId, ref: 'Local' }, // keeping local because I need to log in for my some of my tests
   facebook: { type: ObjectId, ref: 'Facebook' },
   twitter: { type: ObjectId, ref: 'Twitter' },
   google: { type: ObjectId, ref: 'Google' },
   tangos: [{ type: ObjectId, ref: 'Tango' }],
-  sims: [{ type: ObjectId, ref: 'Sim' }]
+  sims: [SimSchema]
 });
 
 exports.LocalSchema = LocalSchema;

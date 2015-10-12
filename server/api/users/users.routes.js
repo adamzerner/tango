@@ -112,22 +112,13 @@ router.put('/:id', Auth.isLoggedIn, function(req, res) {
     delete req.body.password;
   }
 
-  User.findById(req.params.id).exec()
+  User.findByIdAndUpdate(req.params.id, req.body, { new: true }).exec()
     .then(function(user) {
-      Local
-        .findByIdAndUpdate(user.local, req.body, { new: true }).exec()
-        .then(function(updatedLocal) {
-          if (!updatedLocal) {
-            return res.status(404).end();
-          }
-          user.local = updatedLocal;
-          return res.status(201).json(user);
-        }, forwardError(res))
-      ;
-    })
-    .then(null, function(err) {
-      return res.status(404).end();
-    })
+      if (!user) {
+        return res.status(404).end();
+      }
+      return res.status(201).json(user);
+    }, forwardError(res))
   ;
 });
 
