@@ -27,6 +27,39 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
       templateUrl: '/states/tangos/simModal.html'
     });
   };
+  vm.openLoadModal = function() {
+    $uibModal.open({
+      templateUrl: '/states/tangos/loadModal.html',
+      controller: function($modalInstance, tangoSims, $rootScope) {
+        var vm = this;
+
+        vm.tangoSims = tangoSims;
+        vm.userSims = angular.copy($rootScope.user.sims);
+
+        vm.toggleSelectAll = function() {
+          vm.userSims.forEach(function(userSim) {
+            userSim.selected = !userSim.selected;
+          });
+        };
+
+        vm.load = function() {
+          vm.userSims.forEach(function(userSim) {
+            if (userSim.selected) {
+              vm.tangoSims.push({
+                name: userSim.name,
+                description: userSim.description
+              })
+            }
+          });
+          $modalInstance.close();
+        };
+      },
+      controllerAs: 'vm',
+      resolve: {
+        tangoSims: function() { return vm.tango.sims }
+      }
+    });
+  };
 
   vm.submit = function() {
     removeParents(vm.tango.statements);
