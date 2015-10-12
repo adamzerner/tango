@@ -1,11 +1,11 @@
 <div class='new-tango-template'>
 
-<alert ng-if='vm.alert' type='danger' close='vm.closeAlert()'>
+<uib-alert ng-if='vm.alert' type='danger' close='vm.closeAlert()'>
   {{ vm.alert }}
-</alert>
-<alert ng-if='vm.updateSuccess' type='success' close='vm.closeUpdateSuccess()' dismiss-on-timeout='2000'>
+</uib-alert>
+<uib-alert ng-if='vm.updateSuccess' type='success' close='vm.closeUpdateSuccess()' dismiss-on-timeout='2000'>
   Successfully updated Tango!
-</alert>
+</uib-alert>
 
 <div class='sims'>
   <p>
@@ -36,6 +36,7 @@
   <span
     class='glyphicon glyphicon-plus'
     ng-click='vm.newSim()'>
+  </span>
 </div>
 
 <div class='page-header'>
@@ -54,7 +55,8 @@
 <button
   az-loading='Submitting...'
   on-click='vm.submit()'
-  class='btn btn-primary'>
+  class='btn btn-primary'
+  ng-hide='vm.unauthorized'>
   {{ vm.submitText }}
 </button>
 

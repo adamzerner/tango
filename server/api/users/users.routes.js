@@ -18,7 +18,7 @@ function forwardError(res) {
   }
 }
 
-router.get('/', function(req, res) {
+router.get('/', Auth.hasRole('admin'), function(req, res) {
   User.find({}).populate('local facebook twitter google tangos').exec()
     .then(function(users) {
       res.status(200).json(users);
@@ -26,7 +26,11 @@ router.get('/', function(req, res) {
   ;
 });
 
-router.get('/:id', function(req, res) {
+router.get('/:id', Auth.isLoggedIn, function(req, res) {
+  if (!Auth.isAuthorized(req.params.id, req.user._id, req, res)) {
+    return;
+  }
+
   User.findById(req.params.id).populate('local facebook twitter google tangos').exec()
     .then(function(user) {
       if (!user) {

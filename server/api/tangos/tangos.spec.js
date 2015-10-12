@@ -55,6 +55,7 @@ describe('Tangos API:', function() {
     invalidId = 'aaaaaaaaaaaaaaaaaaaaaaaa';
     testTango = {
       title: 'title',
+      private: true,
       sims: [{
         name: 'A',
         description: 'A description'

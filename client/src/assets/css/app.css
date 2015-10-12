@@ -213,12 +213,7 @@ button.az-loading {
   position: relative;
   left: 650px; }
 
-.my-tangos-template ul {
-  margin-top: 10px;
-  list-style-type: circle; }
-  .my-tangos-template ul li {
-    font-size: 18px;
-    margin-bottom: 15px; }
-    .my-tangos-template ul li span.glyphicon-trash {
-      display: inline-block;
-      margin-left: 5px; }
+.my-tangos-template table {
+  width: 700px; }
+  .my-tangos-template table input[type='checkbox'] {
+    cursor: pointer; }
