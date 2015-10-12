@@ -85,6 +85,10 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
         $timeout(function() {
           angular.element('textarea:first').focus();
         }, 0);
+
+        if (vm.tango.author !== $rootScope.user._id) {
+          vm.unauthorized = true;
+        }
       })
     ;
   }

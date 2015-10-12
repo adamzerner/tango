@@ -22,14 +22,14 @@ router.get('/', Auth.hasRole('admin'), function(req, res) {
   ;
 });
 
-router.get('/:id', Auth.isLoggedIn, function(req, res) {
+router.get('/:id', function(req, res) {
   Tango.findById(req.params.id).exec()
     .then(function(tango) {
       if (!tango) {
         return res.status(404).end();
       }
 
-      if (!Auth.isAuthorized(tango.author, req.user._id, req, res)) {
+      if (tango.private && !Auth.isAuthorized(tango.author, req.user._id, req, res)) {
         return;
       }
 

@@ -1,22 +1,29 @@
 <div class='my-tangos-template'>
 
-<alert ng-if='vm.alertSuccess' type='success' close='vm.closeAlertSuccess()' dismiss-on-timeout='2000'>
-  Successfully removed Tango.
-</alert>
-<alert ng-if='vm.alertFailure' type='danger' close='vm.closeAlertFailure()'>
-  Problem removing Tango.
-</alert>
+<uib-alert ng-if='vm.alertSuccess' type='success' close='vm.closeAlertSuccess()' dismiss-on-timeout='2000'>
+  {{ vm.alertSuccess }}
+</uib-alert>
+<uib-alert ng-if='vm.alertFailure' type='danger' close='vm.closeAlertFailure()'>
+  {{ vm.alertFailure}}
+</uib-alert>
 
 <div class='page-header'>
   <h1>My Tangos</h1>
 </div>
 
-<ul>
-  <li ng-repeat='tango in vm.user.tangos'>
-    <a ui-sref='tango({ id: tango._id })'>{{ tango.title }}</a>
-    <span
-      ng-click='vm.remove(tango)'
-      class='glyphicon glyphicon-trash'>
-    </span>
-  </li>
-</ul>
+<table class='table'>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Private <span ng-click='vm.privacyModal()' class='glyphicon glyphicon-question-sign'></span></th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat='tango in vm.user.tangos'>
+      <td><a ui-sref='tango({ id: tango._id })'>{{ tango.title }}</a></td>
+      <td><input type='checkbox' ng-model='tango.private' ng-change='vm.updatePrivacy(tango)'></td>
+      <td><span class='glyphicon glyphicon-trash' ng-click='vm.remove(tango)'></span></td>
+    </tr>
+  </tbody>
+</table>

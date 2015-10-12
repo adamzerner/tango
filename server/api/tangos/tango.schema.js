@@ -20,7 +20,8 @@ var TangoSchema = new Schema({
   title: { type: String, required: true },
   sims: { type: [SimSchema], required: true },
   statements: { type: [StatementSchema], required: true },
-  author: { type: ObjectId, ref: 'User', required: true }
+  author: { type: ObjectId, ref: 'User', required: true },
+  private: { type: Boolean, default: true }
 });
 
 exports.TangoSchema = TangoSchema;

@@ -5,11 +5,15 @@ angular
 
 function run($rootScope, Auth, $state, Tango) {
   function redirect (message, state) {
-    alert(message);
+    debugger;
+    console.log('state: ', state);
+    // alert(message);
     if (state) {
+      console.log('if');
       $state.go(state);
     }
     else {
+      console.log('else');
       $state.go('home');
     }
   }
@@ -29,7 +33,7 @@ function run($rootScope, Auth, $state, Tango) {
             redirect("You're logged in.");
           }
         }
-        else if (!isLoggedIn) {
+        else if (!isLoggedIn && !(toState.authenticate.authorized && toState.authenticate.authorized === 'tango')) {
           redirect('Must be logged in to access this route.');
         }
         else if (toState.authenticate.authorized) {
@@ -46,7 +50,18 @@ function run($rootScope, Auth, $state, Tango) {
             Tango
               .get(toParams.id)
               .then(function(response) {
-                isAuthorized = response.data.author === currentUser._id.toString();
+                var tango = response.data;
+                if (!tango.private) {
+                  isAuthorized = true;
+                }
+                else {
+                  if (!isLoggedIn) {
+                    redirect('Must be logged in to access this route.');
+                  }
+                  else if (tango.author === currentUser._id.toString()) {
+                    isAuthorized = true;
+                  }
+                }
 
                 if (!isAuthorized && !isAdmin) {
                   redirect('You are not authorized to access that route.');
