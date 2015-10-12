@@ -7,6 +7,13 @@ angular
 function run(Auth, $rootScope) {
   $rootScope.user = {};
   Auth.requestCurrentUser();
+
+  $rootScope.closeSuccessAlert = function() {
+    $rootScope.successAlert = false;
+  };
+  $rootScope.closeErrorAlert = function() {
+    $rootScope.errorAlert = false;
+  };
 }
 
 // makes it so that textareas automatically expand vertically as new lines are added

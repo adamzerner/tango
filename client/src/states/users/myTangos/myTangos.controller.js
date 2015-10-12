@@ -3,7 +3,7 @@ angular
   .controller('MyTangosController', MyTangosController)
 ;
 
-function MyTangosController(User, $stateParams, Tango, $uibModal) {
+function MyTangosController(User, $stateParams, Tango, $uibModal, $rootScope) {
   var vm = this;
 
   User.get($stateParams.id)
@@ -20,10 +20,10 @@ function MyTangosController(User, $stateParams, Tango, $uibModal) {
     Tango
       .update(tango._id, tango)
       .then(function() {
-        vm.alertSuccess = 'Successfully updated privacy.';
+        $rootScope.successAlert = 'Successfully updated privacy.';
       })
       .catch(function() {
-        vm.alertFailure = 'Problem updating privacy.';
+        $rootScope.errorAlert = 'Problem updating privacy.';
         tango.private = !tango.private;
       })
     ;
@@ -39,24 +39,14 @@ function MyTangosController(User, $stateParams, Tango, $uibModal) {
     Tango
       .delete(tango._id)
       .then(function() {
-        vm.alertSuccess = 'Successfully removed Tango.';
+        $rootScope.successAlert = 'Successfully removed Tango.';
 
         var index = vm.user.tangos.indexOf(tango);
         vm.user.tangos.splice(index, 1);
       })
       .catch(function() {
-        vm.alertFailure = 'Problem removing Tango.';
+        $rootScope.errorAlert = 'Problem removing Tango.';
       })
     ;
-  };
-
-  // alerts
-  vm.alertSuccess = false;
-  vm.alertFailure = false;
-  vm.closeAlertSuccess = function() {
-    vm.alertSuccess = false;
-  };
-  vm.closeAlertFailure = function() {
-    vm.alertFailure = false;
   };
 }
