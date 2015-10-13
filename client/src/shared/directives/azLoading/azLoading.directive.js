@@ -62,7 +62,7 @@ function execute(scope, fn, submitButton, loadingText, blockAction) {
   }
 
   returnValue
-    .then(function() {
+    .then(function(response) {
       // remove block action stuff
       $body.removeClass('az-block-action');
       $azLightbox.css('display', 'none');
@@ -72,9 +72,19 @@ function execute(scope, fn, submitButton, loadingText, blockAction) {
       submitButton.removeClass('az-loading');
       submitButton.text(oldText);
       submitButton.prop('disabled', false);
-    })
-    .catch(function() {
+    }, function(response) {
+      // remove block action stuff
+      $body.removeClass('az-block-action');
+      $azLightbox.css('display', 'none');
+
+      // re-apply old styles
+      $body.removeClass('az-loading');
+      submitButton.removeClass('az-loading');
+      submitButton.text(oldText);
+      submitButton.prop('disabled', false);
+
       console.error('clickFn error caught.');
+      return response;
     })
   ;
 }
