@@ -77,6 +77,9 @@ function statement(RecursionHelper) {
         var parentArr = vm.statement.parent.children || vm.statement.parent;
         var currIndex = parentArr.indexOf(vm.statement);
         parentArr.splice(currIndex+1, 0, newStatement);
+        $timeout(function() {
+          vm.downOne(e);
+        }, 0);
       };
       vm.deleteStatement = function(e) {
         var parent = vm.statement.parent;

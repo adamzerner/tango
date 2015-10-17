@@ -15,18 +15,22 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
       angular.element('input:last').focus();
     }, 0);
   };
+
   vm.removeSim = function(sim) {
     if (vm.tango.sims.length === 1) {
       return;
     }
+
     var index = vm.tango.sims.indexOf(sim);
     vm.tango.sims.splice(index, 1);
   };
+
   vm.openSimModal = function() {
     $uibModal.open({
       templateUrl: '/states/tangos/simModal.html'
     });
   };
+
   vm.openLoadModal = function() {
     $uibModal.open({
       templateUrl: '/states/tangos/loadModal.html',
@@ -48,7 +52,7 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
               vm.tangoSims.push({
                 name: userSim.name,
                 description: userSim.description
-              })
+              });
             }
           });
           $modalInstance.close();
@@ -56,8 +60,10 @@ function TangoController($scope, $timeout, StatementConstructor, Tango, $statePa
       },
       controllerAs: 'vm',
       resolve: {
-        tangoSims: function() { return vm.tango.sims }
-      }
+        tangoSims: function() {
+          return vm.tango.sims;
+        }
+      },
     });
   };
 
