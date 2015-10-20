@@ -116,6 +116,11 @@ button.az-loading {
 .new-tango-template .page-header input:focus {
   border: 1px solid gray; }
 
+.my-tangos-template table {
+  width: 700px; }
+  .my-tangos-template table input[type='checkbox'] {
+    cursor: pointer; }
+
 .statement-directive-template .statement {
   margin-bottom: 20px; }
   .statement-directive-template .statement .left-icons {
@@ -168,6 +173,24 @@ button.az-loading {
         float: right;
         margin-left: 15px;
         cursor: pointer; }
+      .statement-directive-template .statement .menu-container .menu .react {
+        position: relative;
+        top: 2px;
+        right: 2px; }
+      .statement-directive-template .statement .menu-container .menu #reactions-template .reactions span.reaction {
+        margin-left: 0;
+        padding: 9px;
+        vertical-align: middle; }
+      .statement-directive-template .statement .menu-container .menu #reactions-template .explanations {
+        margin-top: 10px;
+        border-top: 1px solid lightgray;
+        padding-top: 10px;
+        font-size: 10px;
+        height: 77px; }
+        .statement-directive-template .statement .menu-container .menu #reactions-template .explanations span.label {
+          margin-left: 5px;
+          float: none;
+          vertical-align: middle; }
 
 .statement-directive-template .level-0 {
   position: relative;
@@ -212,8 +235,3 @@ button.az-loading {
 .statement-directive-template .level-10 {
   position: relative;
   left: 650px; }
-
-.my-tangos-template table {
-  width: 700px; }
-  .my-tangos-template table input[type='checkbox'] {
-    cursor: pointer; }

@@ -1,23 +1,27 @@
 .statement-directive-template {
   .statement {
     margin-bottom: 20px;
+
     .left-icons {
       display: inline-block;
       text-align: right;
       width: 110px;
       line-height: 100%;
       vertical-align: top;
+
       img, .author {
         margin-right: 5px;
         vertical-align: top;
         line-height: 100%;
       }
+
       img {
         height: 15px;
         position: relative;
         top: 15px;
         cursor: pointer;
       }
+
       .author {
         border: 1px solid gray;
         border-radius: 25px;
@@ -28,6 +32,7 @@
         cursor: pointer;
       }
     }
+
     textarea {
       font-size: 18px;
       width: 700px;
@@ -38,29 +43,64 @@
       overflow: hidden;
       vertical-align: bottom;
     }
+
     textarea:focus {
       outline: none;
       border: 1px solid gray;
       overflow: auto; // only have scroll bar when focused
     }
+
     .menu-container {
       min-height: 20px;
       margin-top: 5px;
       margin-bottom: 10px;
+
       .menu {
         margin-top: 5px;
         width: 810px;
         position: relative;
         right: 5px;
         margin: 0;
+
         span {
           float: right;
           margin-left: 15px;
           cursor: pointer;
         }
+
+        .react {
+          position: relative;
+          top: 2px;
+          right: 2px;
+        }
+
+        #reactions-template {
+          .reactions {
+            span.reaction {
+              margin-left: 0;
+              padding: 9px; // sorta hacky. figure out how to get spacing right for an arbitrary number of reactions.
+              vertical-align: middle;
+            }
+          }
+
+          .explanations {
+            margin-top: 10px;
+            border-top: 1px solid lightgray;
+            padding-top: 10px;
+            font-size: 10px;
+            height: 77px;
+
+            span.label {
+              margin-left: 5px;
+              float: none;
+              vertical-align: middle;
+            }
+          }
+        }
       }
     }
   }
+
   @for $i from 0 through 10 {
     .level-#{$i} {
       position: relative;
