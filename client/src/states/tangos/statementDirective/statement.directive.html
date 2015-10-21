@@ -30,19 +30,23 @@
 
   <!-- MENU RIGHT -->
   <div class='menu-container'>
-    <p class='menu clear' ng-show='vm.statement.focus'>
+    <p class='menu clear'>
       <span
         class='fa fa-smile-o react'
+        ng-show='vm.statement.focus'
+        ng-mousedown='vm.preventDefault($event)'
         uib-popover-template='vm.popoverTemplate'
         popover-is-open='vm.reactionsPopover'>
       </span>
 
-      <span class='bullet' ng-show='vm.statement.reactions.length > 0'> &bull; </span>
+      <span class='bullet' ng-show='vm.statement.focus && vm.statement.reactions.length > 0'> &bull; </span>
 
       <span
         ng-repeat='reaction in vm.statement.reactions'
+        ng-mousedown='vm.removeReaction(reaction, $event)'
         class='fa fa-smile-o react'
-        uib-tooltip='{{ reaction }}'>
+        uib-tooltip='{{ reaction }}'
+        tooltip-placement='bottom'>
       </span>
     </p>
   </div>

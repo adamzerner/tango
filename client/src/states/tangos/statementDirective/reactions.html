@@ -3,7 +3,7 @@
     <span
       ng-repeat='reaction in vm.reactions track by $index'
       ng-mouseover='vm.hoverReaction(reaction)'
-      ng-click='vm.selectReaction(reaction)'
+      ng-mousedown='vm.selectReaction(reaction, $event)'
       class='fa fa-smile-o reaction'>
     </span>
   </div>
@@ -11,7 +11,7 @@
   <div class='explanations'>
     <p>
       {{ vm.currReaction.name }}
-      <span class='label label-default' ng-show='vm.currReaction.name' uib-popover='{{ vm.currReaction.example }}'>
+      <span class='label label-default' ng-show='vm.currReaction.name' uib-popover='{{ vm.currReaction.example }}' ng-mousedown='vm.preventDefault($event)'>
         Example
       </span>
     </p>

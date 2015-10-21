@@ -10,5 +10,6 @@ function StatementConstructorFactory() {
     this.focus = true;
     this.childrenHidden = false;
     this.simNumber = simNumber || 0;
+    this.reactions = [];
   }
 }
