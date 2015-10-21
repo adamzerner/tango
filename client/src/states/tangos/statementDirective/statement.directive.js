@@ -14,7 +14,6 @@ function statement(RecursionHelper) {
     },
     controller: function statementController(StatementConstructor, $sce, $timeout, $scope, Reactions) {
       var vm = this;
-      vm.statement.reactions = [];
 
       vm.sim = vm.sims[vm.statement.simNumber];
       vm.changeSim = function() {

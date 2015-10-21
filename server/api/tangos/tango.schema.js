@@ -8,7 +8,8 @@ StatementSchema.add({
   children: [StatementSchema],
   focus: { type: Boolean, required: true },
   childrenHidden: { type: Boolean, required: true },
-  simNumber: { type: Number, required: true }
+  simNumber: { type: Number, required: true },
+  reactions: [String]
 });
 
 var SimSchema = new Schema({
