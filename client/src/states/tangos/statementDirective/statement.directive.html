@@ -37,7 +37,9 @@
         uib-tooltip-placement='left'
         ng-mousedown='vm.deleteStatement($event)'>
       </span>
+
       <span class='bullet'> &bull; </span>
+
       <span
         class='glyphicon glyphicon-indent-left'
         uib-tooltip-html='vm.indentRightHtml'
@@ -50,7 +52,9 @@
         uib-tooltip-placement='bottom'
         ng-mousedown='vm.indentLeft()'>
       </span>
+
       <span class='bullet'> &bull; </span>
+
       <span
         class='glyphicon glyphicon-chevron-up'
         uib-tooltip-html='vm.upOneHtml'
@@ -61,7 +65,9 @@
         uib-tooltip-html='vm.downOneHtml'
         uib-tooltip-placement='bottom'>
       </span>
+
       <span class='bullet'> &bull; </span>
+
       <span
         class='glyphicon glyphicon-plus'
         uib-tooltip-html='vm.insertNextStatementHtml'
@@ -73,7 +79,14 @@
         uib-popover-template='vm.popoverTemplate'
         popover-is-open='vm.reactionsPopover'>
       </span>
-      <span>{{ vm.statement.reactions }}</span>
+
+      <span class='bullet' ng-show='vm.statement.reactions.length > 0'> &bull; </span>
+
+      <span
+        ng-repeat='reaction in vm.statement.reactions'
+        class='fa fa-smile-o react'
+        uib-tooltip='{{ reaction }}'>
+      </span>
     </p>
   </div>
 </div>
