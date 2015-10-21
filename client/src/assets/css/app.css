@@ -113,6 +113,10 @@ button.az-loading {
   padding: 10px; }
   .new-tango-template .top .commands ul {
     padding-left: 25px; }
+    .new-tango-template .top .commands ul li {
+      padding: 2px 0; }
+      .new-tango-template .top .commands ul li span {
+        color: gray; }
 
 .new-tango-template .page-header input {
   font-size: 36px;

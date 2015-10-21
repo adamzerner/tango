@@ -8,8 +8,17 @@
       float: right;
       border: 1px solid lightGray;
       padding: 10px;
+
       ul {
         padding-left: 25px;
+
+        li {
+          padding: 2px 0;
+
+          span {
+            color: gray;
+          }
+        }
       }
     }
   }
