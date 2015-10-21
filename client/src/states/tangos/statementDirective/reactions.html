@@ -1,0 +1,20 @@
+<div id='reactions-template'>
+  <div class='reactions clear'>
+    <span
+      ng-repeat='reaction in vm.reactions track by $index'
+      ng-mouseover='vm.hoverReaction(reaction)'
+      ng-click='vm.selectReaction(reaction)'
+      class='fa fa-smile-o reaction'>
+    </span>
+  </div>
+
+  <div class='explanations'>
+    <p>
+      {{ vm.currReaction.name }}
+      <span class='label label-default' ng-show='vm.currReaction.name' uib-popover='{{ vm.currReaction.example }}'>
+        Example
+      </span>
+    </p>
+    <p>{{ vm.currReaction.description }}</p>
+  </div>
+</div>

@@ -71,7 +71,8 @@ describe('Tangos API:', function() {
         children: [],
         focus: false,
         childrenHidden: false,
-        simNumber: 1
+        simNumber: 1,
+        reactions: ['Straw Man']
       }, {
         text: '2',
         children: [{
@@ -79,11 +80,13 @@ describe('Tangos API:', function() {
           children: [],
           focus: false,
           childrenHidden: false,
-          simNumber: 3
+          simNumber: 3,
+          reactions: []
         }],
         focus: false,
         childrenHidden: false,
-        simNumber: 2
+        simNumber: 2,
+        reactions: []
       }]
     };
 

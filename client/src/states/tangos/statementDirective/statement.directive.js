@@ -12,7 +12,7 @@ function statement(RecursionHelper) {
       sims: '=',
       level: '@'
     },
-    controller: function statementController(StatementConstructor, $sce, $timeout, $scope) {
+    controller: function statementController(StatementConstructor, $sce, $timeout, $scope, Reactions) {
       var vm = this;
 
       vm.sim = vm.sims[vm.statement.simNumber];
@@ -38,12 +38,16 @@ function statement(RecursionHelper) {
           autosize.update(ta);
         }, 0);
       };
+
       vm.insertNextStatementHtml = $sce.trustAsHtml('Insert next statement<br />cmd + ctrl + enter');
       vm.deleteStatementHtml = $sce.trustAsHtml('Delete statement<br />cmd + ctrl + del/backspace');
       vm.indentRightHtml = $sce.trustAsHtml('Indent right<br />cmd + ctrl + ]');
       vm.indentLeftHtml = $sce.trustAsHtml('Indent left<br />cmd + ctrl + [');
       vm.upOneHtml = $sce.trustAsHtml('Up one<br />cmd + ctrl + up')
       vm.downOneHtml = $sce.trustAsHtml('Down one<br />cmd + ctrl + down');
+
+      vm.popoverTemplate = 'states/tangos/statementDirective/reactions.html';
+
       vm.upOne = function(e) {
         var textareas = $('textarea');
         var curr;
@@ -70,6 +74,7 @@ function statement(RecursionHelper) {
         }
         e.preventDefault();
       };
+
       vm.insertNextStatement = function(e) {
         e.preventDefault();
         var newStatement = new StatementConstructor(vm.statement.simNumber);
@@ -81,6 +86,7 @@ function statement(RecursionHelper) {
           vm.downOne(e);
         }, 0);
       };
+
       vm.deleteStatement = function(e) {
         var parent = vm.statement.parent;
         if (!parent.children && parent.length === 1) {
@@ -92,6 +98,7 @@ function statement(RecursionHelper) {
         parentArr.splice(index, 1);
         vm.upOne(e);
       };
+
       vm.indentRight = function() {
         var parent = vm.statement.parent;
         var parentArr = parent.children || parent;
@@ -105,6 +112,7 @@ function statement(RecursionHelper) {
           console.log('can\'t indent right');
         }
       };
+
       vm.indentLeft = function() {
         var parent = vm.statement.parent;
         var grandparent = parent.parent;
@@ -121,6 +129,20 @@ function statement(RecursionHelper) {
         // remove statement from old position
         var parentIndex = parent.children.indexOf(vm.statement);
         parent.children.splice(parentIndex, 1);
+      };
+
+      // reactions
+      vm.reactions = Reactions;
+      vm.reactionsPopover;
+      vm.currReaction = {};
+
+      vm.hoverReaction = function(reaction) {
+        vm.currReaction = reaction;
+      };
+
+      vm.selectReaction = function(reaction) {
+        vm.reactionsPopover = false;
+        vm.statement.reactions.push(reaction.name);
       };
 
       // key bindings
@@ -150,7 +172,7 @@ function statement(RecursionHelper) {
             vm.changeSim();
           }
         }
-      };
+      }
     },
     controllerAs: 'vm',
     bindToController: true,
