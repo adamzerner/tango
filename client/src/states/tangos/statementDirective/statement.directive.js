@@ -131,21 +131,19 @@ function statement(RecursionHelper) {
         vm.currReaction = reaction;
       };
 
-      vm.selectReaction = function(reaction, e) {
-        e.preventDefault();
+      vm.selectReaction = function(reaction) {
         vm.reactionsPopover = false;
         vm.statement.reactions.push(reaction.name);
       };
 
-      vm.removeReaction = function(reaction, e) {
-        e.preventDefault();
+      vm.removeReaction = function(reaction) {
         var index = vm.statement.reactions.indexOf(reaction);
         vm.statement.reactions.splice(index, 1);
       };
 
       vm.preventDefault = function(e) {
         e.preventDefault();
-      };
+      }
 
       // key bindings
       vm.shortCut = function(e) {

@@ -72,6 +72,10 @@
           position: relative;
           top: 2px;
           right: 2px;
+
+          &:focus {
+            outline: none;
+          }
         }
 
         #reactions-template {

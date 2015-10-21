@@ -33,13 +33,13 @@
     <p class='menu clear'>
       <span
         class='fa fa-smile-o react'
-        ng-show='vm.statement.focus'
-        ng-mousedown='vm.preventDefault($event)'
         uib-popover-template='vm.popoverTemplate'
-        popover-is-open='vm.reactionsPopover'>
+        popover-is-open='vm.reactionsPopover'
+        popover-trigger='focus'
+        tabindex='-1'>
       </span>
 
-      <span class='bullet' ng-show='vm.statement.focus && vm.statement.reactions.length > 0'> &bull; </span>
+      <span class='bullet' ng-show='vm.statement.reactions.length > 0'> &bull; </span>
 
       <span
         ng-repeat='reaction in vm.statement.reactions'
