@@ -22,7 +22,7 @@ input:focus, textarea:focus {
 .sims {
   border: 1px solid lightGray;
   padding: 5px;
-  width: 650px; }
+  width: 600px; }
   .sims label {
     font-weight: normal; }
   .sims input {
@@ -33,7 +33,7 @@ input:focus, textarea:focus {
     width: 5em;
     margin-right: 5px; }
   .sims .sim-description {
-    width: 400px; }
+    width: 350px; }
   .sims .glyphicon-plus, .sims .glyphicon-remove {
     cursor: pointer; }
   .sims .glyphicon-plus {
@@ -104,6 +104,16 @@ button.az-loading {
       margin-top: 20px;
       margin-bottom: 20px; }
 
+.new-tango-template .top .sims {
+  float: left; }
+
+.new-tango-template .top .commands {
+  float: right;
+  border: 1px solid lightGray;
+  padding: 10px; }
+  .new-tango-template .top .commands ul {
+    padding-left: 25px; }
+
 .new-tango-template .page-header input {
   font-size: 36px;
   font-weight: 500;
@@ -115,11 +125,6 @@ button.az-loading {
 
 .new-tango-template .page-header input:focus {
   border: 1px solid gray; }
-
-.my-tangos-template table {
-  width: 700px; }
-  .my-tangos-template table input[type='checkbox'] {
-    cursor: pointer; }
 
 .statement-directive-template .statement {
   margin-bottom: 20px; }
@@ -235,3 +240,8 @@ button.az-loading {
 .statement-directive-template .level-10 {
   position: relative;
   left: 650px; }
+
+.my-tangos-template table {
+  width: 700px; }
+  .my-tangos-template table input[type='checkbox'] {
+    cursor: pointer; }

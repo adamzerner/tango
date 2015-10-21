@@ -30,53 +30,9 @@
 
   <!-- MENU RIGHT -->
   <div class='menu-container'>
-    <p class='menu clear'>
-      <span
-        class='glyphicon glyphicon-remove'
-        uib-tooltip-html='vm.deleteStatementHtml'
-        uib-tooltip-placement='left'
-        ng-mousedown='vm.deleteStatement($event)'>
-      </span>
-
-      <span class='bullet'> &bull; </span>
-
-      <span
-        class='glyphicon glyphicon-indent-left'
-        uib-tooltip-html='vm.indentRightHtml'
-        uib-tooltip-placement='bottom'
-        ng-mousedown='vm.indentRight()'>
-      </span>
-      <span
-        class='glyphicon glyphicon-indent-right'
-        uib-tooltip-html='vm.indentLeftHtml'
-        uib-tooltip-placement='bottom'
-        ng-mousedown='vm.indentLeft()'>
-      </span>
-
-      <span class='bullet'> &bull; </span>
-
-      <span
-        class='glyphicon glyphicon-chevron-up'
-        uib-tooltip-html='vm.upOneHtml'
-        uib-tooltip-placement='bottom'>
-      </span>
-      <span
-        class='glyphicon glyphicon-chevron-down'
-        uib-tooltip-html='vm.downOneHtml'
-        uib-tooltip-placement='bottom'>
-      </span>
-
-      <span class='bullet'> &bull; </span>
-
-      <span
-        class='glyphicon glyphicon-plus'
-        uib-tooltip-html='vm.insertNextStatementHtml'
-        uib-tooltip-placement='bottom'
-        ng-mousedown='vm.insertNextStatement($event)'>
-      </span>
+    <p class='menu clear' ng-show='vm.statement.focus'>
       <span
         class='fa fa-smile-o react'
-        ng-mousedown='vm.clickReactions($event)'
         uib-popover-template='vm.popoverTemplate'
         popover-is-open='vm.reactionsPopover'>
       </span>

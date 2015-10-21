@@ -1,40 +1,55 @@
 <div class='new-tango-template'>
 
-<div class='sims'>
-  <p>
-    <strong>Sims</strong>
+<div class='top clear'>
+  <div class='sims'>
+    <p>
+      <strong>Sims</strong>
+      <span
+        class='glyphicon glyphicon-download'
+        ng-click='vm.openLoadModal()'>
+      </span>
+      <span
+        class='glyphicon glyphicon-question-sign'
+        ng-click='vm.openSimModal()'
+        ng-hide='vm.unauthorized'>
+      </span>
+    </p>
+    <div class='sim' ng-repeat='sim in vm.tango.sims track by $index'>
+      <label>Name: </label>
+      <input
+        type='text'
+        class='sim-name'
+        ng-model='sim.name'
+        maxlength='5'>
+      <label>Description: </label>
+      <input
+        type='text'
+        class='sim-description'
+        ng-model='sim.description'
+        maxlength='140'>
+      <span
+        class='glyphicon glyphicon-remove'
+        ng-click='vm.removeSim(sim)'>
+      </span>
+    </div>
     <span
-      class='glyphicon glyphicon-download'
-      ng-click='vm.openLoadModal()'>
-    </span>
-    <span
-      class='glyphicon glyphicon-question-sign'
-      ng-click='vm.openSimModal()'
-      ng-hide='vm.unauthorized'>
-    </span>
-  </p>
-  <div class='sim' ng-repeat='sim in vm.tango.sims track by $index'>
-    <label>Name: </label>
-    <input
-      type='text'
-      class='sim-name'
-      ng-model='sim.name'
-      maxlength='5'>
-    <label>Description: </label>
-    <input
-      type='text'
-      class='sim-description'
-      ng-model='sim.description'
-      maxlength='140'>
-    <span
-      class='glyphicon glyphicon-remove'
-      ng-click='vm.removeSim(sim)'>
+      class='glyphicon glyphicon-plus'
+      ng-click='vm.newSim()'>
     </span>
   </div>
-  <span
-    class='glyphicon glyphicon-plus'
-    ng-click='vm.newSim()'>
-  </span>
+
+  <div class='commands'>
+    <p><strong>Commands</strong></p>
+    <ul>
+      <li>Insert Statement: <code>⌘</code>/<code>⊞</code> + <code>ctrl</code> + <code>enter</code></li>
+      <li>Delete Statement: <code>⌘</code>/<code>⊞</code> + <code>ctrl</code> + <code>delete</code></li>
+      <li>Toggle Sim: <code>⌘</code>/<code>⊞</code> + <code>ctrl</code> + <code>j</code></li>
+      <li>Up one: <code>⌘</code>/<code>⊞</code> + <code>ctrl</code> + <code>&uarr;</code></li>
+      <li>Down one: <code>⌘</code>/<code>⊞</code> + <code>ctrl</code> + <code>&darr;</code></li>
+      <li>Indent right: <code>⌘</code>/<code>⊞</code> + <code>ctrl</code> + <code>]</code></li>
+      <li>Indent left: <code>⌘</code>/<code>⊞</code> + <code>ctrl</code> + <code>[</code></li>
+    </ul>
+  </div>
 </div>
 
 <div class='page-header'>
