@@ -150,6 +150,10 @@ function statement(RecursionHelper) {
         vm.statement.reactions.splice(index, 1);
       };
 
+      vm.clickReactions = function(e) {
+        e.preventDefault();
+      };
+
       // key bindings
       vm.shortCut = function(e) {
         if (e.metaKey && e.ctrlKey) {
