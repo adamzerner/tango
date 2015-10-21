@@ -1,4 +1,28 @@
 .new-tango-template {
+  .top {
+    .sims {
+      float: left;
+    }
+
+    .commands {
+      float: right;
+      border: 1px solid lightGray;
+      padding: 10px;
+
+      ul {
+        padding-left: 25px;
+
+        li {
+          padding: 2px 0;
+
+          span {
+            color: gray;
+          }
+        }
+      }
+    }
+  }
+
   .page-header {
     input {
       font-size: 36px;

@@ -29,7 +29,7 @@ input:focus, textarea:focus {
 .sims {
   border: 1px solid lightGray;
   padding: 5px;
-  width: 650px;
+  width: 600px;
 
   label {
     font-weight: normal;
@@ -44,7 +44,7 @@ input:focus, textarea:focus {
     margin-right: 5px;
   }
   .sim-description {
-    width: 400px;
+    width: 350px;
   }
   .glyphicon-plus, .glyphicon-remove {
     cursor: pointer;
