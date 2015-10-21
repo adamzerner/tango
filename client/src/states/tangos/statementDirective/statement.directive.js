@@ -39,12 +39,12 @@ function statement(RecursionHelper) {
         }, 0);
       };
 
-      vm.insertNextStatementHtml = $sce.trustAsHtml('Insert next statement<br />cmd + ctrl + enter');
-      vm.deleteStatementHtml = $sce.trustAsHtml('Delete statement<br />cmd + ctrl + del/backspace');
-      vm.indentRightHtml = $sce.trustAsHtml('Indent right<br />cmd + ctrl + ]');
-      vm.indentLeftHtml = $sce.trustAsHtml('Indent left<br />cmd + ctrl + [');
-      vm.upOneHtml = $sce.trustAsHtml('Up one<br />cmd + ctrl + up')
-      vm.downOneHtml = $sce.trustAsHtml('Down one<br />cmd + ctrl + down');
+      vm.insertNextStatementHtml = $sce.trustAsHtml('Insert next statement<br />⌘/⊞ + ctrl + enter');
+      vm.deleteStatementHtml = $sce.trustAsHtml('Delete statement<br />⌘/⊞ + ctrl + del/backspace');
+      vm.indentRightHtml = $sce.trustAsHtml('Indent right<br />⌘/⊞ + ctrl + ]');
+      vm.indentLeftHtml = $sce.trustAsHtml('Indent left<br />⌘/⊞ + ctrl + [');
+      vm.upOneHtml = $sce.trustAsHtml('Up one<br />⌘/⊞ + ctrl + up')
+      vm.downOneHtml = $sce.trustAsHtml('Down one<br />⌘/⊞ + ctrl + down');
 
       vm.popoverTemplate = 'states/tangos/statementDirective/reactions.html';
 
@@ -143,6 +143,11 @@ function statement(RecursionHelper) {
       vm.selectReaction = function(reaction) {
         vm.reactionsPopover = false;
         vm.statement.reactions.push(reaction.name);
+      };
+
+      vm.removeReaction = function(reaction) {
+        var index = vm.statement.reactions.indexOf(reaction);
+        vm.statement.reactions.splice(index, 1);
       };
 
       // key bindings

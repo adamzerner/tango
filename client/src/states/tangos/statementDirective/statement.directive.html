@@ -30,7 +30,7 @@
 
   <!-- MENU RIGHT -->
   <div class='menu-container'>
-    <p class='menu clear'>
+    <p class='menu clear' ng-show='vm.statement.focus'>
       <span
         class='glyphicon glyphicon-remove'
         uib-tooltip-html='vm.deleteStatementHtml'
@@ -84,6 +84,7 @@
 
       <span
         ng-repeat='reaction in vm.statement.reactions'
+        ng-click='vm.removeReaction(reaction)'
         class='fa fa-smile-o react'
         uib-tooltip='{{ reaction }}'>
       </span>
