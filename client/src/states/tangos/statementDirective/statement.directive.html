@@ -84,6 +84,7 @@
 
       <span
         ng-repeat='reaction in vm.statement.reactions'
+        ng-click='vm.removeReaction(reaction)'
         class='fa fa-smile-o react'
         uib-tooltip='{{ reaction }}'>
       </span>

@@ -145,6 +145,11 @@ function statement(RecursionHelper) {
         vm.statement.reactions.push(reaction.name);
       };
 
+      vm.removeReaction = function(reaction) {
+        var index = vm.statement.reactions.indexOf(reaction);
+        vm.statement.reactions.splice(index, 1);
+      };
+
       // key bindings
       vm.shortCut = function(e) {
         if (e.metaKey && e.ctrlKey) {
