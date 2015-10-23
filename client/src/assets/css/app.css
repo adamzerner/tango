@@ -130,6 +130,11 @@ button.az-loading {
 .new-tango-template .page-header input:focus {
   border: 1px solid gray; }
 
+.my-tangos-template table {
+  width: 700px; }
+  .my-tangos-template table input[type='checkbox'] {
+    cursor: pointer; }
+
 .statement-directive-template .statement {
   margin-bottom: 20px; }
   .statement-directive-template .statement .left-icons {
@@ -152,9 +157,12 @@ button.az-loading {
       border-radius: 25px;
       padding: 5px;
       position: relative;
-      top: 15px;
+      top: 9px;
       word-wrap: break-word;
-      cursor: pointer; }
+      cursor: pointer;
+      text-align: center;
+      width: 77px;
+      display: inline-block; }
   .statement-directive-template .statement textarea {
     font-size: 18px;
     width: 700px;
@@ -248,8 +256,3 @@ button.az-loading {
 .statement-directive-template .level-10 {
   position: relative;
   left: 650px; }
-
-.my-tangos-template table {
-  width: 700px; }
-  .my-tangos-template table input[type='checkbox'] {
-    cursor: pointer; }
