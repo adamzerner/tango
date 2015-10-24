@@ -130,10 +130,94 @@ button.az-loading {
 .new-tango-template .page-header input:focus {
   border: 1px solid gray; }
 
-.my-tangos-template table {
-  width: 700px; }
-  .my-tangos-template table input[type='checkbox'] {
-    cursor: pointer; }
+.reaction::before {
+  position: relative; }
+
+.strawman::before {
+  content: '\e600'; }
+
+.false-cause::before {
+  content: '\e601'; }
+
+.appeal-to-emotion::before {
+  content: '\e602'; }
+
+.the-fallacy-fallacy::before {
+  content: '\e603'; }
+
+.slippery-slope::before {
+  content: '\e604'; }
+
+.ad-hominem::before {
+  content: '\e605';
+  left: 1px; }
+
+.tu-quoquo::before {
+  content: '\e606';
+  right: 4px; }
+
+.personal-incredulity::before {
+  content: '\e607';
+  left: 4px; }
+
+.special-pleading::before {
+  content: '\e608'; }
+
+.loaded-question::before {
+  content: '\e609'; }
+
+.burden-of-proof::before {
+  content: '\e614'; }
+
+.ambiguity::before {
+  content: '\e615'; }
+
+.the-gamblers-fallacy::before {
+  content: '\e616'; }
+
+.bandwagon::before {
+  content: '\e617'; }
+
+.appeal-to-authority::before {
+  content: '\e60a'; }
+
+.composition-division::before {
+  content: '\e60b'; }
+
+.no-true-scotsman::before {
+  content: '\e60c';
+  right: 1px; }
+
+.genetic::before {
+  content: '\e60d'; }
+
+.black-or-white::before {
+  content: '\e60e'; }
+
+.begging-the-question::before {
+  content: '\e60f'; }
+
+.appeal-to-nature::before {
+  content: '\e610';
+  right: 2px; }
+
+.anecdotal::before {
+  content: '\e611';
+  left: 1px; }
+
+.the-texas-sharpshooter::before {
+  content: '\e612'; }
+
+.middle-ground::before {
+  content: '\e613'; }
+
+@font-face {
+  .statement-directive-template {
+    font-family: 'YLF';
+    src: url("YLF.ttf"); } }
+
+.statement-directive-template .reaction {
+  font-family: 'YLF'; }
 
 .statement-directive-template .statement {
   margin-bottom: 20px; }
@@ -201,7 +285,9 @@ button.az-loading {
         .statement-directive-template .statement .menu-container .menu #reactions-template .reactions span.reaction {
           margin-left: 0;
           padding: 9px;
-          vertical-align: middle; }
+          width: 30px;
+          display: inline-block;
+          text-align: center; }
         .statement-directive-template .statement .menu-container .menu #reactions-template .explanations {
           margin-top: 10px;
           border-top: 1px solid lightgray;
@@ -256,3 +342,8 @@ button.az-loading {
 .statement-directive-template .level-10 {
   position: relative;
   left: 650px; }
+
+.my-tangos-template table {
+  width: 700px; }
+  .my-tangos-template table input[type='checkbox'] {
+    cursor: pointer; }

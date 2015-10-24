@@ -4,7 +4,7 @@
       ng-repeat='reaction in vm.reactions track by $index'
       ng-mouseover='vm.hoverReaction(reaction)'
       ng-mousedown='vm.selectReaction(reaction)'
-      class='fa fa-smile-o reaction'>
+      class='reaction {{ reaction.class }}'>
     </span>
   </div>
 

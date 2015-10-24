@@ -1,4 +1,13 @@
 .statement-directive-template {
+  @font-face {
+    font-family: 'YLF';
+    src: url('YLF.ttf');
+  }
+
+  .reaction {
+    font-family: 'YLF';
+  }
+
   .statement {
     margin-bottom: 20px;
 
@@ -88,7 +97,9 @@
             span.reaction {
               margin-left: 0;
               padding: 9px; // sorta hacky. figure out how to get spacing right for an arbitrary number of reactions.
-              vertical-align: middle;
+              width: 30px;
+              display: inline-block;
+              text-align: center;
             }
           }
 
