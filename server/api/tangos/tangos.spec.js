@@ -72,7 +72,12 @@ describe('Tangos API:', function() {
         focus: false,
         childrenHidden: false,
         simNumber: 1,
-        reactions: ['Straw Man']
+        reactions: [{
+          name: "Anecdotal",
+          class: "anecdotal",
+          description: "You used a personal experience or an isolated example instead of a sound argument or compelling evidence.",
+          example: "Jason said that that was all cool and everything, but his grandfather smoked, like, 30 cigarettes a day and lived until 97 - so don't believe everything you read about meta analyses of methodologically sound studies showing proven causal relationships."
+        }]
       }, {
         text: '2',
         children: [{

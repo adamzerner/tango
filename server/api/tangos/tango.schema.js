@@ -9,7 +9,7 @@ StatementSchema.add({
   focus: { type: Boolean, required: true },
   childrenHidden: { type: Boolean, required: true },
   simNumber: { type: Number, required: true },
-  reactions: [String]
+  reactions: []
 });
 
 var SimSchema = new Schema({
