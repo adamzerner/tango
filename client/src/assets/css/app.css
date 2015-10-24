@@ -130,9 +130,6 @@ button.az-loading {
 .new-tango-template .page-header input:focus {
   border: 1px solid gray; }
 
-.reaction::before {
-  position: relative; }
-
 .strawman::before {
   content: '\e600'; }
 
@@ -280,6 +277,9 @@ button.az-loading {
         right: 2px; }
         .statement-directive-template .statement .menu-container .menu .react:focus {
           outline: none; }
+      .statement-directive-template .statement .menu-container .menu .tu-quoquo {
+        right: 0;
+        left: 1px; }
       .statement-directive-template .statement .menu-container .menu #reactions-template {
         width: 240px; }
         .statement-directive-template .statement .menu-container .menu #reactions-template .reactions span.reaction {
@@ -288,6 +288,8 @@ button.az-loading {
           width: 30px;
           display: inline-block;
           text-align: center; }
+          .statement-directive-template .statement .menu-container .menu #reactions-template .reactions span.reaction::before {
+            position: relative; }
         .statement-directive-template .statement .menu-container .menu #reactions-template .explanations {
           margin-top: 10px;
           border-top: 1px solid lightgray;

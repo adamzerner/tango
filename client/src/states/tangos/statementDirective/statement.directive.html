@@ -34,7 +34,7 @@
       <span
         class='fa fa-smile-o react'
         uib-popover-template='vm.popoverTemplate'
-        popover-is-open='true'
+        popover-is-open='vm.reactionsPopover'
         popover-trigger='focus'
         tabindex='-1'>
       </span>
@@ -45,7 +45,7 @@
         ng-repeat='reaction in vm.statement.reactions'
         ng-mousedown='vm.removeReaction(reaction, $event)'
         class='react reaction {{ reaction.class }}'
-        uib-tooltip='{{ reaction }}'
+        uib-tooltip='{{ reaction.name }}'
         tooltip-placement='bottom'>
       </span>
     </p>

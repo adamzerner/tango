@@ -90,6 +90,11 @@
           }
         }
 
+        .tu-quoquo {
+          right: 0;
+          left: 1px;
+        }
+
         #reactions-template {
           width: 240px;
 
@@ -100,6 +105,10 @@
               width: 30px;
               display: inline-block;
               text-align: center;
+
+              &::before {
+                position: relative;
+              }
             }
           }
 

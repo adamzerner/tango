@@ -133,7 +133,7 @@ function statement(RecursionHelper) {
 
       vm.selectReaction = function(reaction) {
         vm.reactionsPopover = false;
-        vm.statement.reactions.push(reaction.name);
+        vm.statement.reactions.push(reaction);
       };
 
       vm.removeReaction = function(reaction) {
