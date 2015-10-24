@@ -91,6 +91,15 @@ button.az-loading {
 .home-template .content h3 {
   margin-top: 0; }
 
+.home-template .content .benefit-1 {
+  color: #c0392b; }
+
+.home-template .content .benefit-2 {
+  color: #2980b9; }
+
+.home-template .content .benefit-3 {
+  color: #27ae60; }
+
 .home-template .content blockquote {
   font-size: 14px;
   margin: 10px 0; }
