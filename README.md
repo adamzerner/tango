@@ -1,10 +1,5 @@
 # Tango #
-Motivation: Thinking is difficult.
-
-1. Because you need back-and-forth, and it's hard to get that by yourself.
-2. Because it's hard to keep track of the nested structure of your logic.
-
-Tango intends to help mitigate these two problems.
+A tool to help you think.
 
 ### Commands ###
 ```
@@ -21,13 +16,6 @@ gulp mocha
 gulp livereload
 ```
 
-### Technical Notes ###
-- [Apiary Docs](http://docs.tango2.apiary.io)
-- For local login, I left the backend code, but removed the front end code (from mean-starter).
-- SSO login flow:
-
-![SSO Login Flow](/sso-flow.png)
-
 ### Technologies Used ###
 - Front end:
     - UI Router
@@ -41,7 +29,5 @@ gulp livereload
 - Gulp
 - [Component-based](https://scotch.io/tutorials/angularjs-best-practices-directory-structure) file structure
 
-### To Do ###
-- Tests for directives.
-- Gulp task for deploying.
-- E2E tests?
+### Thanks ###
+Thanks to https://yourlogicalfallacyis.com/ for providing icons and text for the reactions.
