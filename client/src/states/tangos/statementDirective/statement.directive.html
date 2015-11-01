@@ -57,7 +57,7 @@
 <!-- CHILDREN STATEMENTS -->
 <statement
   ng-hide='vm.statement.childrenHidden'
-  ng-repeat='substatement in vm.statement.children track by $index'
+  ng-repeat='substatement in vm.statement.children'
   statement='substatement'
   sims='vm.sims'
   currSim='{{ vm.currSim }}'

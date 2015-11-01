@@ -72,6 +72,7 @@ function statement(RecursionHelper) {
         e.preventDefault();
         var newStatement = new StatementConstructor(vm.statement.simNumber);
         newStatement.parent = vm.statement.parent;
+        newStatement.focus = true;
         var parentArr = vm.statement.parent.children || vm.statement.parent;
         var currIndex = parentArr.indexOf(vm.statement);
         parentArr.splice(currIndex+1, 0, newStatement);
