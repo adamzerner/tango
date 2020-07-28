@@ -1,5 +1,5 @@
 module.exports = {
-  db: process.env.MONGOLAB_URI,
+  db: process.env.DB_URI,
 
   facebookAuth: {
     clientID: process.env.FACEBOOK_CLIENT_ID,
