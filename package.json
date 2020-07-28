@@ -21,7 +21,7 @@
     "lodash": "^4.17.19",
     "mongodb": "^2.0.39",
     "mongodb-uri": "^0.9.7",
-    "mongoose": ">=5.7.5",
+    "mongoose": "^4.1.0",
     "mongoose-unique-validator": "^0.4.1",
     "passport": "^0.2.2",
     "passport-facebook": "^2.0.0",
